@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-const APP_NAME = "next-pwa example";
-const APP_DESCRIPTION = "This is an example of using next-pwa";
+const APP_NAME = "Etherion Lab";
+const APP_DESCRIPTION = "Experiment playground";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -11,12 +11,13 @@ export const metadata: Metadata = {
     template: "%s - PWA App",
   },
   description: APP_DESCRIPTION,
-  manifest: "/manifest.json",
+  manifest: "/site.webmanifest",
   themeColor: "#FFFFFF",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: APP_NAME,
+    // startUpImage: [],
   },
   formatDetection: {
     telephone: false,
