@@ -14,8 +14,11 @@
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.4.0",
     "next": "13.4.10",
+    "pixi.js": "^7.2.4",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-pixi-fiber": "^1.0.6"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",
