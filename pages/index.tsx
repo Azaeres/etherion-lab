@@ -61,5 +61,5 @@ export default function Home() {
       </Head>
       <h1>Next.js + PWA = AWESOME! v{VERSION}</h1>
     </>
-  )
+  );
 }
