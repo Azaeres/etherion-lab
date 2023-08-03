@@ -75,7 +75,7 @@ export default function Home() {
         <title>next-pwa example | Home</title>
       </Head>
       <h1>Next.js + PWA = AWESOME! v{VERSION}</h1>
-      <div>Updated test 2!</div>
+      <div>Updated test 3!</div>
     </>
   )
 }
