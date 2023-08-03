@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts --dir app"
+    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts --dir app",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.4.0",
@@ -28,8 +29,18 @@
     "eslint-config-next": "13.4.12",
     "eslint-config-prettier": "^8.9.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "webpack": "^5.88.2"
+  },
+  "lint-staged": {
+    "*.+(js|jsx|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
+      "prettier --write"
+    ]
   }
 }
