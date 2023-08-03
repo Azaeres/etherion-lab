@@ -6,7 +6,6 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
-  sw: 'service-worker.js',
 })
 
 /** @type {import("next").NextConfig} */
