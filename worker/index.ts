@@ -15,7 +15,7 @@ self.addEventListener('message', (event) => {
   //     window.navigator.serviceWorker.controller.postMessage({command: 'log', message: 'hello world'})
   // OR use next-pwa injected Workbox object
   //     window.workbox.messageSW({command: 'log', message: 'hello world'})
-  console.log(event?.data, 'process.env.PUBLIC_URL:', process.env.PUBLIC_URL, process.env)
+  console.log(event?.data)
 })
 
 self.addEventListener('message', (event) => {
