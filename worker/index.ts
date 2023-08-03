@@ -1,6 +1,7 @@
-/* eslint-disable */
+declare const self: ServiceWorkerGlobalScope
 
-// declare const self: ServiceWorkerGlobalScope
+// https://stackoverflow.com/questions/35758584/cannot-redeclare-block-scoped-variable
+export {}
 
 // To disable all Workbox logging during development, you can set self.__WB_DISABLE_DEV_LOGS to true
 // https://developer.chrome.com/docs/workbox/troubleshooting-and-logging/#turn-off-logging-in-development-builds-in-any-workflow
@@ -15,4 +16,11 @@ self.addEventListener('message', (event) => {
   // OR use next-pwa injected Workbox object
   //     window.workbox.messageSW({command: 'log', message: 'hello world'})
   console.log(event?.data)
+})
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    // Use this, and not workbox.skipWaiting()
+    self.skipWaiting()
+  }
 })
