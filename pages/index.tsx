@@ -10,6 +10,7 @@ export default function Home() {
       window.workbox !== undefined
     ) {
       const wb = window.workbox
+      let reloading = false
 
       // add event listeners to handle PWA lifecycle events
       wb.addEventListener('installed', (event) => {
@@ -39,7 +40,10 @@ export default function Home() {
             // tab is loaded under the control of the new service worker.
             // Depending on your web app, you may want to auto-save or
             // persist transient state before triggering the reload.
-            window.location.reload()
+            if (!reloading) {
+              reloading = true
+              window.location.reload()
+            }
           })
 
           wb.messageSkipWaiting()
