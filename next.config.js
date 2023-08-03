@@ -13,6 +13,9 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'export',
   distDir: '_static',
+  eslint: {
+    dirs: ['pages', 'components', 'lib', 'layouts', 'scripts', 'app'], // Only run ESLint on these directories during production builds (next build)
+  },
 }
 
 module.exports = withBundleAnalyzer(withPWA(nextConfig))
