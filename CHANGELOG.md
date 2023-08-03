@@ -10,7 +10,8 @@ Run `yarn version` to bump the package version number.
 **Starter template:**
 
 ```md
-----
+---
+
 ## [1.0.0] - 2023-08-01
 
 ### Added
@@ -20,15 +21,18 @@ Run `yarn version` to bump the package version number.
 ### Changed
 
 ### Removed
-
 ```
-----
+
+---
+
 ## [1.0.1] - 2023-08-02
 
 ### Added
 
 - Eslint and Prettier setup.
 - Added package version to render on home page.
+- Installed lint-staged and husky to automatically run linter (and quick fixes) on staged files.
+- Added some boilerplate PWA lifecycle logic.
 
 ### Fixed
 
@@ -40,7 +44,8 @@ Run `yarn version` to bump the package version number.
 
 - Starter icons.
 
-----
+---
+
 ## [1.0.0] - 2023-08-01
 
 ### Added

@@ -1,6 +1,5 @@
-
 # TODO
 
 - [ ] Install and set up `react-pixi-fiber`.
-- [ ] Improve update lifecycle logic.
-- [ ] Configure eslint/prettier.
+- [x] Improve update lifecycle logic.
+- [x] Configure eslint/prettier.
