@@ -25,6 +25,18 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.2] - 2023-08-02
+
+### Added
+
+- Custom service worker.
+
+### Fixed
+
+- Fixed PWA lifecycle logic.
+
+---
+
 ## [1.0.1] - 2023-08-02
 
 ### Added
