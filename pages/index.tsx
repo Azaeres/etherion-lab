@@ -95,7 +95,7 @@ export default function Home({ REACT_APP_VERSION }: Props) {
 }
 
 function Logo() {
-  return <Sprite texture={PIXI.Texture.from(logo.src)} />
+  return <Sprite texture={PIXI.Texture.from(logo.src)} x={40} y={50} />
 }
 
 type Props = {
