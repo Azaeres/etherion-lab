@@ -1,12 +1,9 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { GetStaticProps } from 'next'
-import { Sprite, Stage } from 'react-pixi-fiber'
-import logo from 'app/assets/images/etherion-logo.png'
-import * as PIXI from 'pixi.js'
+import dynamic from 'next/dynamic'
 
 export default function Home({ REACT_APP_VERSION }: Props) {
-  console.log(' > logo:', logo)
   useEffect(() => {
     if (
       typeof window !== 'undefined' &&
@@ -87,16 +84,12 @@ export default function Home({ REACT_APP_VERSION }: Props) {
       </Head>
       <h1>Next.js + PWA = AWESOME! v{REACT_APP_VERSION}</h1>
       <div>Updated test 5!</div>
-      <Stage options={{ backgroundColor: 0x10bb99, height: 600, width: 800 }}>
-        <Logo />
-      </Stage>
+      <NoSSR />
     </>
   )
 }
 
-function Logo() {
-  return <Sprite texture={PIXI.Texture.from(logo.src)} x={40} y={50} />
-}
+const NoSSR = dynamic(() => import('../app/components/PixiStage'), { ssr: false })
 
 type Props = {
   REACT_APP_VERSION?: string
