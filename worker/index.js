@@ -72,7 +72,7 @@ if (!self.define) {
     })
   }
 }
-define(['./workbox-d5a6b829'], function (workbox) {
+define(['../public/workbox-83b758e3'], function (workbox) {
   'use strict'
 
   importScripts('/fallback-development.js')

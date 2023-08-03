@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { version as VERSION } from 'package.json'
+import packageInfo from 'package.json'
+
+const VERSION = packageInfo.version
 
 export default function Home() {
   useEffect(() => {
