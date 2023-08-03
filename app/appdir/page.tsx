@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: "Home (appDir)",
-};
+  title: 'Home (appDir)',
+}
 
 export default function Page() {
   return (
@@ -11,5 +11,5 @@ export default function Page() {
       <h1>Next.js + PWA = AWESOME!</h1>
       <Link href="/appdir/about">About page</Link>
     </>
-  );
+  )
 }

@@ -1,21 +1,21 @@
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 
-const APP_NAME = "Etherion Lab";
-const APP_DESCRIPTION = "Experiment playground";
+const APP_NAME = 'Etherion Lab'
+const APP_DESCRIPTION = 'Experiment playground'
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
   title: {
     default: APP_NAME,
-    template: "%s - PWA App",
+    template: '%s - PWA App',
   },
   description: APP_DESCRIPTION,
-  manifest: "/site.webmanifest",
-  themeColor: "#FFFFFF",
+  manifest: '/site.webmanifest',
+  themeColor: '#FFFFFF',
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: 'default',
     title: APP_NAME,
     // startUpImage: [],
   },
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180' }],
   },
-};
+}
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -46,5 +46,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>{children}</body>
     </html>
-  );
+  )
 }

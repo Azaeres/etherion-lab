@@ -1,8 +1,8 @@
-import type { AppProps } from "next/app";
-import Head from "next/head";
+import type { AppProps } from 'next/app'
+import Head from 'next/head'
 
-const APP_NAME = "Etherion Lab";
-const APP_DESCRIPTION = "Experiment playground";
+const APP_NAME = 'Etherion Lab'
+const APP_DESCRIPTION = 'Experiment playground'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -26,9 +26,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
-
       </Head>
       <Component {...pageProps} />
     </>
-  );
+  )
 }
