@@ -83,7 +83,7 @@ export default function Home({ REACT_APP_VERSION }: Props) {
         <title>next-pwa example | Home</title>
       </Head>
       <h1>Next.js + PWA = AWESOME! v{REACT_APP_VERSION}</h1>
-      <div>Updated test 5!</div>
+      <div>Updated test 6!</div>
       <NoSSR />
     </>
   )
