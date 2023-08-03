@@ -1,9 +1,11 @@
+'use client'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 
-export default function Home({ REACT_APP_VERSION }: Props) {
+const PixiStage = dynamic(() => import('../app/components/PixiStage'), { ssr: false })
+
+export default function Home() {
   useEffect(() => {
     if (
       typeof window !== 'undefined' &&
@@ -82,20 +84,9 @@ export default function Home({ REACT_APP_VERSION }: Props) {
       <Head>
         <title>next-pwa example | Home</title>
       </Head>
-      <h1>Next.js + PWA = AWESOME! v{REACT_APP_VERSION}</h1>
+      <h1>Next.js + PWA = AWESOME! v{process.env.NEXT_PUBLIC_APP_VERSION}</h1>
       <div>Updated test 6!</div>
-      <NoSSR />
+      <PixiStage />
     </>
   )
-}
-
-const NoSSR = dynamic(() => import('../app/components/PixiStage'), { ssr: false })
-
-type Props = {
-  REACT_APP_VERSION?: string
-}
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const { REACT_APP_VERSION } = process.env
-  return { props: { REACT_APP_VERSION } }
 }
