@@ -1,10 +1,8 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
-import packageInfo from 'package.json'
+import { GetStaticProps } from 'next'
 
-const VERSION = packageInfo.version
-
-export default function Home() {
+export default function Home({ REACT_APP_VERSION }: Props) {
   useEffect(() => {
     if (
       typeof window !== 'undefined' &&
@@ -83,8 +81,17 @@ export default function Home() {
       <Head>
         <title>next-pwa example | Home</title>
       </Head>
-      <h1>Next.js + PWA = AWESOME! v{VERSION}</h1>
-      <div>Updated test 4!</div>
+      <h1>Next.js + PWA = AWESOME! v{REACT_APP_VERSION}</h1>
+      <div>Updated test 5!</div>
     </>
   )
+}
+
+type Props = {
+  REACT_APP_VERSION?: string
+}
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const { REACT_APP_VERSION } = process.env
+  return { props: { REACT_APP_VERSION } }
 }
