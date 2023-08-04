@@ -1,7 +1,7 @@
 'use client'
 import Logo from 'src/components/Logo'
 import PixiStage from 'src/components/PixiStage'
-import { useNavigateCallback } from '../page'
+import useNavigateCallback from '../hooks/useNavigateCallback'
 
 export default function Home() {
   return (
