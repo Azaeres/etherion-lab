@@ -10,7 +10,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   output: 'export',
   distDir: '_static',
   eslint: {
