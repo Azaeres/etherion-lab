@@ -1,5 +1,4 @@
 'use client'
-import Head from 'next/head'
 import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 
@@ -79,14 +78,7 @@ export default function Home() {
     }
   }, [])
 
-  return (
-    <>
-      <Head>
-        <title>next-pwa example | Home</title>
-      </Head>
-      <h1>Next.js + PWA = AWESOME! v{process.env.NEXT_PUBLIC_APP_VERSION}</h1>
-      <div>Updated test 6!</div>
-      <PixiStage />
-    </>
-  )
+  console.info(`Etherion Lab v${process.env.NEXT_PUBLIC_APP_VERSION}`)
+
+  return <PixiStage />
 }

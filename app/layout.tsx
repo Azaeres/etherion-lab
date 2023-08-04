@@ -43,22 +43,62 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />
-        <style>{`
-            html, body, #__next {
-              height: 100%;
-            }
-            #__next {
-              margin: 0 auto;
-            }
-            h1 {
-              text-align: center;
-            }
-            `}</style>
+        <style dangerouslySetInnerHTML={{ __html: css }}></style>
       </head>
       <body>
-        <div>RootLayout</div>
-        {children}
+        <div id="root">{children}</div>
       </body>
     </html>
   )
 }
+
+// const oldCss = `
+//   html, body, #__next {
+//     height: 100%;
+//   }
+//   #__next {
+//     margin: 0 auto;
+//   }
+//   h1 {
+//     text-align: center;
+//   }
+// `
+
+const css = `
+/* Centering */
+
+html,
+body,
+#root {
+  height: 100%;
+  color: white;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+/* End centering */
+
+body {
+  background: #0b0e14;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+`
