@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Open source the parallax library.
 - [x] Basic site styles.
 - [ ] Settle on app file structure.
 - [ ] Routing between multiple experiment pages.

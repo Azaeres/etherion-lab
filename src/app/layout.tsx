@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
+import PWA from 'src/components/PWA'
 
 const APP_NAME = 'Etherion Lab'
 const APP_DESCRIPTION = 'Experiment playground'
@@ -37,6 +38,7 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  console.log('RootLayout  :')
   return (
     <html lang="en" dir="ltr">
       <head>
@@ -46,6 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <style dangerouslySetInnerHTML={{ __html: css }}></style>
       </head>
       <body>
+        <PWA />
         <div id="root">{children}</div>
       </body>
     </html>
@@ -100,5 +103,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#root > canvas[style] {
+  width: auto !important;
+  height: auto !important;
 }
 `
