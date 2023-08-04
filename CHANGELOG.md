@@ -25,6 +25,33 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.4] - 2023-08-03
+
+### Added
+
+- Installed sharp for image optimization.
+- Basic site styles.
+
+### Fixed
+
+- Stage hydration error.
+
+### Changed
+
+- Migrated from pages to app dir.
+- Replace react-pixi-fiber with @pixi/react.
+
+---
+
+## [1.0.3] - 2023-08-03
+
+### Added
+
+- Installed react-pixi-fiber.
+- Package version env var passthrough.
+
+---
+
 ## [1.0.2] - 2023-08-02
 
 ### Added
