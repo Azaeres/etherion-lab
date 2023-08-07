@@ -5,6 +5,7 @@ import Logo from 'src/components/Logo'
 import { useRouter } from 'next/navigation'
 import { PixelateFilter } from '@pixi/filter-pixelate'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
+import DebugIndicator from './DebugIndicator'
 
 export const OPTIONS = {
   width: 2592,
@@ -29,6 +30,7 @@ export default function PixiStage({ experiment }: PropsWithChildren<Props>) {
     <Stage width={OPTIONS.width} height={OPTIONS.height} options={OPTIONS}>
       <Filters pixelate={{ size: 4 }}>
         <Experiment experiment={experiment} router={router} />
+        <DebugIndicator />
       </Filters>
     </Stage>
   )
