@@ -38,7 +38,6 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  console.log('RootLayout  :')
   return (
     <html lang="en" dir="ltr">
       <head>
@@ -49,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <PWA />
-        <div id="root">{children}</div>
+        {children}
       </body>
     </html>
   )
