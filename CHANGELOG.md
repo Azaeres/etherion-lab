@@ -27,6 +27,10 @@ Run `yarn version` to bump the package version number.
 
 ## [1.0.5] - 2023-08-07
 
+### Added
+
+- Ported DebugIndicator.
+
 ### Fixed
 
 - Fixed a navigation crash on mobile.
