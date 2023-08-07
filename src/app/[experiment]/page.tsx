@@ -6,3 +6,10 @@ export default function SingletonStage({ params }: { params: { experiment: strin
   const { experiment } = params
   return <PixiStage experiment={experiment}></PixiStage>
 }
+
+export async function generateStaticParams() {
+  const experiments = ['experiment1', 'experiment2']
+  return experiments.map((experiment) => ({
+    experiment,
+  }))
+}
