@@ -25,6 +25,20 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.6] - 2023-08-09
+
+### Added
+
+- Installed why-did-you-render for debug assistance.
+- Scenes/experiments are now imported dynamically.
+- Ported the Parallax library from the prototype. Untested! I just fixed type errors.
+
+### Fixed
+
+- Fixed an issue where the Nextjs router wasn't being passed into the Pixi context.
+
+---
+
 ## [1.0.5] - 2023-08-07
 
 ### Added
