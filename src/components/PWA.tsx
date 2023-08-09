@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+import '../wdyr'
 
 export default function PWA() {
   useEffect(() => {
@@ -9,7 +10,7 @@ export default function PWA() {
       'serviceWorker' in navigator &&
       window.workbox !== undefined
     ) {
-      console.log('Home useEffect  :')
+      console.log('PWA service-worker setup...')
       const wb = window.workbox
       let reloading = false
 
