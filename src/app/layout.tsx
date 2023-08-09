@@ -46,10 +46,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="msapplication-TileColor" content="#000000" />
         <style dangerouslySetInnerHTML={{ __html: css }}></style>
       </head>
-      <body>
-        <PWA />
-        {children}
-      </body>
+      <body>{children}</body>
+      <PWA />
     </html>
   )
 }

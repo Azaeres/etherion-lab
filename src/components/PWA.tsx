@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import '../wdyr'
+// import '../wdyr'
 
 export default function PWA() {
   useEffect(() => {

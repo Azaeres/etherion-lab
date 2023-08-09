@@ -1,6 +1,5 @@
-'use client'
 import Link from 'next/link'
-import experiments from './[experiment]/experiments'
+import scenes from './[scene]/scenes'
 import app from './app.module.css'
 
 export default function Welcome() {
@@ -9,12 +8,12 @@ export default function Welcome() {
       <h1>Etherion Laboratory</h1>
       <h3>Experiments:</h3>
       <ul>
-        {experiments.map((experiment) => {
+        {scenes.map((sceneId) => {
           return (
-            <li key={experiment}>
-              <Link href={`/${experiment}`}>
+            <li key={sceneId}>
+              <Link href={`/${sceneId}`}>
                 <button className={app['button-64']}>
-                  <span className={app.text}>{experiment}</span>
+                  <span className={app.text}>{sceneId}</span>
                 </button>
               </Link>
             </li>
