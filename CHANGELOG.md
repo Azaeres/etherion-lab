@@ -25,6 +25,18 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.7] - 2023-08-10
+
+### Added
+
+- Installed and set up react-spring.
+
+### Changed
+
+- Experiment 1 now has a react-spring demo.
+
+---
+
 ## [1.0.6] - 2023-08-09
 
 ### Added
