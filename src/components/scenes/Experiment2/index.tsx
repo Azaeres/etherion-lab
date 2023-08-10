@@ -6,7 +6,13 @@ export default function Experiment1() {
   const navigate = useNextjsNavigate()
   return (
     <>
-      <Logo x={200} y={400} onpointerup={navigate('experiment1')} cursor="pointer" interactive />
+      <Logo
+        x={200}
+        y={400}
+        onpointerup={navigate('experiment1')}
+        cursor="pointer"
+        eventMode="static"
+      />
     </>
   )
 }

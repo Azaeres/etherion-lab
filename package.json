@@ -15,11 +15,13 @@
     "@ducanh2912/next-pwa": "^9.4.0",
     "@pixi/filter-pixelate": "^5.1.1",
     "@pixi/react": "^7.1.0",
+    "@pixi/react-animated": "^7.1.0",
     "next": "^13.4.12",
     "pixi.js": "^7.2.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-spring": "^9.7.2",
     "sharp": "^0.32.4",
     "throttle-debounce": "^5.0.0"
   },
