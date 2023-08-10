@@ -2,6 +2,8 @@
 
 Currently beelining toward the **bold item**.
 
+- [ ] RxDB
+- [ ] Spine.js
 - [ ] In-app purchases
 - [ ] WebGL shaders
 - [ ] Content generation workflow

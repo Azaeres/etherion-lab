@@ -7,12 +7,16 @@ import DebugIndicator from '../DebugIndicator'
 import { NextNavigationContext } from 'src/app/hooks/useNextjsRouter'
 import { SceneId } from 'src/app/[scene]/scenes'
 import SceneSwitch from './SceneSwitch'
+import { IApplicationOptions } from 'pixi.js'
 
-export const OPTIONS = {
+export const OPTIONS: Partial<IApplicationOptions> = {
   width: 2592,
   height: 1080,
   // antialias: true, // Causing frequent webkit crashes on iOS.
   hello: true,
+  // Using the default resolution caused inconsistent canvas
+  // sizes between Apple and non-Apple devices.
+  resolution: 1,
   // backgroundColor: 0x000000,
 }
 
