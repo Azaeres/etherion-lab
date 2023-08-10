@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.8] - 2023-08-10
+
+### Added
+
+- Added a parallax library test to Experiment 1.
+
+---
+
 ## [1.0.7] - 2023-08-10
 
 ### Added

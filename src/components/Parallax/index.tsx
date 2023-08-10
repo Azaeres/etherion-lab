@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useMemo, createContext, useContext, useState } from 'react'
 import { Container, PixiComponent, useApp, useTick } from '@pixi/react'
 import * as PIXI from 'pixi.js'
-import { ParallaxCamera } from '../Parallax/parallax-camera'
-import ParallaxLayerContainer from '../Parallax/parallax-camera/ParallaxLayer'
+import { ParallaxCamera } from './parallax-camera'
+import ParallaxLayerContainer from './parallax-camera/ParallaxLayer'
 
 export const ParallaxCameraContext = createContext<ParallaxCamera | null>(null)
 
@@ -17,9 +17,9 @@ export function useParallaxCameraTarget(camera?: ParallaxCamera) {
   }, [_camera, cameraTarget])
 
   const _setCameraTarget = useCallback(
-    (newTarget?: PIXI.DisplayObject) => {
-      _camera?.setTarget(newTarget)
-      setCameraTarget(newTarget)
+    (newTarget?: PIXI.DisplayObject | null) => {
+      _camera?.setTarget(newTarget === null ? undefined : newTarget)
+      setCameraTarget(newTarget === null ? undefined : newTarget)
     },
     [_camera]
   )
