@@ -9,7 +9,7 @@ Currently beelining toward the **bold item**.
 - [ ] Content generation workflow
 - [x] Why do mobile browsers crash on navigation?
 - [ ] Basic offline fallback page.
-- [ ] **Open source the parallax library.**
+- [x] **Open source the parallax library.**
 - [x] Basic site styles.
 - [x] Settle on app file structure.
 - [x] Routing between multiple experiment pages.

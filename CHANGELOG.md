@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.9] - 2023-08-12
+
+### Changed
+
+- Replaced the local parallax library with the official one on NPM.
+
+---
+
 ## [1.0.8] - 2023-08-10
 
 ### Added
