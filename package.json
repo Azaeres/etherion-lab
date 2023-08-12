@@ -17,6 +17,7 @@
     "@pixi/react": "^7.1.0",
     "@pixi/react-animated": "^7.1.0",
     "next": "^13.4.12",
+    "pixi-react-parallax": "^1.0.10",
     "pixi.js": "^7.2.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

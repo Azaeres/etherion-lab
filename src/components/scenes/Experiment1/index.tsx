@@ -8,14 +8,14 @@ import { Container, Sprite } from '@pixi/react-animated'
 import logo from 'src/components/Logo/etherion-logo.png'
 import { OPTIONS } from 'src/components/PixiStage'
 import { useCallback, useMemo, useState } from 'react'
-import { ParallaxCameraProvider, ParallaxLayer } from 'src/components/Parallax'
-import useParallaxCameraRef from 'src/components/Parallax/useParallaxCameraRef'
+import { ParallaxCameraProvider, ParallaxLayer, useParallaxCameraRef } from 'pixi-react-parallax'
+import { Text } from '@pixi/react'
 
 const set = (): AnimatedLogoProps => ({
   x: Math.random() * OPTIONS.width,
   y: Math.random() * OPTIONS.height,
   rotation: Math.random() * 10,
-  // scale: Math.max(1, Math.random() * 10),
+  scale: Math.max(1, Math.random() * 4),
 })
 
 const getRandomPosition = () => {
@@ -39,20 +39,54 @@ export default function Experiment1() {
     <Container onpointerup={click} eventMode="static">
       <Sprite texture={PIXI.Texture.from(stars.src)} x={0} y={0} />
       <ParallaxCameraProvider>
+        <ParallaxLayer zIndex={-450}>
+          <Text
+            text={`Very far away from the camera`}
+            style={
+              new PIXI.TextStyle({
+                fill: '0xcccccc',
+              })
+            }
+            {...logo1}
+          />
+        </ParallaxLayer>
         <ParallaxLayer zIndex={-300}>
-          <Logo {...logo1} />
+          <Text
+            text={`A bit closer`}
+            style={
+              new PIXI.TextStyle({
+                fill: '0xcccccc',
+              })
+            }
+            {...logo2}
+          />
         </ParallaxLayer>
-        <ParallaxLayer zIndex={-200}>
-          <Logo {...logo2} />
-        </ParallaxLayer>
-        <ParallaxLayer zIndex={-100}>
-          <AnimatedLogo {...transform} />
+        <ParallaxLayer zIndex={-150}>
+          <Text
+            text={`Closer still`}
+            style={
+              new PIXI.TextStyle({
+                fill: '0xcccccc',
+              })
+            }
+            {...logo3}
+          />
         </ParallaxLayer>
         <ParallaxLayer zIndex={0}>
-          <Logo {...logo3} />
+          {/* Normal distance. No scaling required. */}
+          <AnimatedLogo {...transform} />
         </ParallaxLayer>
-        <ParallaxLayer zIndex={100}>
-          <Logo {...logo4} />
+        <ParallaxLayer zIndex={150}>
+          {/* Don't exceed the focal length (default 300) or it'll pass behind the camera. Technically, it gets mirrored, and looks weird. */}
+          <Text
+            text={`Very close!`}
+            style={
+              new PIXI.TextStyle({
+                fill: '0xcccccc',
+              })
+            }
+            {...logo4}
+          />
         </ParallaxLayer>
       </ParallaxCameraProvider>
       <Logo
@@ -69,7 +103,7 @@ interface AnimatedLogoProps {
   x: number
   y: number
   rotation: number
-  // scale: number
+  scale: number
 }
 
 function AnimatedLogo(props: AnimatedLogoProps) {
