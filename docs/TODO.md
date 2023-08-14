@@ -2,6 +2,7 @@
 
 Currently beelining toward the **bold item**.
 
+- [ ] Planck/Box2D physics
 - [ ] RxDB
 - [ ] Spine.js
 - [ ] In-app purchases

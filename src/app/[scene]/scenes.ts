@@ -9,6 +9,6 @@ export const sceneMap = {
   },
 } as const
 
-export type SceneId = keyof typeof sceneMap
+export type SceneId = keyof typeof sceneMap | '/'
 const scenes = Object.keys(sceneMap) as ReadonlyArray<SceneId>
 export default scenes

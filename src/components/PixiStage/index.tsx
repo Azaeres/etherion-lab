@@ -23,11 +23,12 @@ interface Props {
   scene: SceneId
 }
 
+export const Filters = withFilters(Container, {
+  pixelate: PixelateFilter,
+})
+
 export default function PixiStage({ scene }: PropsWithChildren<Props>) {
   const router = useRouter()
-  const Filters = withFilters(Container, {
-    pixelate: PixelateFilter,
-  })
   // Setting up a provider within the Pixi renderer context lets us pass the router
   // over from the DOM context.
   return (
