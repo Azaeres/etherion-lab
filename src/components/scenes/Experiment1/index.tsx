@@ -41,7 +41,7 @@ export default function Experiment1() {
   const logo3 = useMemo(getRandomPosition, [])
   const logo4 = useMemo(getRandomPosition, [])
   return (
-    <Container onclick={click} eventMode="static">
+    <Container onpointerup={click} eventMode="static">
       <ParallaxCameraProvider>
         <ParallaxLayer zIndex={-18000}>
           <Sprite texture={PIXI.Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={65} />
@@ -73,7 +73,7 @@ export default function Experiment1() {
         x={100}
         y={50}
         scale={2}
-        onclick={navigate('/')}
+        onpointerup={navigate('/')}
         cursor="pointer"
         eventMode="static"
         style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
