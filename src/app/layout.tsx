@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { type ReactNode } from 'react'
-import PWA from 'src/components/PWA'
 
 const APP_NAME = 'Etherion Lab'
 const APP_DESCRIPTION = 'Experiment playground'
@@ -47,22 +46,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <style dangerouslySetInnerHTML={{ __html: css }}></style>
       </head>
       <body>{children}</body>
-      <PWA />
     </html>
   )
 }
-
-// const oldCss = `
-//   html, body, #__next {
-//     height: 100%;
-//   }
-//   #__next {
-//     margin: 0 auto;
-//   }
-//   h1 {
-//     text-align: center;
-//   }
-// `
 
 const css = `
 /* Centering */

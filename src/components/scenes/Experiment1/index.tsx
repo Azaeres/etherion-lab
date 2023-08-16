@@ -41,9 +41,11 @@ export default function Experiment1() {
   const logo3 = useMemo(getRandomPosition, [])
   const logo4 = useMemo(getRandomPosition, [])
   return (
-    <Container onpointerup={click} eventMode="static">
-      <Sprite texture={PIXI.Texture.from(stars.src)} x={0} y={0} />
+    <Container onclick={click} eventMode="static">
       <ParallaxCameraProvider>
+        <ParallaxLayer zIndex={-18000}>
+          <Sprite texture={PIXI.Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={65} />
+        </ParallaxLayer>
         <ParallaxLayer zIndex={-850}>
           {/* Very far away from the camera */}
           <Logo {...logo1} />
@@ -71,10 +73,17 @@ export default function Experiment1() {
         x={100}
         y={50}
         scale={2}
-        onpointerup={navigate('/')}
+        onclick={navigate('/')}
         cursor="pointer"
         eventMode="static"
         style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
+      />
+      <Text
+        text="pixi-react-parallax"
+        x={OPTIONS.width - 700}
+        y={50}
+        scale={2}
+        style={new PIXI.TextStyle({ fill: '0xffffff', fontSize: '38px' })}
       />
       <Text
         text={`Click/tap anywhere to move the camera target.\nClick/tap on the camera target to also cause the camera to shake!`}

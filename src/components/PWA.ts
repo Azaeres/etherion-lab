@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 // import '../wdyr'
 
-export default function PWA() {
+export default function usePWA() {
   useEffect(() => {
     console.info(`Etherion Lab v${process.env.NEXT_PUBLIC_APP_VERSION}`)
     if (
@@ -76,5 +76,4 @@ export default function PWA() {
       wb.register()
     }
   }, [])
-  return null
 }

@@ -7,6 +7,7 @@ import DebugIndicator from '../DebugIndicator'
 import { NextNavigationContext } from 'src/app/hooks/useNextjsRouter'
 import { SceneId } from 'src/app/[scene]/scenes'
 import SceneSwitch from './SceneSwitch'
+import usePWA from '../PWA'
 
 export const OPTIONS = {
   width: 2592,
@@ -29,6 +30,7 @@ export const Filters = withFilters(Container, {
 
 export default function PixiStage({ scene }: PropsWithChildren<Props>) {
   const router = useRouter()
+  usePWA()
   // Setting up a provider within the Pixi renderer context lets us pass the router
   // over from the DOM context.
   return (
