@@ -66,6 +66,14 @@ export default function Experiment1() {
       {/* <Button>
         <Text text="thing" />
       </Button> */}
+      <DeviceTest y={310} />
+      <MobileView>
+        <Text text="This text can only be seen on MOBILE" y={200} style={styles.body} />
+      </MobileView>
+      <DesktopView>
+        <Text text="This text can only be seen on DESKTOP" y={200} style={styles.body} />
+      </DesktopView>
+      <Overlay />
       <Text
         text="⬅️ Back"
         x={100}
@@ -76,14 +84,6 @@ export default function Experiment1() {
         eventMode="static"
         style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
       />
-      <DeviceTest y={310} />
-      <MobileView>
-        <Text text="This text can only be seen on MOBILE" y={200} style={styles.body} />
-      </MobileView>
-      <DesktopView>
-        <Text text="This text can only be seen on DESKTOP" y={200} style={styles.body} />
-      </DesktopView>
-      <Overlay />
     </>
   )
 }
