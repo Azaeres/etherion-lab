@@ -7,9 +7,9 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - 4. Etherion storyline gameplay demo
 - [ ] 1. <span style="color: green">Game AI</span>
 - [ ] 1. Gameplay interface & controls
-- [ ] 1. Spine.js animations
-- [ ] Pixi UI components
-- Planck/Box2D physics animations
+- Spine.js animations
+- [ ] 1. Pixi UI components
+- [ ] 1. Planck/Box2D physics animations
 - [x] React Spring animations
 - 2. Offline-first, persistent database (RxDB?)
 - 2. Private syncing server (Electron?)
