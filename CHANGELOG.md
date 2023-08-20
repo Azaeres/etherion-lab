@@ -25,6 +25,30 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.11] - 2023-08-20
+
+### Added
+
+- Installed the Planck physics engine (a port of Box2D to the web).
+- Implemented Planck physics components.
+- Added DesktopView and MobileView components for only showing content on the given device.
+- Installed an event emitter hook, to facilitate cross-component communication outside of React.
+- Started building out Experiment 2, which is becoming a demonstration of controls and physics.
+
+### Fixed
+
+- Disabled the browser's context menu on right-click, in preparation for new control interface.
+
+---
+
+## [1.0.10] - 2023-08-14
+
+### Changed
+
+- Cleaned up the parallax demo.
+
+---
+
 ## [1.0.9] - 2023-08-12
 
 ### Changed
