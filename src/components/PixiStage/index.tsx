@@ -1,6 +1,6 @@
 'use client'
 import { Container, Stage, withFilters } from '@pixi/react'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, MouseEvent, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { PixelateFilter } from '@pixi/filter-pixelate'
 import DebugIndicator from '../DebugIndicator'
@@ -31,10 +31,20 @@ export const Filters = withFilters(Container, {
 export default function PixiStage({ scene }: PropsWithChildren<Props>) {
   const router = useRouter()
   usePWA()
+  const contextMenu = useCallback((e: MouseEvent) => {
+    e.preventDefault()
+    return false
+  }, [])
+
   // Setting up a provider within the Pixi renderer context lets us pass the router
   // over from the DOM context.
   return (
-    <Stage width={OPTIONS.width} height={OPTIONS.height} options={OPTIONS}>
+    <Stage
+      width={OPTIONS.width}
+      height={OPTIONS.height}
+      options={OPTIONS}
+      onContextMenu={contextMenu}
+    >
       <NextNavigationContext.Provider value={router}>
         <Filters pixelate={{ size: 4 }}>
           <SceneSwitch currentScene={scene} />

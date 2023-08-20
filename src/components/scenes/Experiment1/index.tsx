@@ -103,7 +103,7 @@ interface AnimatedLogoProps {
 }
 
 function AnimatedLogo(props: AnimatedLogoProps) {
-  const [, setPlayerRef] = useParallaxCameraRef()
+  const [, setCameraTargetRef] = useParallaxCameraRef()
   const camera = useContext(ParallaxCameraContext)
   const click = useCallback(() => {
     camera?.shake(40, 0.2)
@@ -122,7 +122,7 @@ function AnimatedLogo(props: AnimatedLogoProps) {
           onpointerup={click}
           cursor="pointer"
           eventMode="dynamic"
-          ref={setPlayerRef}
+          ref={setCameraTargetRef}
         />
       )}
     </Spring>
