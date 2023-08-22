@@ -15,8 +15,10 @@ export default function Overlay(props: OverlayProps) {
   }, [])
   return (
     <Graphics
-      onpointerdown={onPress || click}
-      onpointerup={onPress || click}
+      onpointertap={onPress}
+      onpointerdown={click}
+      onpointerup={click}
+      onpointerout={click}
       eventMode="static"
       draw={(g: PIXI.Graphics) => {
         const fill = 0x000000

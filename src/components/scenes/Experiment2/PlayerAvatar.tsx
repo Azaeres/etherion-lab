@@ -43,6 +43,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
   const isKeyDown = useRef<boolean>(false)
   const eventHandler = useCallback(
     (event: KeyboardEvent | MouseEvent /*, handler: HotkeysEvent */) => {
+      // console.log('avatar  > event.type:', event.type)
       if ('repeat' in event && event?.repeat) {
         return
       }
@@ -59,7 +60,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
           return count
         }
       })
-      if (event.type === 'keyup' || event.type === 'pointerup') {
+      if (event.type === 'keyup' || event.type === 'pointerup' || event.type === 'pointerout') {
         isKeyDown.current = false
       }
     },

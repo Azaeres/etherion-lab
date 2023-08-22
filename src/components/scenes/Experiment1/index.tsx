@@ -14,7 +14,9 @@ import {
   ParallaxLayer,
   useParallaxCameraRef,
 } from 'pixi-react-parallax'
-import { Container, Text } from '@pixi/react'
+import { Text } from '@pixi/react'
+import Button from '../Experiment2/Button'
+import Overlay from '../Experiment2/Overlay'
 
 const set = (): AnimatedLogoProps => ({
   x: Math.random() * OPTIONS.width,
@@ -41,7 +43,7 @@ export default function Experiment1() {
   const logo3 = useMemo(getRandomPosition, [])
   const logo4 = useMemo(getRandomPosition, [])
   return (
-    <Container onpointerup={click} eventMode="static">
+    <>
       <ParallaxCameraProvider>
         <ParallaxLayer zIndex={-18000}>
           <Sprite texture={PIXI.Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={65} />
@@ -69,16 +71,6 @@ export default function Experiment1() {
         </ParallaxLayer>
       </ParallaxCameraProvider>
       <Text
-        text="⬅️ Home"
-        x={100}
-        y={50}
-        scale={2}
-        onpointerup={navigate('/')}
-        cursor="pointer"
-        eventMode="static"
-        style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
-      />
-      <Text
         text="pixi-react-parallax"
         x={OPTIONS.width - 700}
         y={50}
@@ -92,7 +84,9 @@ export default function Experiment1() {
         scale={2}
         style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '22px' })}
       />
-    </Container>
+      <Overlay onPress={click} />
+      <Button text="⬅️ Back" x={100} y={50} width={300} height={100} onPress={navigate('/')} />
+    </>
   )
 }
 interface AnimatedLogoProps {

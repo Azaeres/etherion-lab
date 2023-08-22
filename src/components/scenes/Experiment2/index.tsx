@@ -12,12 +12,12 @@ import PlayerAvatar from './PlayerAvatar'
 import PlanckWorldProvider from './PlanckWorldProvider'
 import PlanckBody from './PlanckBody'
 import planck from 'planck'
-// import Button from './Button/Button'
 import DeviceTest from './DeviceTest'
 import MobileView from './MobileView'
 import { styles } from 'src/utils/pixi-styles'
 import DesktopView from './DesktopView'
 import Overlay from './Overlay'
+import Button from './Button'
 
 const getRandomPosition = () => {
   return {
@@ -63,9 +63,6 @@ export default function Experiment1() {
           </ParallaxLayer>
         </ParallaxCameraProvider>
       </PlanckWorldProvider>
-      {/* <Button>
-        <Text text="thing" />
-      </Button> */}
       <DeviceTest y={310} />
       <MobileView>
         <Text text="This text can only be seen on MOBILE" y={200} style={styles.body} />
@@ -74,16 +71,7 @@ export default function Experiment1() {
         <Text text="This text can only be seen on DESKTOP" y={200} style={styles.body} />
       </DesktopView>
       <Overlay />
-      <Text
-        text="⬅️ Back"
-        x={100}
-        y={50}
-        scale={2}
-        onpointerup={navigate('/')}
-        cursor="pointer"
-        eventMode="static"
-        style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
-      />
+      <Button text="⬅️ Back" x={100} y={50} width={300} height={100} onPress={navigate('/')} />
     </>
   )
 }
