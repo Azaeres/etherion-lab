@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { type ReactNode } from 'react'
+import Client from 'src/components/Client'
 
 const APP_NAME = 'Etherion Lab'
 const APP_DESCRIPTION = 'Experiment playground'
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <style dangerouslySetInnerHTML={{ __html: css }}></style>
       </head>
       <body>{children}</body>
+      <Client />
     </html>
   )
 }

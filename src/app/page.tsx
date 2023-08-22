@@ -2,7 +2,7 @@ import Link from 'next/link'
 import scenes from './[scene]/scenes'
 import app from './app.module.css'
 
-export default function Welcome() {
+export default function Home() {
   return (
     <div className={app.page}>
       <h1>Etherion Laboratory</h1>

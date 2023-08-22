@@ -13,7 +13,7 @@ export interface ButtonProps extends ComponentProps<typeof Container> {
 export default function Button(props: ButtonProps) {
   const { onPress, x = 0, y = 0, width = 100, height = 50, text } = props
   const [engaged, setEngaged] = useState(false)
-  const opacity = useSpringValue(0.0)
+  const opacity = useSpringValue(0.0, { config: { duration: 100 } })
 
   const engageButton = useCallback(() => {
     setEngaged(true)
@@ -49,9 +49,9 @@ export default function Button(props: ButtonProps) {
       g.clear()
       g.beginFill(0xffffff, 1.0)
       g.drawRoundedRect(x, y, width, height, 15)
-      g.beginFill(0xffffff, 0.14)
+      g.beginFill(0xffffff, 0.1)
       g.lineStyle(0, 0xffffff, 0)
-      g.drawRoundedRect(x - 12, y - 10, width + 24, height + 20, 15)
+      g.drawRoundedRect(x - 10, y - 10, width + 20, height + 20, 15)
       g.endFill()
     },
     [height, width, x, y]

@@ -9,7 +9,7 @@ export interface OverlayProps {
 }
 
 export default function Overlay(props: OverlayProps) {
-  const { onPress } = props
+  const { onPress = () => {} } = props
   const click = useCallback((event: MouseEvent) => {
     emitMessage(event)
   }, [])
