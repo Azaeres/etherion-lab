@@ -5,11 +5,11 @@ Goals that are related closely enough to be developed together have the same "ch
 Checkboxes are open for the chord that's currently in the bee-line.
 
 - 4. Etherion storyline gameplay demo
-- [ ] 1. <span style="color: green">Game AI</span>
-- [ ] 1. Gameplay interface & controls
+- [ ] 1. Game AI
+- [ ] 1. <span style="color: green">Gameplay interface & controls</span>
 - Spine.js animations
-- [ ] 1. Pixi UI components
-- [ ] 1. Planck/Box2D physics animations
+- [x] 1. Create button component
+- [x] 1. Planck/Box2D physics animations
 - [x] React Spring animations
 - 2. Offline-first, persistent database (RxDB?)
 - 2. Private syncing server (Electron?)

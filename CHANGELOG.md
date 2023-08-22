@@ -25,6 +25,18 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.12] - 2023-08-22
+
+### Added
+
+- Created Button component.
+
+### Fixed
+
+- Now using next-pwa skipWaiting plugin.
+
+---
+
 ## [1.0.11] - 2023-08-20
 
 ### Added
