@@ -7,6 +7,7 @@ import DebugIndicator from '../DebugIndicator'
 import { NextNavigationContext } from 'src/app/hooks/useNextjsRouter'
 import { SceneId } from 'src/app/[scene]/scenes'
 import SceneSwitch from './SceneSwitch'
+// import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom'
 
 export const OPTIONS = {
   width: 2592,
@@ -25,6 +26,7 @@ interface Props {
 
 export const Filters = withFilters(Container, {
   pixelate: PixelateFilter,
+  // advancedBloomFilter: AdvancedBloomFilter,
 })
 
 export default function PixiStage({ scene }: PropsWithChildren<Props>) {
@@ -44,7 +46,16 @@ export default function PixiStage({ scene }: PropsWithChildren<Props>) {
       onContextMenu={contextMenu}
     >
       <NextNavigationContext.Provider value={router}>
-        <Filters pixelate={{ size: 4 }}>
+        <Filters
+          pixelate={{ size: 4 }}
+          // advancedBloomFilter={{
+          //   threshold: 0.5232,
+          //   bloomScale: 0.864,
+          //   brightness: 0.991,
+          //   blur: 7.54,
+          //   quality: 5,
+          // }}
+        >
           <SceneSwitch currentScene={scene} />
           <DebugIndicator />
         </Filters>

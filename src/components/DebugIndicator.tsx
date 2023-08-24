@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import * as PIXI from 'pixi.js'
+import { Ticker, TextStyle } from 'pixi.js'
 import { OPTIONS } from './PixiStage'
 import useThrottledCallback from 'src/app/hooks/useThrottledCallback'
 import { Text, useTick } from '@pixi/react'
@@ -7,7 +7,8 @@ import { Text, useTick } from '@pixi/react'
 export default function DebugIndicator() {
   const [fps, setFps] = useState(0)
   const throttled = useThrottledCallback(500, () => {
-    setFps(PIXI.Ticker.shared.FPS)
+    // console.log('FPS: ', Ticker.shared.FPS)
+    setFps(Ticker.shared.FPS)
   })
   useTick(throttled)
   return (
@@ -15,7 +16,7 @@ export default function DebugIndicator() {
       <Text
         text={`Etherion Lab v${process.env.NEXT_PUBLIC_APP_VERSION}`}
         style={
-          new PIXI.TextStyle({
+          new TextStyle({
             dropShadow: true,
             dropShadowAlpha: 0.8,
             fill: '0xcccccc',
@@ -30,7 +31,7 @@ export default function DebugIndicator() {
       <Text
         text={`FPS: ${fps.toLocaleString()}`}
         style={
-          new PIXI.TextStyle({
+          new TextStyle({
             dropShadow: true,
             dropShadowAlpha: 0.8,
             fill: '0xcccccc',

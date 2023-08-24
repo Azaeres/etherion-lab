@@ -1,10 +1,10 @@
 import { PropsWithChildren, ReactElement } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import * as PIXI from 'pixi.js'
+import { Container } from 'pixi.js'
 
 export default function DesktopView({
   children,
-}: Partial<PropsWithChildren<ReactElement<PIXI.Container>>>) {
+}: Partial<PropsWithChildren<ReactElement<Container>>>) {
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-width: 1224px)',
   })

@@ -1,5 +1,5 @@
 import { useTick } from '@pixi/react'
-import planck from 'planck'
+import { World, Vec2 } from 'planck'
 import { PropsWithChildren, createContext, useCallback, useMemo } from 'react'
 
 export interface PlanckWorldProviderProps {
@@ -10,7 +10,7 @@ export interface PlanckWorldProviderProps {
   positionIterations?: number
 }
 
-export const PlanckWorldContext = createContext<planck.World | null>(null)
+export const PlanckWorldContext = createContext<World | null>(null)
 
 export default function PlanckWorldProvider(props: PropsWithChildren<PlanckWorldProviderProps>) {
   const {
@@ -21,8 +21,8 @@ export default function PlanckWorldProvider(props: PropsWithChildren<PlanckWorld
     positionIterations = 2,
   } = props
   const world = useMemo(() => {
-    const gravity = planck.Vec2(gravityX, gravityY)
-    return planck.World({
+    const gravity = Vec2(gravityX, gravityY)
+    return World({
       gravity,
     })
   }, [gravityX, gravityY])

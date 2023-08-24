@@ -9,18 +9,18 @@ import {
   useState,
 } from 'react'
 import { PlanckWorldContext } from './PlanckWorldProvider'
-import planck from 'planck'
+import { BodyDef, FixtureDef, Body } from 'planck'
 import { Container, useTick } from '@pixi/react'
 import { pxFromMeters } from 'src/utils/physics'
-import * as PIXI from 'pixi.js'
+import { Container as PixiContainer, DisplayObject } from 'pixi.js'
 import DebugDraw from './DebugDraw'
 
-export interface PlanckBodyProps extends planck.BodyDef {
-  bodyDef: planck.BodyDef
-  fixtureDefs?: readonly planck.FixtureDef[]
-  ref?: ForwardedRef<PIXI.Container<PIXI.DisplayObject>>
+export interface PlanckBodyProps extends BodyDef {
+  bodyDef: BodyDef
+  fixtureDefs?: readonly FixtureDef[]
+  ref?: ForwardedRef<PixiContainer<DisplayObject>>
   debugDraw?: boolean
-  getBody?: (body: planck.Body) => void
+  getBody?: (body: Body) => void
 }
 
 interface ContainerConfig {
@@ -29,7 +29,7 @@ interface ContainerConfig {
   rotation: number
 }
 
-export default forwardRef<PIXI.Container<PIXI.DisplayObject>, PropsWithChildren<PlanckBodyProps>>(
+export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<PlanckBodyProps>>(
   function PlanckBody(props, ref) {
     const { debugDraw = false, bodyDef, fixtureDefs } = props
     const world = useContext(PlanckWorldContext)
@@ -73,7 +73,7 @@ export default forwardRef<PIXI.Container<PIXI.DisplayObject>, PropsWithChildren<
   }
 )
 
-function getContainerConfigFromBody(body: planck.Body): ContainerConfig {
+function getContainerConfigFromBody(body: Body): ContainerConfig {
   const position = body?.getPosition()
   const angle = body?.getAngle()
   return {

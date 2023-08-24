@@ -2,7 +2,7 @@
 import { ComponentType, lazy, Suspense } from 'react'
 // import Curtain from '../Curtain/Curtain';
 import { Text } from '@pixi/react'
-import * as PIXI from 'pixi.js'
+import { TextStyle } from 'pixi.js'
 import { OPTIONS } from '.'
 
 type Module = Promise<{
@@ -28,7 +28,7 @@ export default function DynamicallyImportedScene(module: Module) {
           <Text
             text="Loading..."
             style={
-              new PIXI.TextStyle({
+              new TextStyle({
                 dropShadow: true,
                 dropShadowAlpha: 0.8,
                 fill: '0xffffff',

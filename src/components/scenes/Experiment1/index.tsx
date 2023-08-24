@@ -2,7 +2,7 @@
 import useNextjsNavigate from 'src/app/hooks/useNextjsNavigate'
 import Logo from 'src/components/Logo'
 import stars from './assets/Stars-full.webp'
-import * as PIXI from 'pixi.js'
+import { Texture, TextStyle } from 'pixi.js'
 import { Spring } from 'react-spring'
 import { Sprite } from '@pixi/react-animated'
 import logo from 'src/components/Logo/etherion-logo.png'
@@ -46,7 +46,7 @@ export default function Experiment1() {
     <>
       <ParallaxCameraProvider>
         <ParallaxLayer zIndex={-18000}>
-          <Sprite texture={PIXI.Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={65} />
+          <Sprite texture={Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={65} />
         </ParallaxLayer>
         <ParallaxLayer zIndex={-850}>
           {/* Very far away from the camera */}
@@ -75,14 +75,14 @@ export default function Experiment1() {
         x={OPTIONS.width - 700}
         y={50}
         scale={2}
-        style={new PIXI.TextStyle({ fill: '0xffffff', fontSize: '38px' })}
+        style={new TextStyle({ fill: '0xffffff', fontSize: '38px' })}
       />
       <Text
         text={`Click/tap anywhere to move the camera target.\nClick/tap on the camera target to also cause the camera to shake!`}
         x={100}
         y={200}
         scale={2}
-        style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '22px' })}
+        style={new TextStyle({ fill: '0xcccccc', fontSize: '22px' })}
       />
       <Overlay onPress={click} />
       <Button text="⬅️ Back" x={100} y={50} width={300} height={100} onPress={navigate('/')} />
@@ -111,7 +111,7 @@ function AnimatedLogo(props: AnimatedLogoProps) {
       {(props) => (
         <Sprite
           anchor={0.5}
-          texture={PIXI.Texture.from(logo.src)}
+          texture={Texture.from(logo.src)}
           {...props}
           onpointerup={click}
           cursor="pointer"

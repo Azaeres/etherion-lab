@@ -1,6 +1,6 @@
 import { Graphics } from '@pixi/react'
-import * as PIXI from 'pixi.js'
-import planck from 'planck'
+import { Graphics as PixiGraphics } from 'pixi.js'
+import { Body, Fixture, Vec2 } from 'planck'
 import { pxFromMeters } from 'src/utils/physics'
 
 const fill = 0x000000
@@ -9,14 +9,14 @@ const lineWidth = 5
 const alpha = 0.4
 
 export interface DebugDrawProps {
-  body?: planck.Body
+  body?: Body
 }
 
 export default function DebugDraw(props: DebugDrawProps) {
   const { body } = props
   return (
     <Graphics
-      draw={(g: PIXI.Graphics) => {
+      draw={(g: PixiGraphics) => {
         g.clear()
         g.lineStyle(lineWidth, lineColor)
         g.beginFill(fill, alpha)
@@ -30,7 +30,7 @@ export default function DebugDraw(props: DebugDrawProps) {
   )
 }
 
-function pixiPolygonsFromPhysicsBody(body?: planck.Body) {
+function pixiPolygonsFromPhysicsBody(body?: Body) {
   const pixiPolygons = [] as number[][]
   let currentFixture = body?.getFixtureList()
   // eslint-disable-next-line no-constant-condition
@@ -46,10 +46,10 @@ function pixiPolygonsFromPhysicsBody(body?: planck.Body) {
   return pixiPolygons
 }
 
-function pixiPolygonFromFixture(fixture: planck.Fixture) {
+function pixiPolygonFromFixture(fixture: Fixture) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const shape = fixture.getShape() as any
-  const vertexList = shape.m_vertices as planck.Vec2[]
+  const vertexList = shape.m_vertices as Vec2[]
 
   const pixiPolygonArray = [] as number[]
   vertexList.forEach((currentVertex) => {

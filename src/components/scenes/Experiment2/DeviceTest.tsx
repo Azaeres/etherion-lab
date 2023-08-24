@@ -1,10 +1,10 @@
-import * as PIXI from 'pixi.js'
+import { Container as PixiContainer } from 'pixi.js'
 import { Container, Text } from '@pixi/react'
 import { useMediaQuery } from 'react-responsive'
 import { styles } from 'src/utils/pixi-styles'
 
 const lineHeight = 40
-export default function DeviceTest(props: Partial<PIXI.Container>) {
+export default function DeviceTest(props: Partial<PixiContainer>) {
   const { x = 0, y = 0 } = props
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-width: 1224px)',
