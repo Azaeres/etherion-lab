@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.13] - 2023-08-24
+
+### Added
+
+- Added a bunch of action buttons to the mobile interface.
+
+---
+
 ## [1.0.12] - 2023-08-22
 
 ### Added
