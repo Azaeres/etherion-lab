@@ -85,7 +85,7 @@ export default function Experiment1() {
         style={new TextStyle({ fill: '0xcccccc', fontSize: '22px' })}
       />
       <Overlay onPress={click} />
-      <Button text="⬅️ Back" x={100} y={50} width={300} height={100} onPress={navigate('/')} />
+      <Button text="&equiv; Menu" x={100} y={50} width={300} height={100} onPress={navigate('/')} />
     </>
   )
 }

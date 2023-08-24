@@ -1,13 +1,18 @@
-import * as PIXI from 'pixi.js'
+import { Texture, TextStyle } from 'pixi.js'
 import logo from 'src/components/Logo/etherion-logo.png'
 import { useParallaxCameraRef } from 'pixi-react-parallax'
 import { Sprite, Text, useTick } from '@pixi/react'
 import PlanckBody from './PlanckBody'
-import planck from 'planck'
+import { Box, Body, Vec2 } from 'planck'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useCallback, useRef, useState } from 'react'
 import { metersFromPx } from 'src/utils/physics'
 import { useMessageListener } from './events'
+import {
+  useMoveActivateListener,
+  useMoveDisengageListener,
+  useMoveEngageListener,
+} from './Button/events'
 
 export interface AnimatedLogoProps {
   x?: number
@@ -18,7 +23,7 @@ export interface AnimatedLogoProps {
 
 const fixtures = [
   {
-    shape: planck.Box(1.0, 1.0),
+    shape: Box(1.0, 1.0),
     density: 1.0,
     friction: 0.3,
   },
@@ -32,9 +37,9 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
   //   camera?.shake(40, 0.2)
   // }, [camera])
   const [count, setCount] = useState(0)
-  const bodyRef = useRef<planck.Body>()
+  const bodyRef = useRef<Body>()
   const callback = useCallback(
-    (body: planck.Body) => {
+    (body: Body) => {
       bodyRef.current = body
     },
     [bodyRef]
@@ -43,7 +48,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
   const isKeyDown = useRef<boolean>(false)
   const eventHandler = useCallback(
     (event: KeyboardEvent | MouseEvent /*, handler: HotkeysEvent */) => {
-      // console.log('avatar  > event.type:', event.type)
+      // console.log('avatar rcvd > event.type:', event.type)
       if ('repeat' in event && event?.repeat) {
         return
       }
@@ -51,7 +56,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
       const body = bodyRef.current
       if (event.type === 'keydown' || event.type === 'pointerdown') {
         isKeyDown.current = true
-        body?.applyLinearImpulse(planck.Vec2(0.0, 200.0), body.getPosition())
+        body?.applyLinearImpulse(Vec2(0.0, 200.0), body.getPosition())
       }
       setCount((count) => {
         if (event.type === 'keydown' || event.type === 'pointerdown') {
@@ -67,6 +72,9 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
     []
   )
   useMessageListener(eventHandler)
+  useMoveEngageListener(eventHandler)
+  useMoveDisengageListener(eventHandler)
+  useMoveActivateListener(eventHandler)
   useHotkeys('a', eventHandler, { keyup: true, keydown: true })
 
   const [currentY, setCurrentY] = useState<number | void>(bodyRef.current?.getPosition().y)
@@ -85,7 +93,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
     }
     if (isKeyDown.current) {
       const body = bodyRef.current
-      body?.applyForce(planck.Vec2(0.0, 400.0), body.getPosition())
+      body?.applyForce(Vec2(0.0, 400.0), body.getPosition())
     }
   }, [])
   useTick(update)
@@ -93,7 +101,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
     <PlanckBody
       bodyDef={{
         type: 'dynamic',
-        position: planck.Vec2(metersFromPx(x), metersFromPx(y)),
+        position: Vec2(metersFromPx(x), metersFromPx(y)),
         angle: rotation,
       }}
       fixtureDefs={fixtures}
@@ -103,7 +111,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
     >
       <Sprite
         anchor={0.5}
-        texture={PIXI.Texture.from(logo.src)}
+        texture={Texture.from(logo.src)}
         // {...props}
         // onpointerup={click}
         cursor="pointer"
@@ -112,7 +120,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
       {count !== undefined && (
         <Text
           text={count.toString()}
-          style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
+          style={new TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
           // {...props}
           x={120}
           y={-100}
@@ -121,7 +129,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
       {currentY !== undefined && (
         <Text
           text={currentY?.toFixed(2)}
-          style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
+          style={new TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
           // {...props}
           x={120}
           y={-60}
@@ -130,7 +138,7 @@ export default function PlayerAvatar(props: AnimatedLogoProps) {
       {currentSpeed !== undefined && (
         <Text
           text={currentSpeed?.toFixed(2)}
-          style={new PIXI.TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
+          style={new TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
           // {...props}
           x={120}
           y={-20}
