@@ -1,12 +1,11 @@
-import { Texture } from 'pixi.js'
-import logo from 'src/components/Logo/etherion-logo.png'
+import { Spritesheet, Texture } from 'pixi.js'
 import { useParallaxCameraRef } from 'pixi-react-parallax'
 import { Sprite, useTick } from '@pixi/react'
 import PlanckBody from '../PlanckBody'
 import { Box, Body, Vec2 } from 'planck'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { metersFromPx, pxFromMeters } from 'src/utils/physics'
-import { useMessageListener } from '../events'
+import { useOverlayClickListener } from '../Overlay/events'
 import {
   useMoveActivateListener,
   useMoveDisengageListener,
@@ -16,6 +15,8 @@ import { useDPadVectorUpdateListener } from '../Dpad/events'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { radiansFromDegrees } from '../Button'
 import { emitPlayerAvatarSpeedUpdate } from './events'
+import prototypeShipJson from './assets/prototype_ship.json'
+import prototypeShipTexture from './assets/prototype_ship.webp'
 
 export interface AnimatedLogoProps {
   x?: number
@@ -60,8 +61,6 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
       const body = bodyRef.current
       if (event.type === 'keydown' || event.type === 'pointerdown') {
         isKeyDown.current = true
-        // Vec2(0.0, 200.0)
-        // console.log('applying linear impulse  > desiredHeading:', desiredHeading)
         if (desiredHeading === null) {
           const velocity = bodyRef.current?.getLinearVelocity()
           if (velocity) {
@@ -76,25 +75,18 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
           // Boost
           // console.log('Boost! :')
           body?.applyLinearImpulse(
-            new Vec2(desiredHeading.x / 12, desiredHeading.y / 12),
+            new Vec2(desiredHeading.x, desiredHeading.y).mul(1 / 12),
             body.getPosition()
           )
         }
       }
-      // setCount((count) => {
-      //   if (event.type === 'keydown' || event.type === 'pointerdown') {
-      //     return count + 1
-      //   } else {
-      //     return count
-      //   }
-      // })
       if (event.type === 'keyup' || event.type === 'pointerup' || event.type === 'pointerout') {
         isKeyDown.current = false
       }
     },
     [desiredHeading]
   )
-  useMessageListener(eventHandler)
+  useOverlayClickListener(eventHandler)
   useMoveEngageListener(eventHandler)
   useMoveDisengageListener(eventHandler)
   useMoveActivateListener(eventHandler)
@@ -103,7 +95,9 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
     bodyRef.current?.getAngle()
   )
   const [currentSpeed, setCurrentSpeed] = useState<number>(0.0)
-  emitPlayerAvatarSpeedUpdate(currentSpeed)
+  useEffect(() => {
+    emitPlayerAvatarSpeedUpdate(currentSpeed)
+  }, [currentSpeed])
 
   const rotateBody = useCallback((vector: Vec2 | null) => {
     if (vector === null) {
@@ -192,6 +186,19 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
   }, [actualHeading, desiredHeading])
   useTick(update)
 
+  const [sheet, setSheet] = useState<Spritesheet | null>(null)
+  useEffect(() => {
+    ;(async () => {
+      console.log(' > prototypeShipJson:', prototypeShipJson)
+      const sheet = new Spritesheet(Texture.from(prototypeShipTexture.src), prototypeShipJson)
+      await sheet.parse()
+      console.log('Spritesheet ready to use!', sheet)
+      setSheet(sheet)
+    })()
+  }, [])
+
+  const texture = sheet?.textures['40 X 32 sprites_result-18.png']
+  // console.log(' > texture:', texture)
   return (
     <>
       <PlanckBody
@@ -205,36 +212,18 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
         // debugDraw={true}
         bodyCallback={callback}
       >
-        <Sprite
-          anchor={0.5}
-          texture={Texture.from(logo.src)}
-          // {...props}
-          // onpointerup={click}
-          cursor="pointer"
-          eventMode="dynamic"
-        />
-        {/* <>
-          {count !== undefined && (
-            <Text
-              text={count.toString()}
-              style={new TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
-              // {...props}
-              x={120}
-              y={-100}
-              scale={10}
-            />
-          )}
-          {currentSpeed !== undefined && (
-            <Text
-              text={currentSpeed?.toFixed(2)}
-              style={new TextStyle({ fill: '0xcccccc', fontSize: '38px' })}
-              // {...props}
-              x={120}
-              y={-20}
-              scale={10}
-            />
-          )}
-        </> */}
+        {texture && (
+          <Sprite
+            anchor={0.5}
+            texture={texture}
+            // {...props}
+            // onpointerup={click}
+            cursor="pointer"
+            eventMode="dynamic"
+            scale={6}
+            rotation={radiansFromDegrees(-90)}
+          />
+        )}
       </PlanckBody>
       {/* <DesktopView>
         <DebugHeadingVector
