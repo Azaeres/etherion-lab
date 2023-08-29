@@ -4,16 +4,28 @@ Currently bee-lining toward the <span style="color: green">green item</span>.
 Goals that are related closely enough to be developed together have the same "chord" number.
 Checkboxes are open for the chord that's currently in the bee-line.
 
+- 5. Game menu
+- 5. Configuration
+- 5. Multiplayer lobby
+- 5. Transit map
+- 5. Field controls bindings
 - 4. Etherion storyline gameplay demo
-- [ ] 1. Game AI
-- [ ] 1. <span style="color: green">Gameplay interface & controls</span>
-- Spine.js animations
+- [ ] 1. Game AI.
+- [ ] 1. Gameplay interface & controls.
+- [x] 1. Display ship speed.
+- [ ] 1. <span style="color: green">Map ship sprite to physics body rotation.</span>
+- [x] 1. Dpad (mobile) and Overlay (desktop) controls.
+- Ship sensors.
+- Lock-on selection.
+- Auto-generation of regions.
+- Travel particles.
+- Spine.js animations?
 - [x] 1. Create button component
 - [x] 1. Planck/Box2D physics animations
 - [x] React Spring animations
 - 2. Offline-first, persistent database (RxDB?)
 - 2. Private syncing server (Electron?)
-- 2. Local multiplayer (stub)
+- 2. Private multiplayer (stub)
 - 3. Etherion store app
 - 3. Premium Pass
 - WebGL shaders
