@@ -25,6 +25,16 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.14] - 2023-08-29
+
+### Added
+
+- Inter-component event system.
+- Dpad (mobile) and Overlay (desktop) controls.
+- Physics-based ship rotation.
+
+---
+
 ## [1.0.13] - 2023-08-24
 
 ### Added
