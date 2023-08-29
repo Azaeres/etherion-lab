@@ -20,7 +20,7 @@ export interface PlanckBodyProps extends BodyDef {
   fixtureDefs?: readonly FixtureDef[]
   ref?: ForwardedRef<PixiContainer<DisplayObject>>
   debugDraw?: boolean
-  getBody?: (body: Body) => void
+  bodyCallback?: (body: Body) => void
 }
 
 interface ContainerConfig {
@@ -35,7 +35,7 @@ export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<Planck
     const world = useContext(PlanckWorldContext)
     const body = useMemo(() => {
       const body = world?.createBody(bodyDef)
-      body && props.getBody?.(body)
+      body && props.bodyCallback?.(body)
       return body
       // `props` is detected as a dependency, but that changes
       // every render. We don't want to create a new body every render.
@@ -51,15 +51,15 @@ export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<Planck
         body && world?.destroyBody(body)
       }
     }, [body, fixtureDefs, world])
-    const [xPosition, setXPosition] = useState<number>(0)
-    const [yPosition, setYPosition] = useState<number>(0)
-    const [angle, setAngle] = useState<number>(0)
+    const [xPosition, setXPosition] = useState<number>(bodyDef?.position?.x || 0)
+    const [yPosition, setYPosition] = useState<number>(bodyDef?.position?.y || 0)
+    const [angle, setAngle] = useState<number>(bodyDef?.angle || 0)
     const animatePhysics = useCallback(() => {
       if (body) {
-        const config = getContainerConfigFromBody(body)
-        setXPosition(pxFromMeters(config.x))
-        setYPosition(pxFromMeters(config.y))
-        setAngle(config.rotation)
+        const bodyProperties = getCurrentBodyProperties(body)
+        setXPosition(pxFromMeters(bodyProperties.x))
+        setYPosition(pxFromMeters(bodyProperties.y))
+        setAngle(bodyProperties.rotation)
       }
     }, [body])
     useTick(animatePhysics)
@@ -73,7 +73,7 @@ export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<Planck
   }
 )
 
-function getContainerConfigFromBody(body: Body): ContainerConfig {
+function getCurrentBodyProperties(body: Body): ContainerConfig {
   const position = body?.getPosition()
   const angle = body?.getAngle()
   return {

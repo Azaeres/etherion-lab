@@ -7,7 +7,7 @@ import { Sprite } from '@pixi/react-animated'
 import { OPTIONS } from 'src/components/PixiStage'
 import { useCallback, useMemo } from 'react'
 import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
-import PlayerAvatar from './PlayerAvatar'
+import PrototypeShip from './PrototypeShip'
 import PlanckWorldProvider from './PlanckWorldProvider'
 import PlanckBody from './PlanckBody'
 import { Box, Vec2 } from 'planck'
@@ -19,6 +19,7 @@ import Button, { radiansFromDegrees } from './Button'
 import { emitMoveActivate, emitMoveDisengage, emitMoveEngage } from './Button/events'
 import DesktopView from './DesktopView'
 import { Container } from '@pixi/react'
+import Dpad from './Dpad'
 
 const getRandomPosition = () => {
   return {
@@ -64,31 +65,32 @@ export default function Experiment1() {
   const moveActivateAction = useCallback((event: FederatedPointerEvent) => {
     emitMoveActivate(event)
   }, [])
+  // gravity: -80
   return (
     <>
-      <PlanckWorldProvider gravityY={-80}>
+      <PlanckWorldProvider gravityY={0}>
         <ParallaxCameraProvider movementDamping={2.0}>
-          <ParallaxLayer zIndex={-18000}>
-            <Sprite texture={Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={65} />
+          <ParallaxLayer zIndex={-1058000}>
+            <Sprite texture={Texture.from(stars.src)} x={0} y={0} anchor={0.5} scale={3725} />
           </ParallaxLayer>
-          <ParallaxLayer zIndex={-850}>
+          <ParallaxLayer zIndex={-1250}>
             {/* Very far away from the camera */}
             <Logo {...logo1} />
           </ParallaxLayer>
-          <ParallaxLayer zIndex={-400}>
+          <ParallaxLayer zIndex={-800}>
             {/* A bit closer */}
             <Logo {...logo2} />
           </ParallaxLayer>
-          <ParallaxLayer zIndex={-200}>
+          <ParallaxLayer zIndex={-500}>
+            {/* Normal distance. No auto-scaling applied. */}
+            <PrototypeShip x={2400} />
+            <Ground />
+          </ParallaxLayer>
+          <ParallaxLayer zIndex={-300}>
             {/* Closer still */}
             <Logo {...logo3} />
           </ParallaxLayer>
           <ParallaxLayer zIndex={0}>
-            {/* Normal distance. No auto-scaling applied. */}
-            <PlayerAvatar x={2400} />
-            <Ground />
-          </ParallaxLayer>
-          <ParallaxLayer zIndex={100}>
             {/* Don't exceed the focal length (default 300) or it'll pass behind the camera. Technically, it gets mirrored, and looks weird. */}
             {/* Very close! */}
             <Logo {...logo4} />
@@ -106,7 +108,7 @@ export default function Experiment1() {
         <Overlay />
         <Button
           text="&equiv; Menu"
-          x={100}
+          x={OPTIONS.width - ACTION_BUTTON_SIZE - 200}
           y={50}
           width={ACTION_BUTTON_SIZE + 100}
           height={120}
@@ -210,6 +212,7 @@ export default function Experiment1() {
             outlineStyle={actionButtonOutlineStyle}
           />
         </Container>
+        <Dpad />
       </MobileView>
     </>
   )

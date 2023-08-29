@@ -44,3 +44,4 @@ next-env.d.ts
 **/public/precache**
 
 _static
+src/components/scenes/Experiment2/assets/meowx
