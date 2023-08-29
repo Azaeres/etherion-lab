@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.15] - 2023-08-29
+
+### Added
+
+- Spritesheet loading.
+
+---
+
 ## [1.0.14] - 2023-08-29
 
 ### Added
