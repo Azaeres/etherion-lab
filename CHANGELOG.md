@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.18] - 2023-08-30
+
+### Added
+
+- Collideable asteroids.
+
+---
+
 ## [1.0.17] - 2023-08-30
 
 ### Fixed
