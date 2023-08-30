@@ -1,16 +1,10 @@
-import { useState } from 'react'
-import { Ticker, TextStyle } from 'pixi.js'
+import { TextStyle } from 'pixi.js'
 import { OPTIONS } from './PixiStage'
-import useThrottledCallback from 'src/app/hooks/useThrottledCallback'
-import { Text, useTick } from '@pixi/react'
+import { Text } from '@pixi/react'
+import useFpsMeasurement from 'src/app/hooks/useFpsMeasurement'
 
 export default function DebugIndicator() {
-  const [fps, setFps] = useState(0)
-  const throttled = useThrottledCallback(500, () => {
-    // console.log('FPS: ', Ticker.shared.FPS)
-    setFps(Ticker.shared.FPS)
-  })
-  useTick(throttled)
+  const fps = useFpsMeasurement()
   return (
     <>
       <Text
@@ -29,7 +23,7 @@ export default function DebugIndicator() {
         y={OPTIONS.height - 60}
       />
       <Text
-        text={`FPS: ${fps.toLocaleString()}`}
+        text={`FPS: ${fps === null ? '' : fps.toFixed(2)}`}
         style={
           new TextStyle({
             dropShadow: true,
@@ -40,7 +34,7 @@ export default function DebugIndicator() {
             fontWeight: 'bold',
           })
         }
-        x={OPTIONS.width - 200}
+        x={OPTIONS.width - 220}
         y={OPTIONS.height - 60}
       />
     </>
