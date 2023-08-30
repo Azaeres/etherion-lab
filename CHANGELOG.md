@@ -25,6 +25,18 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.16] - 2023-08-30
+
+### Added
+
+- `useFpsMeasurement` hook.
+
+### Changed
+
+- Replaced logos with animating asteroids.
+
+---
+
 ## [1.0.15] - 2023-08-29
 
 ### Added
