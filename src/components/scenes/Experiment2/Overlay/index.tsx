@@ -21,10 +21,17 @@ export default function Overlay(props: OverlayProps) {
     const mousePoint = new Vec2(event.globalX, event.globalY)
     const vector = mousePoint.sub(centerPoint)
     vector.normalize()
-    vector.mul(420)
+    vector.mul(400)
     emitDPadVectorUpdate(vector)
   }, [])
-
+  const draw = useCallback((g: PixiGraphics) => {
+    const fill = 0x000000
+    const alpha = 0.0001
+    g.clear()
+    g.beginFill(fill, alpha)
+    g.drawRect(0, 0, OPTIONS.width, OPTIONS.height)
+    g.endFill()
+  }, [])
   return (
     <Graphics
       onpointertap={onPress}
@@ -33,14 +40,7 @@ export default function Overlay(props: OverlayProps) {
       onpointerout={click}
       onglobalmousemove={trackMouse}
       eventMode="static"
-      draw={(g: PixiGraphics) => {
-        const fill = 0x000000
-        const alpha = 0.0001
-        g.clear()
-        g.beginFill(fill, alpha)
-        g.drawRect(0, 0, OPTIONS.width, OPTIONS.height)
-        g.endFill()
-      }}
+      draw={draw}
     />
   )
 }

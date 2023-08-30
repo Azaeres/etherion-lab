@@ -18,7 +18,7 @@ const getRandomPosition = () => {
   return {
     x: Math.random() * OPTIONS.width,
     y: Math.random() * OPTIONS.height,
-    initialFrame: Math.random() * 64,
+    initialFrame: Math.floor(Math.random() * 64),
   } as const
 }
 
@@ -40,6 +40,7 @@ export default function Experiment2() {
   return (
     <>
       <Sprite texture={Texture.from(stars.src)} x={0} y={0} />
+      {/* <DebugWhiteScreen /> */}
       <PlanckWorldProvider gravityY={0}>
         <ParallaxCameraProvider movementDamping={2.0}>
           <ParallaxLayer zIndex={-1250}>

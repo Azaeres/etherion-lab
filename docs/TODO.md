@@ -11,11 +11,12 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - 5. Field controls bindings
 - 4. Etherion storyline gameplay demo
 - [ ] 1. Game AI.
-- [ ] 1. Gameplay interface & controls.
+- [x] 1. Gameplay interface & controls.
+- [ ] 1. Destructable objects.
 - [x] 1. Display ship speed.
-- [ ] 1. <span style="color: green">Map ship sprite to physics body rotation.</span>
+- [x] 1. <span style="color: green">Map ship sprite to physics body rotation.</span>
 - [x] 1. Dpad (mobile) and Overlay (desktop) controls.
-- Ship sensors.
+- Points of interest & ship sensors.
 - Lock-on selection.
 - Auto-generation of regions.
 - Travel particles.
@@ -28,7 +29,8 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - 2. Private multiplayer (stub)
 - 3. Etherion store app
 - 3. Premium Pass
-- WebGL shaders
+- WebGL shaders (plasma glow & light distortion effects).
+- Object normal maps and point lighting.
 - Content generation workflow
 - [x] Why do mobile browsers crash on navigation?
 - Basic offline fallback page.
