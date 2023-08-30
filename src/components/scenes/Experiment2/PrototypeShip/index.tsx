@@ -81,10 +81,9 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
         } else {
           // Boost
           // console.log('Boost! :')
-          body?.applyLinearImpulse(
-            new Vec2(desiredHeading.x, desiredHeading.y).mul(1 / 12),
-            body.getPosition()
-          )
+          const vector = new Vec2(desiredHeading.x, desiredHeading.y)
+          vector.normalize()
+          body?.applyLinearImpulse(vector, body.getPosition())
         }
       }
       if (event.type === 'keyup' || event.type === 'pointerup' || event.type === 'pointerout') {
@@ -98,10 +97,10 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
   useMoveDisengageListener(eventHandler)
   useMoveActivateListener(eventHandler)
 
+  const [currentSpeed, setCurrentSpeed] = useState<number>(0.0)
   const [actualHeading, setActualHeading] = useState<number | undefined>(
     bodyRef.current?.getAngle()
   )
-  const [currentSpeed, setCurrentSpeed] = useState<number>(0.0)
   useEffect(() => {
     emitPlayerAvatarSpeedUpdate(currentSpeed)
   }, [currentSpeed])
@@ -138,7 +137,7 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
   const update = useCallback(() => {
     const velocity = bodyRef.current?.getLinearVelocity()
     if (velocity !== undefined) {
-      const speed = velocity.x * velocity.x + velocity.y * velocity.y
+      const speed = getSpeedFromVelocity(velocity)
       setCurrentSpeed(speed)
       if (isKeyDown.current) {
         const body = bodyRef.current
@@ -258,6 +257,10 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
       </DesktopView> */}
     </>
   )
+}
+
+function getSpeedFromVelocity(velocity: Vec2) {
+  return velocity.x * velocity.x + velocity.y * velocity.y
 }
 
 function getVectorFromHeading(heading?: number) {
