@@ -18,7 +18,7 @@ import { emitPlayerAvatarSpeedUpdate } from './events'
 import prototypeShipJson from './assets/prototype_ship.json'
 import prototypeShipTexture from './assets/prototype_ship.webp'
 
-export interface AnimatedLogoProps {
+export interface PrototypeShipProps {
   x?: number
   y?: number
   rotation?: number
@@ -33,7 +33,7 @@ const fixtures = [
   },
 ] as const
 
-export default function PrototypeShip(props: AnimatedLogoProps) {
+export default function PrototypeShip(props: PrototypeShipProps) {
   const [, setCameraTargetRef] = useParallaxCameraRef()
   const { x = 0, y = 0, rotation = radiansFromDegrees(-90) } = props
   // const camera = useContext(ParallaxCameraContext)

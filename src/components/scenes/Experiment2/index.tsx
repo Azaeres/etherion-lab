@@ -13,6 +13,7 @@ import ControlLayer from './ControlLayer'
 import asteroidsTexture from './assets/asteroids/asteroids.webp'
 import asteroidsJson from './assets/asteroids/asteroids.json'
 import { AnimatedSprite } from '@pixi/react'
+import DestructableAsteroid from './DestructableAsteroid'
 
 const getRandomPosition = () => {
   return {
@@ -21,6 +22,8 @@ const getRandomPosition = () => {
     initialFrame: Math.floor(Math.random() * 64),
   } as const
 }
+
+const ASTEROID_TINT = '#777'
 
 export default function Experiment2() {
   const logo1 = useMemo(getRandomPosition, [])
@@ -36,6 +39,15 @@ export default function Experiment2() {
       setTextures(Object.values(sheet.textures))
     })()
   }, [])
+  // const [gravity, setGravity] = useState(0)
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setGravity(-80)
+  //   }, 5000)
+  //   return () => {
+  //     clearInterval(timer)
+  //   }
+  // }, [])
   // gravity: -80
   return (
     <>
@@ -50,7 +62,8 @@ export default function Experiment2() {
                 textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
-                scale={3}
+                scale={1.8}
+                tint={ASTEROID_TINT}
                 loop={true}
                 {...logo1}
               />
@@ -63,7 +76,8 @@ export default function Experiment2() {
                 textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
-                scale={3}
+                scale={1.8}
+                tint={ASTEROID_TINT}
                 loop={true}
                 {...logo2}
               />
@@ -71,6 +85,14 @@ export default function Experiment2() {
           </ParallaxLayer>
           <ParallaxLayer zIndex={-500}>
             <PrototypeShip x={2400} />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
+            <DestructableAsteroid />
             <Ground />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-300}>
@@ -80,7 +102,8 @@ export default function Experiment2() {
                 textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
-                scale={3}
+                scale={1.8}
+                tint={ASTEROID_TINT}
                 loop={true}
                 {...logo3}
               />
@@ -93,7 +116,8 @@ export default function Experiment2() {
                 textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
-                scale={3}
+                scale={1.8}
+                tint={ASTEROID_TINT}
                 loop={true}
                 {...logo4}
               />
