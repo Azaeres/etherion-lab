@@ -25,6 +25,16 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.17] - 2023-08-30
+
+### Fixed
+
+- Polished control styles.
+- Adjusted contrast on asteroid spritemap.
+- Fine-tuned ship acceleration.
+
+---
+
 ## [1.0.16] - 2023-08-30
 
 ### Added
