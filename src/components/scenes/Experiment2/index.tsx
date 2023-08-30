@@ -1,21 +1,24 @@
 'use client'
-import Logo from 'src/components/Logo'
 import stars from '../Experiment1/assets/Stars-full.webp'
-import { Texture } from 'pixi.js'
+import { Texture, Spritesheet } from 'pixi.js'
 import { Sprite } from '@pixi/react-animated'
 import { OPTIONS } from 'src/components/PixiStage'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
 import PrototypeShip from './PrototypeShip'
 import PlanckWorldProvider from './PlanckWorldProvider'
 import PlanckBody from './PlanckBody'
 import { Box, Vec2 } from 'planck'
 import ControlLayer from './ControlLayer'
+import asteroidsTexture from './assets/asteroids/asteroids.webp'
+import asteroidsJson from './assets/asteroids/asteroids.json'
+import { AnimatedSprite } from '@pixi/react'
 
 const getRandomPosition = () => {
   return {
     x: Math.random() * OPTIONS.width,
     y: Math.random() * OPTIONS.height,
+    initialFrame: Math.random() * 64,
   } as const
 }
 
@@ -24,6 +27,15 @@ export default function Experiment2() {
   const logo2 = useMemo(getRandomPosition, [])
   const logo3 = useMemo(getRandomPosition, [])
   const logo4 = useMemo(getRandomPosition, [])
+  const [textures, setTextures] = useState<Texture[] | null>(null)
+  useEffect(() => {
+    ;(async () => {
+      const sheet = new Spritesheet(Texture.from(asteroidsTexture.src), asteroidsJson)
+      await sheet.parse()
+      // console.log('Spritesheet ready to use!', sheet)
+      setTextures(Object.values(sheet.textures))
+    })()
+  }, [])
   // gravity: -80
   return (
     <>
@@ -31,26 +43,60 @@ export default function Experiment2() {
       <PlanckWorldProvider gravityY={0}>
         <ParallaxCameraProvider movementDamping={2.0}>
           <ParallaxLayer zIndex={-1250}>
-            {/* Very far away from the camera */}
-            <Logo {...logo1} />
+            {textures && (
+              <AnimatedSprite
+                anchor={0.5}
+                textures={textures}
+                isPlaying={true}
+                animationSpeed={0.01}
+                scale={3}
+                loop={true}
+                {...logo1}
+              />
+            )}
           </ParallaxLayer>
           <ParallaxLayer zIndex={-800}>
-            {/* A bit closer */}
-            <Logo {...logo2} />
+            {textures && (
+              <AnimatedSprite
+                anchor={0.5}
+                textures={textures}
+                isPlaying={true}
+                animationSpeed={0.01}
+                scale={3}
+                loop={true}
+                {...logo2}
+              />
+            )}
           </ParallaxLayer>
           <ParallaxLayer zIndex={-500}>
-            {/* Normal distance. No auto-scaling applied. */}
             <PrototypeShip x={2400} />
             <Ground />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-300}>
-            {/* Closer still */}
-            <Logo {...logo3} />
+            {textures && (
+              <AnimatedSprite
+                anchor={0.5}
+                textures={textures}
+                isPlaying={true}
+                animationSpeed={0.01}
+                scale={3}
+                loop={true}
+                {...logo3}
+              />
+            )}
           </ParallaxLayer>
           <ParallaxLayer zIndex={0}>
-            {/* Don't exceed the focal length (default 300) or it'll pass behind the camera. Technically, it gets mirrored, and looks weird. */}
-            {/* Very close! */}
-            <Logo {...logo4} />
+            {textures && (
+              <AnimatedSprite
+                anchor={0.5}
+                textures={textures}
+                isPlaying={true}
+                animationSpeed={0.01}
+                scale={3}
+                loop={true}
+                {...logo4}
+              />
+            )}
           </ParallaxLayer>
         </ParallaxCameraProvider>
       </PlanckWorldProvider>

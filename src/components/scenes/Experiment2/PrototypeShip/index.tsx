@@ -54,7 +54,14 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
   const eventHandler = useCallback(
     (event: KeyboardEvent | MouseEvent /*, handler: HotkeysEvent */) => {
       // console.log('avatar rcvd > event.type:', event.type)
+      // console.log(' > event:', event)
       if ('repeat' in event && event?.repeat) {
+        return
+      }
+      if ('button' in event && event?.button === 2) {
+        // console.log(' > event.button:', event.button)
+        // Secondary mouse button.
+        // Do nothing for now.
         return
       }
       // console.log('eventHandler  > event.type:', event.type, event)
@@ -145,7 +152,8 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
         } else {
           // Accelerate
           // console.log('Accelerating  :')
-          body?.applyForce(new Vec2(desiredHeading.x / 4, desiredHeading.y / 4), body.getPosition())
+          const forceVector = new Vec2(desiredHeading.x, desiredHeading.y).mul(1 / 4)
+          body?.applyForce(forceVector, body.getPosition())
         }
       }
     }
@@ -187,17 +195,20 @@ export default function PrototypeShip(props: AnimatedLogoProps) {
   useTick(update)
 
   const [sheet, setSheet] = useState<Spritesheet | null>(null)
+  // const [maskTexture, setMaskTexture] = useState<Texture | null>(null)
+  // const [maskSprite, setMaskSprite] = useState<Sprite | null>(null)
   useEffect(() => {
     ;(async () => {
-      console.log(' > prototypeShipJson:', prototypeShipJson)
       const sheet = new Spritesheet(Texture.from(prototypeShipTexture.src), prototypeShipJson)
       await sheet.parse()
-      console.log('Spritesheet ready to use!', sheet)
+      // console.log('Spritesheet ready to use!', sheet)
       setSheet(sheet)
+      // setMaskTexture(Texture.from(prototypeShipMask.src))
     })()
   }, [])
 
   const texture = sheet?.textures['40 X 32 sprites_result-18.png']
+
   // console.log(' > texture:', texture)
   return (
     <>

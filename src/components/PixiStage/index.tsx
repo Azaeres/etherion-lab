@@ -32,6 +32,7 @@ export const Filters = withFilters(Container, {
 export default function PixiStage({ scene }: PropsWithChildren<Props>) {
   const router = useRouter()
   const contextMenu = useCallback((e: MouseEvent) => {
+    // Disable the context menu so we can use right-clicks for game actions.
     e.preventDefault()
     return false
   }, [])

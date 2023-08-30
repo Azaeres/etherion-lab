@@ -1,0 +1,529 @@
+{
+  "frames": {
+    "asteroids-0.png": {
+      "frame": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-1.png": {
+      "frame": { "x": 103, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-2.png": {
+      "frame": { "x": 206, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-3.png": {
+      "frame": { "x": 309, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-4.png": {
+      "frame": { "x": 412, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-5.png": {
+      "frame": { "x": 515, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-6.png": {
+      "frame": { "x": 618, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-7.png": {
+      "frame": { "x": 721, "y": 0, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-8.png": {
+      "frame": { "x": 0, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-9.png": {
+      "frame": { "x": 103, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-10.png": {
+      "frame": { "x": 206, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-11.png": {
+      "frame": { "x": 309, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-12.png": {
+      "frame": { "x": 412, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-13.png": {
+      "frame": { "x": 515, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-14.png": {
+      "frame": { "x": 618, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-15.png": {
+      "frame": { "x": 721, "y": 103, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-16.png": {
+      "frame": { "x": 0, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-17.png": {
+      "frame": { "x": 103, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-18.png": {
+      "frame": { "x": 206, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-19.png": {
+      "frame": { "x": 309, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-20.png": {
+      "frame": { "x": 412, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-21.png": {
+      "frame": { "x": 515, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-22.png": {
+      "frame": { "x": 618, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-23.png": {
+      "frame": { "x": 721, "y": 206, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-24.png": {
+      "frame": { "x": 0, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-25.png": {
+      "frame": { "x": 103, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-26.png": {
+      "frame": { "x": 206, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-27.png": {
+      "frame": { "x": 309, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-28.png": {
+      "frame": { "x": 412, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-29.png": {
+      "frame": { "x": 515, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-30.png": {
+      "frame": { "x": 618, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-31.png": {
+      "frame": { "x": 721, "y": 309, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-32.png": {
+      "frame": { "x": 0, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-33.png": {
+      "frame": { "x": 103, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-34.png": {
+      "frame": { "x": 206, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-35.png": {
+      "frame": { "x": 309, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-36.png": {
+      "frame": { "x": 412, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-37.png": {
+      "frame": { "x": 515, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-38.png": {
+      "frame": { "x": 618, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-39.png": {
+      "frame": { "x": 721, "y": 412, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-40.png": {
+      "frame": { "x": 0, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-41.png": {
+      "frame": { "x": 103, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-42.png": {
+      "frame": { "x": 206, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-43.png": {
+      "frame": { "x": 309, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-44.png": {
+      "frame": { "x": 412, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-45.png": {
+      "frame": { "x": 515, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-46.png": {
+      "frame": { "x": 618, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-47.png": {
+      "frame": { "x": 721, "y": 515, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-48.png": {
+      "frame": { "x": 0, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-49.png": {
+      "frame": { "x": 103, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-50.png": {
+      "frame": { "x": 206, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-51.png": {
+      "frame": { "x": 309, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-52.png": {
+      "frame": { "x": 412, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-53.png": {
+      "frame": { "x": 515, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-54.png": {
+      "frame": { "x": 618, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-55.png": {
+      "frame": { "x": 721, "y": 618, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-56.png": {
+      "frame": { "x": 0, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-57.png": {
+      "frame": { "x": 103, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-58.png": {
+      "frame": { "x": 206, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-59.png": {
+      "frame": { "x": 309, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-60.png": {
+      "frame": { "x": 412, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-61.png": {
+      "frame": { "x": 515, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-62.png": {
+      "frame": { "x": 618, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    },
+    "asteroids-63.png": {
+      "frame": { "x": 721, "y": 721, "w": 103, "h": 103 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 103 },
+      "sourceSize": { "w": 103, "h": 103 }
+    }
+  },
+  "animations": {
+    "asteroids": [
+      "asteroids-0.png",
+      "asteroids-1.png",
+      "asteroids-2.png",
+      "asteroids-3.png",
+      "asteroids-4.png",
+      "asteroids-5.png",
+      "asteroids-6.png",
+      "asteroids-7.png",
+      "asteroids-8.png",
+      "asteroids-9.png",
+      "asteroids-10.png",
+      "asteroids-11.png",
+      "asteroids-12.png",
+      "asteroids-13.png",
+      "asteroids-14.png",
+      "asteroids-15.png",
+      "asteroids-16.png",
+      "asteroids-17.png",
+      "asteroids-18.png",
+      "asteroids-19.png",
+      "asteroids-20.png",
+      "asteroids-21.png",
+      "asteroids-22.png",
+      "asteroids-23.png",
+      "asteroids-24.png",
+      "asteroids-25.png",
+      "asteroids-26.png",
+      "asteroids-27.png",
+      "asteroids-28.png",
+      "asteroids-29.png",
+      "asteroids-30.png",
+      "asteroids-31.png",
+      "asteroids-32.png",
+      "asteroids-33.png",
+      "asteroids-34.png",
+      "asteroids-35.png",
+      "asteroids-36.png",
+      "asteroids-37.png",
+      "asteroids-38.png",
+      "asteroids-39.png",
+      "asteroids-40.png",
+      "asteroids-41.png",
+      "asteroids-42.png",
+      "asteroids-43.png",
+      "asteroids-44.png",
+      "asteroids-45.png",
+      "asteroids-46.png",
+      "asteroids-47.png",
+      "asteroids-48.png",
+      "asteroids-49.png",
+      "asteroids-50.png",
+      "asteroids-51.png",
+      "asteroids-52.png",
+      "asteroids-53.png",
+      "asteroids-54.png",
+      "asteroids-55.png",
+      "asteroids-56.png",
+      "asteroids-57.png",
+      "asteroids-58.png",
+      "asteroids-59.png",
+      "asteroids-60.png",
+      "asteroids-61.png",
+      "asteroids-62.png",
+      "asteroids-63.png"
+    ]
+  },
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.1",
+    "image": "asteroids-0.webp",
+    "format": "RGBA8888",
+    "size": { "w": 824, "h": 824 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:264e23d721d392f2be342229f97688ed:e2e33f7e7e0f0d828beaf982f9b312d1:a3ad724633b71a884ac3136df1f821b1$"
+  }
+}
