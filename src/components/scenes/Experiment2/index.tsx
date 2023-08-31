@@ -39,6 +39,7 @@ export default function Experiment2() {
       setTextures(Object.values(sheet.textures))
     })()
   }, [])
+  console.log('HALLO EXPERIMENT2!!!!')
   // const [gravity, setGravity] = useState(0)
   // useEffect(() => {
   //   const timer = setInterval(() => {
@@ -49,6 +50,7 @@ export default function Experiment2() {
   //   }
   // }, [])
   // gravity: -80
+
   return (
     <>
       <Sprite texture={Texture.from(stars.src)} x={0} y={0} />
@@ -144,6 +146,9 @@ function Ground() {
       bodyDef={{
         type: 'static',
         position: Vec2(0.0, -30.0),
+        userData: {
+          type: 'Ground',
+        },
       }}
       fixtureDefs={groundFixtures}
       debugDraw={true}

@@ -54,9 +54,13 @@ export default function DestructableAsteroid() {
           type: 'dynamic',
           position: Vec2(metersFromPx(initialPosition.x), metersFromPx(initialPosition.y)),
           angle: initialPosition.rotation,
+          userData: {
+            type: 'DestructableAsteroid',
+            dead: false,
+          },
         }}
         fixtureDefs={fixtures}
-        // debugDraw={true}
+        debugDraw={true}
         bodyCallback={callback}
       >
         {textures && (
