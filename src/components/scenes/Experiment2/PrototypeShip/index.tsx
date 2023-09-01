@@ -16,7 +16,7 @@ import { radiansFromDegrees } from '../Button'
 import { emitPlayerAvatarSpeedUpdate } from './events'
 import prototypeShipJson from './assets/prototype_ship.json'
 import prototypeShipTexture from './assets/prototype_ship.webp'
-import useSpritesheetTextures from 'src/app/hooks/useSpritesheetTextures'
+import { useSpritesheetTextureMap } from 'src/app/hooks/useSpritesheetTextures'
 
 export interface PrototypeShipProps {
   x?: number
@@ -193,7 +193,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   }, [actualHeading, desiredHeading])
   useTick(update)
 
-  const textures = useSpritesheetTextures(prototypeShipTexture.src, prototypeShipJson)
+  const textures = useSpritesheetTextureMap(prototypeShipTexture.src, prototypeShipJson)
   const texture = textures && textures['40 X 32 sprites_result-18.png']
   return (
     <>

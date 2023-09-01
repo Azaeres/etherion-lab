@@ -34,7 +34,6 @@ export default function Experiment2() {
   const logo3 = useMemo(getRandomPosition, [])
   const logo4 = useMemo(getRandomPosition, [])
   const textures = useSpritesheetTextures(asteroidsTexture.src, asteroidsJson)
-  const textureValues = textures && Object.values(textures)
   // const [gravity, setGravity] = useState(0)
   // useEffect(() => {
   //   const timer = setInterval(() => {
@@ -54,7 +53,7 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={-1250}>
             {textures && (
               <AnimatedSprite
-                textures={textureValues}
+                textures={textures}
                 anchor={0.5}
                 isPlaying={true}
                 animationSpeed={0.01}
@@ -68,7 +67,7 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={-800}>
             {textures && (
               <AnimatedSprite
-                textures={textureValues}
+                textures={textures}
                 anchor={0.5}
                 isPlaying={true}
                 animationSpeed={0.01}
@@ -87,7 +86,7 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={-300}>
             {textures && (
               <AnimatedSprite
-                textures={textureValues}
+                textures={textures}
                 anchor={0.5}
                 isPlaying={true}
                 animationSpeed={0.01}
@@ -101,7 +100,7 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={0}>
             {textures && (
               <AnimatedSprite
-                textures={textureValues}
+                textures={textures}
                 anchor={0.5}
                 isPlaying={true}
                 animationSpeed={0.01}

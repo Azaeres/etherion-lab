@@ -1,5 +1,5 @@
-import { ISpritesheetData, Resource, Spritesheet, Texture, utils } from 'pixi.js'
-import { useEffect, useState } from 'react'
+import { ISpritesheetData, Spritesheet, Texture } from 'pixi.js'
+import { useEffect, useMemo, useState } from 'react'
 
 type AssetRecord = {
   textureFrom: string
@@ -14,11 +14,12 @@ const CacheRecord = new Map<string, AssetRecord>()
 
 export default function useSpritesheetTextures(textureFrom: string, metadata: ISpritesheetData) {
   const spritesheet = useSpritesheet(textureFrom, metadata)
-  const [textures, setTextures] = useState<utils.Dict<Texture<Resource>>>()
-  useEffect(() => {
-    spritesheet && setTextures(spritesheet.textures)
-  }, [spritesheet])
-  return textures
+  return useMemo(() => spritesheet && Object.values(spritesheet?.textures), [spritesheet])
+}
+
+export function useSpritesheetTextureMap(textureFrom: string, metadata: ISpritesheetData) {
+  const spritesheet = useSpritesheet(textureFrom, metadata)
+  return useMemo(() => spritesheet && spritesheet?.textures, [spritesheet])
 }
 
 export function useSpritesheet(textureFrom: string, metadata: ISpritesheetData) {

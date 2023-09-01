@@ -17,7 +17,7 @@ type AsteroidConfig = {
 }
 
 const GENERATION_DISTANCE = 50
-const DEFAULT_DENSITY = 30
+const DEFAULT_DENSITY = 40
 
 export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
   const { density = DEFAULT_DENSITY } = props

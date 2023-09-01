@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.22] - 2023-09-01
+
+### Fixed
+
+- Fix for default PlanckBody position bug.
+
+---
+
 ## [1.0.21] - 2023-09-01
 
 ### Fixed
