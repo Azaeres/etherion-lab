@@ -1,4 +1,4 @@
-import { Texture, Spritesheet } from 'pixi.js'
+import { Texture, Spritesheet, utils } from 'pixi.js'
 import { ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import asteroidsTexture from '../assets/asteroids/asteroids.webp'
 import asteroidsJson from '../assets/asteroids/asteroids.json'
@@ -42,6 +42,7 @@ export default function DestructableAsteroid(props: DestructableAsteroidProps) {
   }, [initialPosition.scale])
   const [textures, setTextures] = useState<Texture[] | null>(null)
   useEffect(() => {
+    utils.clearTextureCache()
     ;(async () => {
       const sheet = new Spritesheet(Texture.from(asteroidsTexture.src), asteroidsJson)
       await sheet.parse()

@@ -1,6 +1,6 @@
 'use client'
 import stars from '../Experiment1/assets/Stars-full.webp'
-import { Texture, Spritesheet, utils } from 'pixi.js'
+import { Texture, Spritesheet } from 'pixi.js'
 import { Sprite } from '@pixi/react-animated'
 import { OPTIONS } from 'src/components/PixiStage'
 import { useEffect, useMemo, useState } from 'react'
@@ -34,7 +34,6 @@ export default function Experiment2() {
   const logo4 = useMemo(getRandomPosition, [])
   const [textures, setTextures] = useState<Texture[] | null>(null)
   useEffect(() => {
-    utils.clearTextureCache()
     ;(async () => {
       const sheet = new Spritesheet(Texture.from(asteroidsTexture.src), asteroidsJson)
       await sheet.parse()
