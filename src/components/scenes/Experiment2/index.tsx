@@ -1,9 +1,9 @@
 'use client'
 import stars from '../Experiment1/assets/Stars-full.webp'
-import { Texture, Spritesheet } from 'pixi.js'
+import { Texture } from 'pixi.js'
 import { Sprite } from '@pixi/react-animated'
 import { OPTIONS } from 'src/components/PixiStage'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
 import PrototypeShip from './PrototypeShip'
 import PlanckWorldProvider from './PlanckWorldProvider'
@@ -16,6 +16,7 @@ import { AnimatedSprite } from '@pixi/react'
 import AsteroidSpawnManager from './AsteroidSpawnManager'
 import { metersFromPx } from 'src/utils/physics'
 import DebugIndicator from 'src/components/DebugIndicator'
+import useSpritesheetTextures from 'src/app/hooks/useSpritesheetTextures'
 
 const getRandomPosition = () => {
   return {
@@ -32,15 +33,8 @@ export default function Experiment2() {
   const logo2 = useMemo(getRandomPosition, [])
   const logo3 = useMemo(getRandomPosition, [])
   const logo4 = useMemo(getRandomPosition, [])
-  const [textures, setTextures] = useState<Texture[] | null>(null)
-  useEffect(() => {
-    ;(async () => {
-      const sheet = new Spritesheet(Texture.from(asteroidsTexture.src), asteroidsJson)
-      await sheet.parse()
-      // console.log('Spritesheet ready to use!', sheet)
-      setTextures(Object.values(sheet.textures))
-    })()
-  }, [])
+  const textures = useSpritesheetTextures(asteroidsTexture.src, asteroidsJson)
+  const textureValues = textures && Object.values(textures)
   // const [gravity, setGravity] = useState(0)
   // useEffect(() => {
   //   const timer = setInterval(() => {
@@ -60,8 +54,8 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={-1250}>
             {textures && (
               <AnimatedSprite
+                textures={textureValues}
                 anchor={0.5}
-                textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
                 scale={1.8}
@@ -74,8 +68,8 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={-800}>
             {textures && (
               <AnimatedSprite
+                textures={textureValues}
                 anchor={0.5}
-                textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
                 scale={1.8}
@@ -93,8 +87,8 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={-300}>
             {textures && (
               <AnimatedSprite
+                textures={textureValues}
                 anchor={0.5}
-                textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
                 scale={1.8}
@@ -107,8 +101,8 @@ export default function Experiment2() {
           <ParallaxLayer zIndex={0}>
             {textures && (
               <AnimatedSprite
+                textures={textureValues}
                 anchor={0.5}
-                textures={textures}
                 isPlaying={true}
                 animationSpeed={0.01}
                 scale={1.8}

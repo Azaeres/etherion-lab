@@ -1,5 +1,4 @@
-import { Texture, Spritesheet, utils } from 'pixi.js'
-import { ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ComponentProps, useCallback, useMemo, useRef } from 'react'
 import asteroidsTexture from '../assets/asteroids/asteroids.webp'
 import asteroidsJson from '../assets/asteroids/asteroids.json'
 import { AnimatedSprite, Sprite, useTick } from '@pixi/react'
@@ -7,6 +6,7 @@ import { OPTIONS } from 'src/components/PixiStage'
 import PlanckBody from '../PlanckBody'
 import { Box, Vec2, Body } from 'planck'
 import { metersFromPx } from 'src/utils/physics'
+import useSpritesheetTextures from 'src/app/hooks/useSpritesheetTextures'
 
 export interface DestructableAsteroidProps extends ComponentProps<typeof Sprite> {
   cameraPosition?: Vec2
@@ -40,16 +40,8 @@ export default function DestructableAsteroid(props: DestructableAsteroidProps) {
       },
     ]
   }, [initialPosition.scale])
-  const [textures, setTextures] = useState<Texture[] | null>(null)
-  useEffect(() => {
-    utils.clearTextureCache()
-    ;(async () => {
-      const sheet = new Spritesheet(Texture.from(asteroidsTexture.src), asteroidsJson)
-      await sheet.parse()
-      // console.log('Spritesheet ready to use!', sheet)
-      setTextures(Object.values(sheet.textures))
-    })()
-  }, [])
+  const textures = useSpritesheetTextures(asteroidsTexture.src, asteroidsJson)
+  const textureValues = textures && Object.values(textures)
   const bodyRef = useRef<Body>()
   const callback = useCallback(
     (body: Body) => {
@@ -81,7 +73,11 @@ export default function DestructableAsteroid(props: DestructableAsteroidProps) {
     // }
   }, [cameraPosition, destroyAsteroid, id])
   useTick(update)
-  const position = Vec2(x || initialPosition.x, y || initialPosition.y)
+
+  const position = Vec2(
+    x === undefined ? initialPosition.x : x,
+    y === undefined ? initialPosition.y : y
+  )
   // console.log(' > position:', position)
   return (
     <>
@@ -98,7 +94,7 @@ export default function DestructableAsteroid(props: DestructableAsteroidProps) {
         {textures && (
           <AnimatedSprite
             anchor={0.5}
-            textures={textures}
+            textures={textureValues}
             isPlaying={true}
             animationSpeed={0.01}
             scale={initialPosition.scale}

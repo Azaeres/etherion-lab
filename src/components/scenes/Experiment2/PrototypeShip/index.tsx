@@ -1,4 +1,3 @@
-import { Spritesheet, Texture } from 'pixi.js'
 import { useParallaxCameraRef } from 'pixi-react-parallax'
 import { Sprite, useTick } from '@pixi/react'
 import PlanckBody from '../PlanckBody'
@@ -17,6 +16,7 @@ import { radiansFromDegrees } from '../Button'
 import { emitPlayerAvatarSpeedUpdate } from './events'
 import prototypeShipJson from './assets/prototype_ship.json'
 import prototypeShipTexture from './assets/prototype_ship.webp'
+import useSpritesheetTextures from 'src/app/hooks/useSpritesheetTextures'
 
 export interface PrototypeShipProps {
   x?: number
@@ -193,22 +193,8 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   }, [actualHeading, desiredHeading])
   useTick(update)
 
-  const [sheet, setSheet] = useState<Spritesheet | null>(null)
-  // const [maskTexture, setMaskTexture] = useState<Texture | null>(null)
-  // const [maskSprite, setMaskSprite] = useState<Sprite | null>(null)
-  useEffect(() => {
-    ;(async () => {
-      const sheet = new Spritesheet(Texture.from(prototypeShipTexture.src), prototypeShipJson)
-      await sheet.parse()
-      // console.log('Spritesheet ready to use!', sheet)
-      setSheet(sheet)
-      // setMaskTexture(Texture.from(prototypeShipMask.src))
-    })()
-  }, [])
-
-  const texture = sheet?.textures['40 X 32 sprites_result-18.png']
-
-  // console.log(' > texture:', texture)
+  const textures = useSpritesheetTextures(prototypeShipTexture.src, prototypeShipJson)
+  const texture = textures && textures['40 X 32 sprites_result-18.png']
   return (
     <>
       <PlanckBody
