@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.21] - 2023-09-01
+
+### Fixed
+
+- Fix for bad TextureCache usage.
+
+---
+
 ## [1.0.20] - 2023-09-01
 
 ### Fixed
