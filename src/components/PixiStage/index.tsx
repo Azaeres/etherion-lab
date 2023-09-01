@@ -3,7 +3,6 @@ import { Container, Stage, withFilters } from '@pixi/react'
 import { PropsWithChildren, MouseEvent, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { PixelateFilter } from '@pixi/filter-pixelate'
-import DebugIndicator from '../DebugIndicator'
 import { NextNavigationContext } from 'src/app/hooks/useNextjsRouter'
 import { SceneId } from 'src/app/[scene]/scenes'
 import SceneSwitch from './SceneSwitch'
@@ -58,7 +57,6 @@ export default function PixiStage({ scene }: PropsWithChildren<Props>) {
           // }}
         >
           <SceneSwitch currentScene={scene} />
-          <DebugIndicator />
         </Filters>
       </NextNavigationContext.Provider>
     </Stage>

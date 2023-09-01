@@ -16,7 +16,8 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - [x] 1. Display ship speed.
 - [x] 1. Map ship sprite to physics body rotation.
 - [x] 1. Dpad (mobile) and Overlay (desktop) controls.
-- [ ] 1. <span style="color: green">Points of interest & ship sensors.</span>
+- [ ] 1. <span style="color: green">SpawnManager.</span>
+- [ ] 1. Points of interest & ship sensors.
 - [ ] 1. Basic ship weapon.
 - Lock-on selection.
 - Auto-generation of regions.

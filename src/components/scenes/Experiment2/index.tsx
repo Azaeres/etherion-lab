@@ -1,6 +1,6 @@
 'use client'
 import stars from '../Experiment1/assets/Stars-full.webp'
-import { Texture, Spritesheet } from 'pixi.js'
+import { Texture, Spritesheet, utils } from 'pixi.js'
 import { Sprite } from '@pixi/react-animated'
 import { OPTIONS } from 'src/components/PixiStage'
 import { useEffect, useMemo, useState } from 'react'
@@ -13,7 +13,9 @@ import ControlLayer from './ControlLayer'
 import asteroidsTexture from './assets/asteroids/asteroids.webp'
 import asteroidsJson from './assets/asteroids/asteroids.json'
 import { AnimatedSprite } from '@pixi/react'
-import DestructableAsteroid from './DestructableAsteroid'
+import AsteroidSpawnManager from './AsteroidSpawnManager'
+import { metersFromPx } from 'src/utils/physics'
+import DebugIndicator from 'src/components/DebugIndicator'
 
 const getRandomPosition = () => {
   return {
@@ -32,6 +34,7 @@ export default function Experiment2() {
   const logo4 = useMemo(getRandomPosition, [])
   const [textures, setTextures] = useState<Texture[] | null>(null)
   useEffect(() => {
+    utils.clearTextureCache()
     ;(async () => {
       const sheet = new Spritesheet(Texture.from(asteroidsTexture.src), asteroidsJson)
       await sheet.parse()
@@ -84,15 +87,8 @@ export default function Experiment2() {
             )}
           </ParallaxLayer>
           <ParallaxLayer zIndex={-500}>
-            <PrototypeShip x={2400} />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
-            <DestructableAsteroid />
+            <PrototypeShip x={metersFromPx(400)} />
+            <AsteroidSpawnManager />
             <Ground />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-300}>
@@ -123,6 +119,7 @@ export default function Experiment2() {
               />
             )}
           </ParallaxLayer>
+          <DebugIndicator />
         </ParallaxCameraProvider>
       </PlanckWorldProvider>
       <ControlLayer />

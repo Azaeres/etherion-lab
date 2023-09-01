@@ -17,6 +17,7 @@ import {
 import { Text } from '@pixi/react'
 import Button from '../Experiment2/Button'
 import Overlay from '../Experiment2/Overlay'
+import DebugIndicator from 'src/components/DebugIndicator'
 
 const set = (): AnimatedLogoProps => ({
   x: Math.random() * OPTIONS.width,
@@ -69,6 +70,7 @@ export default function Experiment1() {
           {/* Very close! */}
           <Logo {...logo4} />
         </ParallaxLayer>
+        <DebugIndicator />
       </ParallaxCameraProvider>
       <Text
         text="pixi-react-parallax"
