@@ -12,7 +12,7 @@ Run `yarn version` to bump the package version number.
 ```md
 ---
 
-## [1.0.0] - 2023-08-01
+## [1.0.0] - 2023-09-01
 
 ### Added
 
@@ -22,6 +22,14 @@ Run `yarn version` to bump the package version number.
 
 ### Removed
 ```
+
+---
+
+## [1.0.20] - 2023-09-01
+
+### Fixed
+
+- Fix for Pixi cache clear.
 
 ---
 
