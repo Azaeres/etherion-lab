@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.19] - 2023-09-01
+
+### Added
+
+- Added Asteroid Spawn Manager.
+
+---
+
 ## [1.0.18] - 2023-08-30
 
 ### Added
