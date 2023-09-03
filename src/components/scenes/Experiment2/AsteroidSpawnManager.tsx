@@ -1,59 +1,78 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { Vec2 } from 'planck'
 import { ParallaxCameraContext } from 'pixi-react-parallax'
-import DestructableAsteroid from './DestructableAsteroid'
+import Asteroid from './Asteroid'
 import { useTick } from '@pixi/react'
-import { metersFromPx } from 'src/utils/physics'
+import getUUID from 'src/app/utils/getUUID'
 
 export interface AsteroidSpawnManagerProps {
   // The count of asteroids to populate.
   density?: number
+  physical?: boolean
+  generationDistance?: number
+  cullingDistance?: number
 }
 
 type AsteroidConfig = {
   id: string
   x?: number
   y?: number
+  physical?: boolean
 }
 
-const GENERATION_DISTANCE = 50
-const DEFAULT_DENSITY = 40
+const GENERATION_DISTANCE = 5000
+const DEFAULT_DENSITY = 30
 
 export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
-  const { density = DEFAULT_DENSITY } = props
+  const {
+    density = DEFAULT_DENSITY,
+    physical = true,
+    generationDistance = GENERATION_DISTANCE,
+    cullingDistance,
+  } = props
   const camera = useContext(ParallaxCameraContext)
   const [cameraPosition, setCameraPosition] = useState<Vec2 | undefined>()
   useTick(() => {
     if (camera) {
-      const cameraPosition = new Vec2(metersFromPx(-camera.x), metersFromPx(camera.y))
-      setCameraPosition(cameraPosition)
+      // console.log('setting camera pos  > camera.x, camera.y:', camera.x, camera.y)
+      setCameraPosition(new Vec2(camera.x, camera.y))
     }
   })
+  // console.log(' > camera:', camera, cameraPosition)
   const [asteroids, setAsteroids] = useState<AsteroidConfig[]>([])
+  const [initialSetup, setInitialSetup] = useState(true)
   useEffect(() => {
+    if (!cameraPosition) return
+
+    // Populates the collection.
     const availableSlots = density - asteroids.length
     if (availableSlots > 0) {
       const newCollection = [...asteroids]
-      for (let index = 0; index < availableSlots; index++) {
-        // console.log(' > cameraPosition?.x:', cameraPosition?.x)
-        if (cameraPosition) {
-          // const cameraPosition = new Vec2(metersFromPx(-camera.x), metersFromPx(camera.y))
-          const randomPoint = getRandomPointOnGenerationBoundary(cameraPosition)
-          const asteroidConfig = getAsteroidConfig(randomPoint.x, randomPoint.y)
-          // console.log('spawning w cameraPosition  > asteroidConfig:', asteroidConfig)
+      if (initialSetup) {
+        // Initial setup.
+        for (let index = 0; index < availableSlots; index++) {
+          const asteroidConfig = getAsteroidConfig(physical)
           newCollection.push(asteroidConfig)
-        } else {
-          const asteroidConfig = getAsteroidConfig()
-          // console.log('spawning  > asteroidConfig:', asteroidConfig)
+        }
+        setInitialSetup(false)
+      } else {
+        for (let index = 0; index < availableSlots; index++) {
+          const randomPoint = getRandomPointOnGenerationBoundary(cameraPosition, generationDistance)
+          const asteroidConfig = getAsteroidConfig(
+            physical,
+            -randomPoint.x,
+            physical ? randomPoint.y : -randomPoint.y
+          )
           newCollection.push(asteroidConfig)
         }
       }
       setAsteroids(newCollection)
     }
-  }, [asteroids, density, cameraPosition?.x, cameraPosition?.y, cameraPosition])
+  }, [asteroids, cameraPosition, density, generationDistance, initialSetup, physical])
   // console.log(' > asteroids:', asteroids)
   const destroyAsteroid = useCallback(
     (id: string) => {
+      // console.log('destroying  > id:', id)
       // debugger
       const indexOfAsteroidToDestroy = asteroids.findIndex((asteroidConfig) => {
         return asteroidConfig.id === id
@@ -68,10 +87,13 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
     <>
       {asteroids.map((asteroidConfig) => {
         return (
-          <DestructableAsteroid
+          <Asteroid
             key={asteroidConfig.id}
             cameraPosition={cameraPosition}
-            destroyAsteroid={destroyAsteroid}
+            destroy={() => {
+              destroyAsteroid(asteroidConfig.id)
+            }}
+            cullingDistance={cullingDistance}
             {...asteroidConfig}
           />
         )
@@ -80,16 +102,20 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
   )
 }
 
-function getRandomPointOnGenerationBoundary(cameraPosition: Vec2) {
+function getRandomPointOnGenerationBoundary(cameraPosition: Vec2, generationDistance: number) {
+  // console.log(
+  //   'getRandomPointOnGenerationBoundary  > cameraPosition, generationDistance:',
+  //   cameraPosition,
+  //   generationDistance
+  // )
   const randomPoint = _randomPointNearRect(
-    cameraPosition.x - GENERATION_DISTANCE,
-    cameraPosition.y - GENERATION_DISTANCE,
-    GENERATION_DISTANCE * 2,
-    GENERATION_DISTANCE * 2,
+    cameraPosition.x - generationDistance,
+    cameraPosition.y - generationDistance,
+    generationDistance * 2,
+    generationDistance * 2,
     10,
     10
   )
-  // console.log(' > randomPoint:', randomPoint)
   return new Vec2(randomPoint.x, randomPoint.y)
 }
 
@@ -126,18 +152,11 @@ function _randomPointNearRect(
   }
 }
 
-function getAsteroidConfig(x?: number, y?: number): AsteroidConfig {
+function getAsteroidConfig(physical: boolean, x?: number, y?: number): AsteroidConfig {
   return {
     id: getUUID(),
     x,
     y,
+    physical,
   }
-}
-
-function getUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0
-    const v = c == 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
 }

@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.23] - 2023-09-03
+
+### Added
+
+- Gave AsteroidSpawnManager parallax support.
+
+---
+
 ## [1.0.22] - 2023-09-01
 
 ### Fixed

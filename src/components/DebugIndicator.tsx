@@ -5,7 +5,6 @@ import { useCallback, useContext, useState } from 'react'
 import useFpsMeasurement from 'src/app/hooks/useFpsMeasurement'
 import { styles } from 'src/utils/pixi-styles'
 import { Vec2 } from 'planck'
-import { metersFromPx } from 'src/utils/physics'
 
 export default function DebugIndicator() {
   const fps = useFpsMeasurement()
@@ -13,7 +12,7 @@ export default function DebugIndicator() {
   const [cameraPosition, setCameraPosition] = useState<Vec2 | undefined>()
   const update = useCallback(() => {
     if (camera) {
-      setCameraPosition(new Vec2(camera.x, camera.y))
+      setCameraPosition(new Vec2(camera.x, -camera.y))
     }
   }, [camera])
   useTick(update)
@@ -45,7 +44,7 @@ export default function DebugIndicator() {
 
 function getPositionString(position?: Vec2) {
   if (position) {
-    return `[${metersFromPx(position.x).toFixed(2)}, ${metersFromPx(position.y).toFixed(2)}]`
+    return `[${position.x.toFixed(2)}, ${position.y.toFixed(2)}]`
   } else {
     return ''
   }
