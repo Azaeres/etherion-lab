@@ -20,12 +20,12 @@ export default function Experiment2() {
       {/* <DebugWhiteScreen /> */}
       <PlanckWorldProvider gravityY={0}>
         <ParallaxCameraProvider movementDamping={2.0}>
-          <ParallaxLayer zIndex={-1550}>
+          <ParallaxLayer zIndex={-1250}>
             <AsteroidSpawnManager
               physical={false}
-              generationDistance={10000}
-              cullingDistance={12000}
-              density={40}
+              generationDistance={8000}
+              cullingDistance={9000}
+              density={8}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-800}>
@@ -33,7 +33,7 @@ export default function Experiment2() {
               physical={false}
               generationDistance={5000}
               cullingDistance={6000}
-              density={20}
+              density={8}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-500}>
@@ -41,6 +41,7 @@ export default function Experiment2() {
               generationDistance={5000}
               cullingDistance={6000}
               physical={true}
+              density={50}
             />
             <PrototypeShip x={metersFromPx(400)} />
             {/* <Ground /> */}
@@ -50,7 +51,7 @@ export default function Experiment2() {
               generationDistance={4000}
               cullingDistance={5000}
               physical={false}
-              density={10}
+              density={4}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={0}>
@@ -58,7 +59,7 @@ export default function Experiment2() {
               generationDistance={3000}
               cullingDistance={4000}
               physical={false}
-              density={5}
+              density={2}
             />
           </ParallaxLayer>
           <DebugIndicator />
