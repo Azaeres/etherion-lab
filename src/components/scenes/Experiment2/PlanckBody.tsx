@@ -11,7 +11,7 @@ import {
 import { PlanckWorldContext } from './PlanckWorldProvider'
 import { BodyDef, FixtureDef, Body } from 'planck'
 import { Container, useTick } from '@pixi/react'
-import { pxFromMeters } from 'src/utils/physics'
+import { Meters, Pixels, Vec2Meters, pxFromMeters } from 'src/utils/physics'
 import { Container as PixiContainer, DisplayObject } from 'pixi.js'
 import DebugDraw from './DebugDraw'
 
@@ -24,8 +24,8 @@ export interface PlanckBodyProps extends BodyDef {
 }
 
 interface ContainerConfig {
-  x: number
-  y: number
+  x: Meters
+  y: Meters
   rotation: number
 }
 
@@ -51,9 +51,9 @@ export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<Planck
         body && world?.destroyBody(body)
       }
     }, [body, fixtureDefs, world])
-    const [xPosition, setXPosition] = useState<number | void>()
-    const [yPosition, setYPosition] = useState<number | void>()
-    const [angle, setAngle] = useState<number | void>()
+    const [xPosition, setXPosition] = useState<Pixels>()
+    const [yPosition, setYPosition] = useState<Pixels>()
+    const [angle, setAngle] = useState<number>()
     const animatePhysics = useCallback(() => {
       if (body) {
         const bodyProperties = getCurrentBodyProperties(body)
@@ -100,11 +100,11 @@ export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<Planck
 )
 
 function getCurrentBodyProperties(body: Body): ContainerConfig {
-  const position = body?.getPosition()
+  const position = body?.getPosition() as Vec2Meters
   const angle = body?.getAngle()
   return {
     x: position?.x,
-    y: -position?.y,
+    y: -position?.y as Meters,
     rotation: angle,
   }
 }

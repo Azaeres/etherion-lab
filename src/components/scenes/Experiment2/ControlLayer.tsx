@@ -5,12 +5,20 @@ import { useCallback, useState } from 'react'
 import MobileView from './MobileView'
 import Overlay from './Overlay'
 import Button, { radiansFromDegrees } from './Button'
-import { emitMoveActivate, emitMoveDisengage, emitMoveEngage } from './Button/events'
+import {
+  emitMoveActivate,
+  emitMoveDisengage,
+  emitMoveEngage,
+  emitAttackActivate,
+  emitAttackDisengage,
+  emitAttackEngage,
+} from './Button/events'
 import DesktopView from './DesktopView'
 import { Container, Text } from '@pixi/react'
 import Dpad from './Dpad'
 import { styles } from 'src/utils/pixi-styles'
 import { usePlayerAvatarSpeedUpdateListener } from './PrototypeShip/events'
+import { Meters } from 'src/utils/physics'
 
 // The radius of the rounded corners.
 // This should be relatively high to form a circular button.
@@ -44,11 +52,17 @@ export default function ControlLayer() {
   const moveActivateAction = useCallback((event: FederatedPointerEvent) => {
     emitMoveActivate(event)
   }, [])
-  const [speed, setSpeed] = useState(0.0)
-  const updateSpeed = useCallback((newSpeed: number) => {
-    setSpeed(newSpeed)
+  const attackEngageAction = useCallback((event: FederatedPointerEvent) => {
+    emitAttackEngage(event)
   }, [])
-  usePlayerAvatarSpeedUpdateListener(updateSpeed)
+  const attackDisengageAction = useCallback((event: FederatedPointerEvent) => {
+    emitAttackDisengage(event)
+  }, [])
+  const attackActivateAction = useCallback((event: FederatedPointerEvent) => {
+    emitAttackActivate(event)
+  }, [])
+  const [speed, setSpeed] = useState(0.0 as Meters)
+  usePlayerAvatarSpeedUpdateListener(setSpeed)
   return (
     <>
       <Text
@@ -126,6 +140,9 @@ export default function ControlLayer() {
               alpha: 0.35,
             }}
             outlineStyle={actionButtonOutlineStyle}
+            onEngage={attackEngageAction}
+            onDisengage={attackDisengageAction}
+            onActivate={attackActivateAction}
           />
           <Button
             text="B"

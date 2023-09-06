@@ -1,11 +1,14 @@
 import { useParallaxCameraRef } from 'pixi-react-parallax'
 import { Sprite, useTick } from '@pixi/react'
 import PlanckBody from '../PlanckBody'
-import { Box, Body, Vec2 } from 'planck'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { metersFromPx, pxFromMeters } from 'src/utils/physics'
+import { Box, Body, Vec2, BodyDef } from 'planck'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Meters, Vec2Meters } from 'src/utils/physics'
 import { useOverlayClickListener } from '../Overlay/events'
 import {
+  useAttackActivateListener,
+  useAttackDisengageListener,
+  useAttackEngageListener,
   useMoveActivateListener,
   useMoveDisengageListener,
   useMoveEngageListener,
@@ -17,10 +20,11 @@ import { emitPlayerAvatarSpeedUpdate } from './events'
 import prototypeShipJson from './assets/prototype_ship.json'
 import prototypeShipTexture from './assets/prototype_ship.webp'
 import { useSpritesheetTextureMap } from 'src/app/hooks/useSpritesheetTextures'
+import BulletSpawnManager from './Bullet/BulletSpawnManager'
 
 export interface PrototypeShipProps {
-  x?: number
-  y?: number
+  x?: Meters
+  y?: Meters
   rotation?: number
   scale?: number
 }
@@ -36,6 +40,13 @@ const fixtures = [
 export default function PrototypeShip(props: PrototypeShipProps) {
   const [, setCameraTargetRef] = useParallaxCameraRef()
   const { x = 0, y = 0, rotation = radiansFromDegrees(-90) } = props
+  const bodyDef: BodyDef = useMemo(() => {
+    return {
+      type: 'dynamic',
+      position: Vec2(x, y),
+      angle: rotation,
+    }
+  }, [rotation, x, y])
   // const camera = useContext(ParallaxCameraContext)
   // const click = useCallback(() => {
   //   camera?.shake(40, 0.2)
@@ -49,8 +60,17 @@ export default function PrototypeShip(props: PrototypeShipProps) {
     },
     [bodyRef]
   )
+  const [isFiring, setIsFiring] = useState(false)
 
   const isKeyDown = useRef<boolean>(false)
+  const attackEventHandler = useCallback((event: KeyboardEvent | MouseEvent) => {
+    if (event.type === 'pointerdown') {
+      // console.log('PEW!!! :', event.type, event)
+      setIsFiring(true)
+    } else if (event.type === 'pointerup') {
+      setIsFiring(false)
+    }
+  }, [])
   const eventHandler = useCallback(
     (event: KeyboardEvent | MouseEvent /*, handler: HotkeysEvent */) => {
       // console.log('avatar rcvd > event.type:', event.type)
@@ -59,9 +79,8 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         return
       }
       if ('button' in event && event?.button === 2) {
-        // console.log(' > event.button:', event.button)
         // Secondary mouse button.
-        // Do nothing for now.
+        attackEventHandler(event)
         return
       }
       // console.log('eventHandler  > event.type:', event.type, event)
@@ -90,20 +109,28 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         isKeyDown.current = false
       }
     },
-    [desiredHeading]
+    [attackEventHandler, desiredHeading]
   )
   useOverlayClickListener(eventHandler)
   useMoveEngageListener(eventHandler)
   useMoveDisengageListener(eventHandler)
   useMoveActivateListener(eventHandler)
+  useAttackEngageListener(attackEventHandler)
+  useAttackDisengageListener(attackEventHandler)
+  useAttackActivateListener(attackEventHandler)
 
-  const [currentSpeed, setCurrentSpeed] = useState<number>(0.0)
+  const [currentPosition, setCurrentPosition] = useState(bodyDef.position as Vec2Meters)
+  const [currentVelocity, setCurrentVelocity] = useState<Vec2Meters>(
+    new Vec2(0.0, 0.0) as Vec2Meters
+  )
+  // const [currentSpeed, setCurrentSpeed] = useState<Meters>(0.0 as Meters)
   const [actualHeading, setActualHeading] = useState<number | undefined>(
     bodyRef.current?.getAngle()
   )
   useEffect(() => {
+    const currentSpeed = getSpeedFromVelocity(currentVelocity)
     emitPlayerAvatarSpeedUpdate(currentSpeed)
-  }, [currentSpeed])
+  }, [currentVelocity])
 
   const rotateBody = useCallback((vector: Vec2 | null) => {
     if (vector === null) {
@@ -135,10 +162,10 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   useHotkeys(' ', brake, { keyup: true, keydown: true })
 
   const update = useCallback(() => {
-    const velocity = bodyRef.current?.getLinearVelocity()
+    const velocity = bodyRef.current?.getLinearVelocity() as Vec2Meters
     if (velocity !== undefined) {
-      const speed = getSpeedFromVelocity(velocity)
-      setCurrentSpeed(speed)
+      // const speed = getSpeedFromVelocity(velocity)
+      setCurrentVelocity(velocity.clone() as Vec2Meters)
       if (isKeyDown.current) {
         const body = bodyRef.current
         if (desiredHeading === null) {
@@ -160,8 +187,11 @@ export default function PrototypeShip(props: PrototypeShipProps) {
     const _actualHeading = bodyRef.current?.getAngle()
     setActualHeading(_actualHeading)
 
+    const _position = bodyRef.current?.getPosition() as Vec2Meters
+    setCurrentPosition(_position)
+
     // https://www.iforce2d.net/b2dtut/rotate-to-angle
-    const actualHeadingVector = getVectorFromHeading(actualHeading)
+    const actualHeadingVector = actualHeading ? getVectorFromHeading(actualHeading) : null
     const desiredHeadingVector =
       (desiredHeading && new Vec2(desiredHeading.x, -desiredHeading.y)) || undefined
     const body = bodyRef.current
@@ -198,11 +228,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   return (
     <>
       <PlanckBody
-        bodyDef={{
-          type: 'dynamic',
-          position: Vec2(metersFromPx(x), metersFromPx(y)),
-          angle: rotation,
-        }}
+        bodyDef={bodyDef}
         fixtureDefs={fixtures}
         ref={setCameraTargetRef}
         // debugDraw={true}
@@ -221,6 +247,14 @@ export default function PrototypeShip(props: PrototypeShipProps) {
           />
         )}
       </PlanckBody>
+      {actualHeading && (
+        <BulletSpawnManager
+          sourcePosition={getBulletSpawnPoint(currentPosition, getVectorFromHeading(actualHeading))}
+          currentHeading={getVectorFromHeading(actualHeading)}
+          currentVelocity={currentVelocity}
+          isFiring={isFiring}
+        />
+      )}
       {/* <DesktopView>
         <DebugHeadingVector
           origin={
@@ -245,16 +279,20 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   )
 }
 
-function getSpeedFromVelocity(velocity: Vec2) {
-  return velocity.x * velocity.x + velocity.y * velocity.y
+function getBulletSpawnPoint(currentPosition: Vec2Meters, currentHeadingVector: Vec2Meters) {
+  // console.log('getBulletSpawnPoint > currentHeading:', currentHeadingVector)
+  return new Vec2(
+    currentPosition.x + currentHeadingVector.x * 1.2,
+    currentPosition.y - currentHeadingVector.y * 1.2
+  ) as Vec2Meters
 }
 
-function getVectorFromHeading(heading?: number) {
-  if (heading) {
-    return new Vec2(pxFromMeters(Math.cos(heading)), pxFromMeters(Math.sin(heading)))
-  } else {
-    return null
-  }
+export function getSpeedFromVelocity(velocity: Vec2Meters) {
+  return (velocity.x * velocity.x + velocity.y * velocity.y) as Meters
+}
+
+function getVectorFromHeading(heading: number) {
+  return new Vec2(Math.cos(heading), Math.sin(heading)) as Vec2Meters
 }
 
 // function getAngleFromHeading(x: number, y: number) {

@@ -9,7 +9,7 @@ import PlanckWorldProvider from './PlanckWorldProvider'
 // import { Box, Vec2 } from 'planck'
 import ControlLayer from './ControlLayer'
 import AsteroidSpawnManager from './AsteroidSpawnManager'
-import { metersFromPx } from 'src/utils/physics'
+import { Pixels, metersFromPx } from 'src/utils/physics'
 import DebugIndicator from 'src/components/DebugIndicator'
 
 export default function Experiment2() {
@@ -25,7 +25,7 @@ export default function Experiment2() {
               physical={false}
               generationDistance={8000}
               cullingDistance={9000}
-              density={8}
+              density={12}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-800}>
@@ -43,7 +43,7 @@ export default function Experiment2() {
               physical={true}
               density={50}
             />
-            <PrototypeShip x={metersFromPx(400)} />
+            <PrototypeShip x={metersFromPx(400 as Pixels)} />
             {/* <Ground /> */}
           </ParallaxLayer>
           <ParallaxLayer zIndex={-300}>
@@ -51,15 +51,15 @@ export default function Experiment2() {
               generationDistance={4000}
               cullingDistance={5000}
               physical={false}
-              density={4}
+              density={8}
             />
           </ParallaxLayer>
-          <ParallaxLayer zIndex={0}>
+          <ParallaxLayer zIndex={-1}>
             <AsteroidSpawnManager
               generationDistance={3000}
               cullingDistance={4000}
               physical={false}
-              density={2}
+              density={4}
             />
           </ParallaxLayer>
           <DebugIndicator />

@@ -5,12 +5,19 @@ import { AnimatedSprite, Sprite, useTick } from '@pixi/react'
 import { OPTIONS } from 'src/components/PixiStage'
 import PlanckBody from '../PlanckBody'
 import { Box, Vec2, Body, BodyDef } from 'planck'
-import { metersFromPx, pxFromMeters } from 'src/utils/physics'
+import {
+  Meters,
+  Pixels,
+  Vec2Meters,
+  Vec2Pixels,
+  metersFromPx,
+  pxFromMeters,
+} from 'src/utils/physics'
 import useSpritesheetTextures from 'src/app/hooks/useSpritesheetTextures'
 import { AnimatedSprite as PixiAnimatedSprite } from 'pixi.js'
 
 type AsteroidConfig = {
-  position: Vec2
+  position: Vec2Pixels
   rotation: number
   initialFrame: number
   scale: number
@@ -20,11 +27,11 @@ const CULLING_DISTANCE = 6000
 const ASTEROID_TINT = '#666'
 
 export interface DestructableAsteroidProps extends ComponentProps<typeof Sprite> {
-  cameraPosition?: Vec2
+  cameraPosition?: Vec2Pixels
   destroy?: () => void
   id?: string
-  x?: number
-  y?: number
+  x?: Pixels
+  y?: Pixels
   physical?: boolean
   cullingDistance?: number
 }
@@ -35,7 +42,7 @@ export default function Asteroid(props: DestructableAsteroidProps) {
     const position = new Vec2(
       x === undefined ? Math.random() * OPTIONS.width * 3 - OPTIONS.width : x,
       y === undefined ? Math.random() * OPTIONS.height * 3 - OPTIONS.height : y
-    )
+    ) as Vec2Pixels
     return {
       position,
       rotation: Math.random() * 2 * Math.PI,
@@ -47,14 +54,19 @@ export default function Asteroid(props: DestructableAsteroidProps) {
   const bodyRef = useRef<Body>()
   const spriteRef = useRef<PixiAnimatedSprite>()
   const update = useCallback(() => {
-    const pxPosition: Vec2 | undefined = (() => {
+    const pxPosition: Vec2Pixels | undefined = (() => {
       if (physical) {
-        const metersPosition = bodyRef.current?.getPosition()
+        const metersPosition: Vec2Meters | undefined = bodyRef.current?.getPosition() as Vec2Meters
         return metersPosition
-          ? new Vec2(pxFromMeters(-metersPosition.x), pxFromMeters(metersPosition.y))
+          ? (new Vec2(
+              pxFromMeters(-metersPosition.x as Meters),
+              pxFromMeters(metersPosition.y)
+            ) as Vec2Pixels)
           : undefined
       } else {
-        return spriteRef.current ? new Vec2(-spriteRef.current.x, -spriteRef.current.y) : undefined
+        return spriteRef.current
+          ? (new Vec2(-spriteRef.current.x, -spriteRef.current.y) as Vec2Pixels)
+          : undefined
       }
     })()
     // console.log(' > pxPosition:', pxPosition)

@@ -9,3 +9,12 @@ export const { emitMoveDisengage, useMoveDisengageListener } =
 
 export const { emitMoveActivate, useMoveActivateListener } =
   createEvent('moveActivate')<FederatedPointerEvent>()
+
+export const { emitAttackEngage, useAttackEngageListener } =
+  createEvent('attackEngage')<FederatedPointerEvent>()
+
+export const { emitAttackDisengage, useAttackDisengageListener } =
+  createEvent('attackDisengage')<FederatedPointerEvent>()
+
+export const { emitAttackActivate, useAttackActivateListener } =
+  createEvent('attackActivate')<FederatedPointerEvent>()

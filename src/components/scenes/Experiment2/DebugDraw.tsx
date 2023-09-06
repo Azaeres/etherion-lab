@@ -1,7 +1,7 @@
 import { Graphics } from '@pixi/react'
 import { Graphics as PixiGraphics } from 'pixi.js'
-import { Body, Fixture, Vec2 } from 'planck'
-import { pxFromMeters } from 'src/utils/physics'
+import { Body, Fixture } from 'planck'
+import { Pixels, Vec2Meters, pxFromMeters } from 'src/utils/physics'
 
 const fill = 0x000000
 const lineColor = 0xffffff
@@ -31,7 +31,7 @@ export default function DebugDraw(props: DebugDrawProps) {
 }
 
 function pixiPolygonsFromPhysicsBody(body?: Body) {
-  const pixiPolygons = [] as number[][]
+  const pixiPolygons = [] as Pixels[][]
   let currentFixture = body?.getFixtureList()
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -49,12 +49,12 @@ function pixiPolygonsFromPhysicsBody(body?: Body) {
 function pixiPolygonFromFixture(fixture: Fixture) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const shape = fixture.getShape() as any
-  const vertexList = shape.m_vertices as Vec2[]
+  const vertexList = shape.m_vertices as Vec2Meters[]
 
-  const pixiPolygonArray = [] as number[]
+  const pixiPolygonArray = [] as Pixels[]
   vertexList.forEach((currentVertex) => {
     const xPx = pxFromMeters(currentVertex.x)
-    const yPx = -pxFromMeters(currentVertex.y)
+    const yPx = -pxFromMeters(currentVertex.y) as Pixels
     pixiPolygonArray.push(xPx, yPx)
   })
 

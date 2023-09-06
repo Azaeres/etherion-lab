@@ -4,6 +4,7 @@ import { ParallaxCameraContext } from 'pixi-react-parallax'
 import Asteroid from './Asteroid'
 import { useTick } from '@pixi/react'
 import getUUID from 'src/app/utils/getUUID'
+import { Pixels, Vec2Pixels } from 'src/utils/physics'
 
 export interface AsteroidSpawnManagerProps {
   // The count of asteroids to populate.
@@ -15,8 +16,8 @@ export interface AsteroidSpawnManagerProps {
 
 type AsteroidConfig = {
   id: string
-  x?: number
-  y?: number
+  x?: Pixels
+  y?: Pixels
   physical?: boolean
 }
 
@@ -31,11 +32,11 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
     cullingDistance,
   } = props
   const camera = useContext(ParallaxCameraContext)
-  const [cameraPosition, setCameraPosition] = useState<Vec2 | undefined>()
+  const [cameraPosition, setCameraPosition] = useState<Vec2Pixels>()
   useTick(() => {
     if (camera) {
       // console.log('setting camera pos  > camera.x, camera.y:', camera.x, camera.y)
-      setCameraPosition(new Vec2(camera.x, camera.y))
+      setCameraPosition(new Vec2(camera.x, camera.y) as Vec2Pixels)
     }
   })
   // console.log(' > camera:', camera, cameraPosition)
@@ -57,11 +58,14 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
         setInitialSetup(false)
       } else {
         for (let index = 0; index < availableSlots; index++) {
-          const randomPoint = getRandomPointOnGenerationBoundary(cameraPosition, generationDistance)
+          const randomPoint = getRandomPointOnGenerationBoundary(
+            cameraPosition,
+            generationDistance as Pixels
+          )
           const asteroidConfig = getAsteroidConfig(
             physical,
-            -randomPoint.x,
-            physical ? randomPoint.y : -randomPoint.y
+            -randomPoint.x as Pixels,
+            physical ? randomPoint.y : (-randomPoint.y as Pixels)
           )
           newCollection.push(asteroidConfig)
         }
@@ -102,7 +106,10 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
   )
 }
 
-function getRandomPointOnGenerationBoundary(cameraPosition: Vec2, generationDistance: number) {
+function getRandomPointOnGenerationBoundary(
+  cameraPosition: Vec2Pixels,
+  generationDistance: Pixels
+) {
   // console.log(
   //   'getRandomPointOnGenerationBoundary  > cameraPosition, generationDistance:',
   //   cameraPosition,
@@ -116,7 +123,7 @@ function getRandomPointOnGenerationBoundary(cameraPosition: Vec2, generationDist
     10,
     10
   )
-  return new Vec2(randomPoint.x, randomPoint.y)
+  return new Vec2(randomPoint.x, randomPoint.y) as Vec2Pixels
 }
 
 // The arguments x,y top left inside edge of rectangle, w,h inside width
@@ -152,7 +159,7 @@ function _randomPointNearRect(
   }
 }
 
-function getAsteroidConfig(physical: boolean, x?: number, y?: number): AsteroidConfig {
+function getAsteroidConfig(physical: boolean, x?: Pixels, y?: Pixels): AsteroidConfig {
   return {
     id: getUUID(),
     x,

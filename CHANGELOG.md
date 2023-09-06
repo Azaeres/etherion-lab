@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.25] - 2023-09-06
+
+### Added
+
+- Nominal types; basic ship weapons.
+
+---
+
 ## [1.0.24] - 2023-09-03
 
 ### Changed
