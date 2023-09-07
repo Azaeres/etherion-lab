@@ -84,10 +84,13 @@ function CameraObserver() {
         metersFromPx(camera.x as Pixels),
         metersFromPx(-camera.y as Pixels)
       ) as Vec2Meters
+      // console.log(' > camera.x, cameraPosition.x:', delta, camera.x, cameraPosition.x)
       if (lastCameraPosition) {
-        const velocity = cameraPosition.clone()
+        const velocity = cameraPosition.clone() as Vec2Meters
         velocity.sub(lastCameraPosition)
-        emitCameraVelocityUpdate(velocity as Vec2Meters)
+        // console.log('camera  > velocity:', velocity.x)
+        velocity.mul(60.0)
+        emitCameraVelocityUpdate(velocity)
       }
       setLastCameraPosition(cameraPosition)
       emitCameraPositionUpdate(cameraPosition)
