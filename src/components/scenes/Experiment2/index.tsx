@@ -80,7 +80,10 @@ function CameraObserver() {
   const [lastCameraPosition, setLastCameraPosition] = useState<Vec2Meters>()
   const update = useCallback(() => {
     if (camera) {
-      const cameraPosition = new Vec2(camera.x, -camera.y) as Vec2Meters
+      const cameraPosition = new Vec2(
+        metersFromPx(camera.x as Pixels),
+        metersFromPx(-camera.y as Pixels)
+      ) as Vec2Meters
       if (lastCameraPosition) {
         const velocity = cameraPosition.clone()
         velocity.sub(lastCameraPosition)
