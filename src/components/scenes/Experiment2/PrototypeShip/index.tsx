@@ -100,8 +100,8 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         } else {
           // Boost
           // console.log('Boost! :')
-          const vector = new Vec2(desiredHeading.x, desiredHeading.y)
-          vector.normalize()
+          const vector = desiredHeading.clone() as Vec2Meters
+          vector.mul(0.1)
           body?.applyLinearImpulse(vector, body.getPosition())
         }
       }
@@ -163,6 +163,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
     const velocity = bodyRef.current?.getLinearVelocity() as Vec2Meters
     if (velocity !== undefined) {
       // Cap the ship speed.
+      // https://stackoverflow.com/questions/12504534/how-to-enforce-a-maximum-speed-for-a-specific-body-in-libgdx-box2d/12511152
       // const speed = Math.sqrt(getSpeedFromVelocity(velocity))
       // if (speed >= Math.sqrt(5000)) {
       //   const velocityClone = velocity.clone()
@@ -170,9 +171,17 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       //   velocityClone.mul(Math.sqrt(5000))
       //   bodyRef.current?.setLinearVelocity(velocityClone)
       // }
+      const body = bodyRef.current
+      const speed = getSpeedFromVelocity(velocity)
+      if (speed >= 90) {
+        const environmentFriction = velocity.clone()
+        environmentFriction.neg()
+        environmentFriction.mul(1.05)
+        body?.applyForce(environmentFriction, body.getPosition())
+      }
+
       setCurrentVelocity(velocity.clone() as Vec2Meters)
       if (isKeyDown.current) {
-        const body = bodyRef.current
         if (desiredHeading === null) {
           // Steady brake
           // console.log('Applying steady brake  :')
@@ -230,6 +239,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
 
   const textures = useSpritesheetTextureMap(prototypeShipTexture.src, prototypeShipJson)
   const texture = textures && textures['40 X 32 sprites_result-18.png']
+  // console.log('ship  > currentVelocity.x:', currentVelocity.x)
   // const speed = getSpeedFromVelocity(currentVelocity)
   // const normalizedVelocity = currentVelocity.clone() as Vec2Meters
   // normalizedVelocity.normalize()
@@ -259,7 +269,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       {/* {actualHeading && (
         <DebugDrawVector
           origin={currentPosition}
-          trackingVector={getVectorFromHeading(actualHeading)}
+          trackingVector={desiredHeading as Vec2Meters}
           color="green"
           // scale={10}
         />

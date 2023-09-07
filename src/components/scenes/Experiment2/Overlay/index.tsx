@@ -20,8 +20,7 @@ export default function Overlay(props: OverlayProps) {
   const trackMouse = useCallback((event: FederatedPointerEvent) => {
     const mousePoint = new Vec2(event.globalX, event.globalY)
     const vector = mousePoint.sub(centerPoint)
-    vector.normalize()
-    vector.mul(400)
+    vector.mul(0.5)
     emitDPadVectorUpdate(vector)
   }, [])
   const draw = useCallback((g: PixiGraphics) => {
