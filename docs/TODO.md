@@ -16,12 +16,13 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - [x] 1. Display ship speed.
 - [x] 1. Map ship sprite to physics body rotation.
 - [x] 1. Dpad (mobile) and Overlay (desktop) controls.
-- [ ] 1. SpawnManager.
-- [ ] 1. <span style="color: green">Points of interest & ship sensors.</span>
+- [x] 1. SpawnManager.
+- Points of interest & ship sensors.
 - [x] 1. Basic ship weapon.
 - Lock-on selection.
 - Auto-generation of regions.
-- Travel particles.
+- [ ] <span style="color: green">Travel particles.</span>
+- Stellar backgrounds, nebulas, sparkling stars within gas & dust.
 - Spine.js animations?
 - [x] 1. Create button component
 - [x] 1. Planck/Box2D physics animations
@@ -31,7 +32,7 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - 2. Private multiplayer (stub)
 - 3. Etherion store app
 - 3. Premium Pass
-- WebGL shaders (plasma glow & light distortion effects).
+- WebGL shaders (plasma glow & light distortion effects?).
 - Object normal maps and point lighting.
 - Content generation workflow
 - [x] Why do mobile browsers crash on navigation?

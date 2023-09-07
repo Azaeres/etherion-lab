@@ -5,12 +5,16 @@ import { Sprite } from '@pixi/react-animated'
 import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
 import PrototypeShip from './PrototypeShip'
 import PlanckWorldProvider from './PlanckWorldProvider'
-// import PlanckBody from './PlanckBody'
-// import { Box, Vec2 } from 'planck'
 import ControlLayer from './ControlLayer'
 import AsteroidSpawnManager from './AsteroidSpawnManager'
 import { Pixels, metersFromPx } from 'src/utils/physics'
 import DebugIndicator from 'src/components/DebugIndicator'
+import { ParallaxCameraContext } from 'pixi-react-parallax'
+import { useTick } from '@pixi/react'
+import { useCallback, useContext, useState } from 'react'
+import { Vec2 } from 'planck'
+import { Vec2Meters } from 'src/utils/physics'
+import { emitCameraPositionUpdate, emitCameraVelocityUpdate } from './events'
 
 export default function Experiment2() {
   // gravity: -80
@@ -62,12 +66,32 @@ export default function Experiment2() {
               density={4}
             />
           </ParallaxLayer>
+          <CameraObserver />
           <DebugIndicator />
         </ParallaxCameraProvider>
       </PlanckWorldProvider>
       <ControlLayer />
     </>
   )
+}
+
+function CameraObserver() {
+  const camera = useContext(ParallaxCameraContext)
+  const [lastCameraPosition, setLastCameraPosition] = useState<Vec2Meters>()
+  const update = useCallback(() => {
+    if (camera) {
+      const cameraPosition = new Vec2(camera.x, -camera.y) as Vec2Meters
+      if (lastCameraPosition) {
+        const velocity = cameraPosition.clone()
+        velocity.sub(lastCameraPosition)
+        emitCameraVelocityUpdate(velocity as Vec2Meters)
+      }
+      setLastCameraPosition(cameraPosition)
+      emitCameraPositionUpdate(cameraPosition)
+    }
+  }, [camera, lastCameraPosition])
+  useTick(update)
+  return null
 }
 
 // const groundFixtures = [

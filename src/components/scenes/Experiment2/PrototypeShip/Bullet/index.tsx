@@ -2,26 +2,33 @@ import { Graphics, useTick } from '@pixi/react'
 import PlanckBody from '../../PlanckBody'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Graphics as PixiGraphics } from 'pixi.js'
-import { Vec2, Body, BodyDef, Box } from 'planck'
+import { Body, BodyDef, Box } from 'planck'
 import { Vec2Meters } from 'src/utils/physics'
+import { useCameraVelocityUpdateListener } from '../../events'
 
 export interface BulletProps {
+  id: string
   initialPosition: Vec2Meters
   initialVelocity: Vec2Meters
   destroy?: () => void
 }
 
 export default function Bullet(props: BulletProps) {
-  const { initialPosition, initialVelocity, destroy } = props
+  const { id, initialPosition, initialVelocity, destroy } = props
   const bodyDef = useMemo<BodyDef>(() => {
-    const position = new Vec2(initialPosition.x, initialPosition.y)
     return {
       type: 'dynamic',
-      position,
-      linearVelocity: initialVelocity,
+      position: initialPosition.clone(),
+      linearVelocity: initialVelocity.clone(),
       bullet: true,
+      fixedRotation: true,
+      userData: {
+        id,
+        initialPosition,
+        initialVelocity,
+      },
     } as const
-  }, [])
+  }, [id, initialPosition, initialVelocity])
   const fixtures = useMemo(() => {
     return [
       {
@@ -39,7 +46,6 @@ export default function Bullet(props: BulletProps) {
     [bodyRef]
   )
   useEffect(() => {
-    // console.log('Bullet useEffect CREATING TIMER  :')
     setTimeout(() => {
       // console.log('useEffect setTimeout TIMER FIRED! :')
       // debugger
@@ -64,27 +70,42 @@ interface BulletGraphicProps {
 
 function BulletGraphic(props: BulletGraphicProps) {
   const { physicsBody } = props
+  // const [bulletPosition, setBulletPosition] = useState<Vec2Meters>()
   const [bulletVelocity, setBulletVelocity] = useState<Vec2Meters>()
   const update = useCallback(() => {
     if (physicsBody) {
+      // const position = physicsBody.getPosition() as Vec2Meters
+      // setBulletPosition(position.clone() as Vec2Meters)
       const velocity = physicsBody.getLinearVelocity() as Vec2Meters
-      setBulletVelocity(new Vec2(velocity.x, velocity.y) as Vec2Meters)
+      setBulletVelocity(velocity.clone() as Vec2Meters)
     }
   }, [physicsBody])
   useTick(update)
+  // const userData = physicsBody?.getUserData()
+  // console.log('Bullet > :', userData, bulletPosition, bulletVelocity)
+  // We simulate a motion blur effect by factoring in the camera's velocity.
+  const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
+  useCameraVelocityUpdateListener(setCameraVelocity)
   const drawBullet = useCallback(
     (g: PixiGraphics) => {
       g.clear()
-      if (bulletVelocity) {
+      if (bulletVelocity && cameraVelocity) {
         const velocityVector = bulletVelocity.clone()
+        velocityVector.mul(1.5)
+
+        // const bulletSize = 40
+        // g.beginFill('#fff', 1)
+        // g.drawRoundedRect(0, 0, bulletSize, bulletSize, bulletSize)
+        // g.endFill()
+
         g.beginFill('#fff', 1.0)
-        g.lineStyle(18, '#fff', 1)
+        g.lineStyle(12, '#fff', 1)
         g.moveTo(0, 0)
-        g.lineTo(velocityVector.x, -velocityVector.y)
+        g.lineTo(-(velocityVector.x + cameraVelocity.x), -(-velocityVector.y - cameraVelocity.y))
         g.endFill()
       }
     },
-    [bulletVelocity]
+    [bulletVelocity, cameraVelocity]
   )
   return <Graphics draw={drawBullet} anchor={0.5} />
 }

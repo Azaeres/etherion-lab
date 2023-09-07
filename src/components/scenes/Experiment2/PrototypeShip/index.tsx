@@ -120,9 +120,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   useAttackActivateListener(attackEventHandler)
 
   const [currentPosition, setCurrentPosition] = useState(bodyDef.position as Vec2Meters)
-  const [currentVelocity, setCurrentVelocity] = useState<Vec2Meters>(
-    new Vec2(0.0, 0.0) as Vec2Meters
-  )
+  const [currentVelocity, setCurrentVelocity] = useState<Vec2Meters>(Vec2.zero() as Vec2Meters)
   // const [currentSpeed, setCurrentSpeed] = useState<Meters>(0.0 as Meters)
   const [actualHeading, setActualHeading] = useState<number | undefined>(
     bodyRef.current?.getAngle()
@@ -164,7 +162,14 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   const update = useCallback(() => {
     const velocity = bodyRef.current?.getLinearVelocity() as Vec2Meters
     if (velocity !== undefined) {
-      // const speed = getSpeedFromVelocity(velocity)
+      // Cap the ship speed.
+      // const speed = Math.sqrt(getSpeedFromVelocity(velocity))
+      // if (speed >= Math.sqrt(5000)) {
+      //   const velocityClone = velocity.clone()
+      //   velocityClone.normalize()
+      //   velocityClone.mul(Math.sqrt(5000))
+      //   bodyRef.current?.setLinearVelocity(velocityClone)
+      // }
       setCurrentVelocity(velocity.clone() as Vec2Meters)
       if (isKeyDown.current) {
         const body = bodyRef.current
@@ -188,7 +193,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
     setActualHeading(_actualHeading)
 
     const _position = bodyRef.current?.getPosition() as Vec2Meters
-    setCurrentPosition(_position)
+    setCurrentPosition(_position.clone() as Vec2Meters)
 
     // https://www.iforce2d.net/b2dtut/rotate-to-angle
     const actualHeadingVector = actualHeading ? getVectorFromHeading(actualHeading) : null
@@ -210,7 +215,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       angularVelocity !== undefined &&
       inertia !== undefined
     ) {
-      const actualHeadingAngle = Math.atan2(actualHeadingVector.y, actualHeadingVector.x)
+      const actualHeadingAngle = Math.atan2(-actualHeadingVector.y, actualHeadingVector.x)
       const desiredHeadingAngle = Math.atan2(desiredHeadingVector.y, desiredHeadingVector.x)
       const nextAngle = actualHeadingAngle + angularVelocity / 6
       let totalRotation = desiredHeadingAngle - nextAngle
@@ -225,13 +230,17 @@ export default function PrototypeShip(props: PrototypeShipProps) {
 
   const textures = useSpritesheetTextureMap(prototypeShipTexture.src, prototypeShipJson)
   const texture = textures && textures['40 X 32 sprites_result-18.png']
+  // const speed = getSpeedFromVelocity(currentVelocity)
+  // const normalizedVelocity = currentVelocity.clone() as Vec2Meters
+  // normalizedVelocity.normalize()
+  // normalizedVelocity.mul(speed * 0.02)
   return (
     <>
       <PlanckBody
         bodyDef={bodyDef}
         fixtureDefs={fixtures}
         ref={setCameraTargetRef}
-        // debugDraw={true}
+        debugDraw={false}
         bodyCallback={callback}
       >
         {texture && (
@@ -247,10 +256,18 @@ export default function PrototypeShip(props: PrototypeShipProps) {
           />
         )}
       </PlanckBody>
+      {/* {actualHeading && (
+        <DebugDrawVector
+          origin={currentPosition}
+          trackingVector={getVectorFromHeading(actualHeading)}
+          color="green"
+          // scale={10}
+        />
+      )} */}
       {actualHeading && (
         <BulletSpawnManager
-          sourcePosition={getBulletSpawnPoint(currentPosition, getVectorFromHeading(actualHeading))}
-          currentHeading={getVectorFromHeading(actualHeading)}
+          gunPosition={getGunPosition(currentPosition, actualHeading)}
+          gunVector={getVectorFromHeading(actualHeading)}
           currentVelocity={currentVelocity}
           isFiring={isFiring}
         />
@@ -279,20 +296,21 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   )
 }
 
-function getBulletSpawnPoint(currentPosition: Vec2Meters, currentHeadingVector: Vec2Meters) {
-  // console.log('getBulletSpawnPoint > currentHeading:', currentHeadingVector)
-  return new Vec2(
-    currentPosition.x + currentHeadingVector.x * 1.2,
-    currentPosition.y - currentHeadingVector.y * 1.2
-  ) as Vec2Meters
+function getGunPosition(currentPosition: Vec2Meters, actualHeading: number) {
+  const headingVector = getVectorFromHeading(actualHeading)
+  const position = new Vec2(
+    currentPosition.x + headingVector.x * 1.6,
+    currentPosition.y + headingVector.y * 1.6
+  )
+  return position as Vec2Meters
 }
 
 export function getSpeedFromVelocity(velocity: Vec2Meters) {
-  return (velocity.x * velocity.x + velocity.y * velocity.y) as Meters
+  return Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y) as Meters
 }
 
-function getVectorFromHeading(heading: number) {
-  return new Vec2(Math.cos(heading), Math.sin(heading)) as Vec2Meters
+export function getVectorFromHeading(heading: number) {
+  return new Vec2(Math.cos(heading), -Math.sin(heading)) as Vec2Meters
 }
 
 // function getAngleFromHeading(x: number, y: number) {

@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.26] - 2023-09-07
+
+### Fixed
+
+- Ship weapons fixes and cleanup.
+
+---
+
 ## [1.0.25] - 2023-09-06
 
 ### Added
