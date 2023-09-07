@@ -25,6 +25,15 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.27] - 2023-09-07
+
+### Fixed
+
+- Camera velocity.
+- Ship boosting and control at slow speeds.
+
+---
+
 ## [1.0.26] - 2023-09-07
 
 ### Fixed
