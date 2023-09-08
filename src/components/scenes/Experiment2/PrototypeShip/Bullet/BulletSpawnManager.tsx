@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import getUUID from 'src/app/utils/getUUID'
 import memoize from 'nano-memoize'
 import { useInterval } from 'react-interval-hook'
+// import DebugDrawVector from '../../DebugDrawVector'
 
 type BulletConfig = {
   id: string
@@ -20,9 +21,6 @@ export interface BulletSpawnManagerProps {
 }
 export default function BulletSpawnManager(props: BulletSpawnManagerProps) {
   const { gunPosition, gunVector, currentVelocity, isFiring } = props
-  const _gunVector = gunVector.clone()
-  _gunVector.mul(BULLET_VELOCITY_SCALAR)
-  _gunVector.add(currentVelocity)
   const bulletsRef = useRef<BulletConfig[]>([])
   const spawnBullet = useCallback(() => {
     bulletsRef.current.push({ id: getUUID() })
@@ -77,7 +75,7 @@ export default function BulletSpawnManager(props: BulletSpawnManagerProps) {
   }, [])
   return (
     <>
-      {/* <DebugDrawVector origin={gunPosition} trackingVector={gunVector} color="red" /> */}
+      {/* <DebugDrawVector origin={gunPosition} trackingVector={currentVelocity} color="red" /> */}
       {bulletsRef.current.map((bulletConfig) => {
         const _gunVector = gunVector.clone()
         _gunVector.mul(BULLET_VELOCITY_SCALAR)

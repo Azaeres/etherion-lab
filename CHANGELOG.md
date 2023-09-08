@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.1.0] - 2023-09-08
+
+### Added
+
+- `useCollisionCallback` hook.
+
+---
+
 ## [1.0.29] - 2023-09-08
 
 ### Fixed

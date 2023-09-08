@@ -1,8 +1,8 @@
-import { useParallaxCameraRef } from 'pixi-react-parallax'
+import { ParallaxCameraContext, useParallaxCameraRef } from 'pixi-react-parallax'
 import { Sprite, useTick } from '@pixi/react'
 import PlanckBody from '../PlanckBody'
-import { Box, Body, Vec2, BodyDef } from 'planck'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Box, Body, Vec2, BodyDef, Contact } from 'planck'
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Meters, Vec2Meters } from 'src/utils/physics'
 import { useOverlayClickListener } from '../Overlay/events'
 import {
@@ -21,6 +21,9 @@ import prototypeShipJson from './assets/prototype_ship.json'
 import prototypeShipTexture from './assets/prototype_ship.webp'
 import { useSpritesheetTextureMap } from 'src/app/hooks/useSpritesheetTextures'
 import BulletSpawnManager from './Bullet/BulletSpawnManager'
+import useCollisionCallback from 'src/app/hooks/useCollisionCallback'
+import { useThrottledCallback } from 'use-debounce'
+// import DebugDrawVector from '../DebugDrawVector'
 
 export interface PrototypeShipProps {
   x?: Meters
@@ -47,7 +50,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       angle: rotation,
     }
   }, [rotation, x, y])
-  // const camera = useContext(ParallaxCameraContext)
+  const camera = useContext(ParallaxCameraContext)
   // const click = useCallback(() => {
   //   camera?.shake(40, 0.2)
   // }, [camera])
@@ -185,12 +188,12 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       if (speed >= 90) {
         const environmentFriction = velocity.clone()
         environmentFriction.neg()
-        environmentFriction.mul(1.05)
+        environmentFriction.mul(1.6)
         body?.applyForce(environmentFriction, body.getPosition())
       }
 
       // Sync physics-engine-sourced velocity with component state.
-      setCurrentVelocity(velocity.clone() as Vec2Meters)
+      setCurrentVelocity(new Vec2(velocity.x, -velocity.y) as Vec2Meters)
 
       // Handle the mobile interface button for accelerating (directional motion)
       // and for braking (non-directional motion).
@@ -205,7 +208,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         } else {
           // Accelerate
           // console.log('Accelerating  :')
-          const forceVector = new Vec2(desiredHeading.x, -desiredHeading.y).mul(1 / 4)
+          const forceVector = new Vec2(desiredHeading.x, -desiredHeading.y).mul(1 / 2)
           body?.applyForce(forceVector, body.getPosition())
         }
       }
@@ -264,6 +267,19 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   // const normalizedVelocity = currentVelocity.clone() as Vec2Meters
   // normalizedVelocity.normalize()
   // normalizedVelocity.mul(speed * 0.02)
+
+  const shake = useThrottledCallback((strength: number) => {
+    let _strength = strength
+    _strength = _strength >= 80 ? 80 : _strength
+    camera?.shake(_strength, 0.5)
+  }, 500)
+  const collisionCallback = useCallback(
+    (contact: Contact, strength: number) => {
+      shake(strength)
+    },
+    [shake]
+  )
+  useCollisionCallback(collisionCallback, bodyRef.current)
   return (
     <>
       <PlanckBody
@@ -289,7 +305,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       {/* {actualHeading && (
         <DebugDrawVector
           origin={getGunPosition(currentPosition, actualHeading)}
-          trackingVector={getVectorFromHeading(actualHeading) as Vec2Meters}
+          trackingVector={currentVelocity as Vec2Meters}
           color="green"
           // scale={0.1}
         />

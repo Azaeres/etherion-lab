@@ -32,7 +32,8 @@
     "react-responsive": "^9.0.2",
     "react-spring": "^9.7.2",
     "sharp": "^0.32.4",
-    "throttle-debounce": "^5.0.0"
+    "throttle-debounce": "^5.0.0",
+    "use-debounce": "^9.0.4"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",
