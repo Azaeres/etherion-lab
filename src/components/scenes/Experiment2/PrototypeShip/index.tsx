@@ -100,7 +100,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         } else {
           // Boost
           // console.log('Boost! :')
-          const vector = desiredHeading.clone() as Vec2Meters
+          const vector = new Vec2(desiredHeading.x, -desiredHeading.y) as Vec2Meters
           vector.mul(0.1)
           body?.applyLinearImpulse(vector, body.getPosition())
         }
@@ -134,7 +134,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
     if (vector === null) {
       setDesiredHeading(null)
     } else {
-      const _heading = new Vec2(vector.x, -vector.y)
+      const _heading = new Vec2(vector.x, vector.y)
       // Cap desired heading to an equidistant circle around the ship.
       if (_heading.length() >= 250) {
         _heading.normalize()
@@ -205,7 +205,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         } else {
           // Accelerate
           // console.log('Accelerating  :')
-          const forceVector = new Vec2(desiredHeading.x, desiredHeading.y).mul(1 / 4)
+          const forceVector = new Vec2(desiredHeading.x, -desiredHeading.y).mul(1 / 4)
           body?.applyForce(forceVector, body.getPosition())
         }
       }
@@ -245,9 +245,9 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       inertia !== undefined
     ) {
       const actualHeadingAngle = Math.atan2(-actualHeadingVector.y, actualHeadingVector.x)
-      const desiredHeadingAngle = Math.atan2(desiredHeadingVector.y, desiredHeadingVector.x)
+      const desiredHeadingAngle = Math.atan2(-desiredHeadingVector.y, desiredHeadingVector.x)
       const nextAngle = actualHeadingAngle + angularVelocity / 6
-      let totalRotation = desiredHeadingAngle - nextAngle
+      let totalRotation = -desiredHeadingAngle - nextAngle
       while (totalRotation < -radiansFromDegrees(180)) totalRotation += radiansFromDegrees(360)
       while (totalRotation > radiansFromDegrees(180)) totalRotation -= radiansFromDegrees(360)
       const desiredAngularVelocity = totalRotation * 2
@@ -288,10 +288,10 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       </PlanckBody>
       {/* {actualHeading && (
         <DebugDrawVector
-          origin={currentPosition}
-          trackingVector={desiredHeading as Vec2Meters}
+          origin={getGunPosition(currentPosition, actualHeading)}
+          trackingVector={getVectorFromHeading(actualHeading) as Vec2Meters}
           color="green"
-          scale={0.1}
+          // scale={0.1}
         />
       )} */}
       {actualHeading && (
@@ -330,7 +330,7 @@ function getGunPosition(currentPosition: Vec2Meters, actualHeading: number) {
   const headingVector = getVectorFromHeading(actualHeading)
   const position = new Vec2(
     currentPosition.x + headingVector.x * 1.6,
-    currentPosition.y + headingVector.y * 1.6
+    currentPosition.y - headingVector.y * 1.6
   )
   return position as Vec2Meters
 }

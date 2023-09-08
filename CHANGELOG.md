@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.29] - 2023-09-08
+
+### Fixed
+
+- Fix for inverted rotation.
+
+---
+
 ## [1.0.28] - 2023-09-08
 
 ### Fixed

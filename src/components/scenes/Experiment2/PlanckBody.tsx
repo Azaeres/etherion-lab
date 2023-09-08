@@ -90,7 +90,7 @@ export default forwardRef<PixiContainer<DisplayObject>, PropsWithChildren<Planck
       return null
     } else {
       return (
-        <Container x={xPosition} y={yPosition} rotation={angle} ref={ref}>
+        <Container x={xPosition} y={yPosition} rotation={-angle} ref={ref}>
           {props.children}
           {debugDraw && <DebugDraw body={body} />}
         </Container>

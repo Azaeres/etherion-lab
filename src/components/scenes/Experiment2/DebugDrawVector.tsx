@@ -21,7 +21,7 @@ export default function DebugDrawVector(props: DebugDrawVectorProps) {
         g.moveTo(pxFromMeters(origin.x), pxFromMeters(-origin.y as Meters))
         g.lineTo(
           pxFromMeters((origin.x + trackingVector.x * scale) as Meters),
-          pxFromMeters((-origin.y - trackingVector.y * scale) as Meters)
+          pxFromMeters((-origin.y + trackingVector.y * scale) as Meters)
         )
         g.endFill()
       }

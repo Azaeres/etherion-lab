@@ -2,7 +2,7 @@ import { Graphics, useTick } from '@pixi/react'
 import PlanckBody from '../../PlanckBody'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Graphics as PixiGraphics } from 'pixi.js'
-import { Body, BodyDef, Box } from 'planck'
+import { Body, BodyDef, Box, Vec2 } from 'planck'
 import { Meters, Vec2Meters, pxFromMeters } from 'src/utils/physics'
 import { useCameraVelocityUpdateListener } from '../../events'
 
@@ -16,10 +16,11 @@ export interface BulletProps {
 export default function Bullet(props: BulletProps) {
   const { id, initialPosition, initialVelocity, destroy } = props
   const bodyDef = useMemo<BodyDef>(() => {
+    const linearVelocity = new Vec2(initialVelocity.x, -initialVelocity.y) as Vec2Meters
     return {
       type: 'dynamic',
       position: initialPosition.clone(),
-      linearVelocity: initialVelocity.clone(),
+      linearVelocity,
       bullet: true,
       fixedRotation: true,
       userData: {
