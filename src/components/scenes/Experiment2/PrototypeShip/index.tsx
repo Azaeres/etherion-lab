@@ -62,7 +62,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   )
   const [isFiring, setIsFiring] = useState(false)
 
-  const isKeyDown = useRef<boolean>(false)
+  const isKeyDownRef = useRef(false)
   const attackEventHandler = useCallback((event: KeyboardEvent | MouseEvent) => {
     if (event.type === 'pointerdown') {
       // console.log('PEW!!! :', event.type, event)
@@ -86,7 +86,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       // console.log('eventHandler  > event.type:', event.type, event)
       const body = bodyRef.current
       if (event.type === 'keydown' || event.type === 'pointerdown') {
-        isKeyDown.current = true
+        isKeyDownRef.current = true
         if (desiredHeading === null) {
           const velocity = bodyRef.current?.getLinearVelocity()
           if (velocity) {
@@ -106,7 +106,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         }
       }
       if (event.type === 'keyup' || event.type === 'pointerup' || event.type === 'pointerout') {
-        isKeyDown.current = false
+        isKeyDownRef.current = false
       }
     },
     [attackEventHandler, desiredHeading]
@@ -135,33 +135,43 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       setDesiredHeading(null)
     } else {
       const _heading = new Vec2(vector.x, -vector.y)
+      // Cap desired heading to an equidistant circle around the ship.
+      if (_heading.length() >= 250) {
+        _heading.normalize()
+        _heading.mul(250)
+      }
       setDesiredHeading(_heading)
     }
   }, [])
   useDPadVectorUpdateListener(rotateBody)
 
-  const brake = useCallback((event: KeyboardEvent | MouseEvent) => {
+  const isBrakingRef = useRef(false)
+  const brake = useCallback((event: KeyboardEvent) => {
+    if ('repeat' in event && event?.repeat) {
+      return
+    }
+
+    // Pump brake
+    // console.log('Pumping brake  :')
     const body = bodyRef.current
-    const velocity = body?.getLinearVelocity()
-    if (velocity) {
-      if ('repeat' in event && event?.repeat) {
-        body?.applyForce(
-          new Vec2(velocity.x - velocity.x * 6, velocity.y - velocity.y * 6),
-          body.getPosition()
-        )
-      } else {
-        body?.applyLinearImpulse(
-          new Vec2(velocity.x - velocity.x * 2, velocity.y - velocity.y * 2),
-          body.getPosition()
-        )
-      }
+    const velocity = body?.getLinearVelocity() as Vec2Meters
+    body?.applyLinearImpulse(
+      new Vec2(velocity.x - velocity.x * 2, velocity.y - velocity.y * 2),
+      body.getPosition()
+    )
+
+    if (event.type === 'keyup') {
+      isBrakingRef.current = false
+    } else {
+      isBrakingRef.current = true
     }
   }, [])
   useHotkeys(' ', brake, { keyup: true, keydown: true })
 
   const update = useCallback(() => {
-    const velocity = bodyRef.current?.getLinearVelocity() as Vec2Meters
-    if (velocity !== undefined) {
+    const body = bodyRef.current
+    const velocity = body?.getLinearVelocity() as Vec2Meters
+    if (velocity) {
       // Cap the ship speed.
       // https://stackoverflow.com/questions/12504534/how-to-enforce-a-maximum-speed-for-a-specific-body-in-libgdx-box2d/12511152
       // const speed = Math.sqrt(getSpeedFromVelocity(velocity))
@@ -171,7 +181,6 @@ export default function PrototypeShip(props: PrototypeShipProps) {
       //   velocityClone.mul(Math.sqrt(5000))
       //   bodyRef.current?.setLinearVelocity(velocityClone)
       // }
-      const body = bodyRef.current
       const speed = getSpeedFromVelocity(velocity)
       if (speed >= 90) {
         const environmentFriction = velocity.clone()
@@ -180,8 +189,12 @@ export default function PrototypeShip(props: PrototypeShipProps) {
         body?.applyForce(environmentFriction, body.getPosition())
       }
 
+      // Sync physics-engine-sourced velocity with component state.
       setCurrentVelocity(velocity.clone() as Vec2Meters)
-      if (isKeyDown.current) {
+
+      // Handle the mobile interface button for accelerating (directional motion)
+      // and for braking (non-directional motion).
+      if (isKeyDownRef.current) {
         if (desiredHeading === null) {
           // Steady brake
           // console.log('Applying steady brake  :')
@@ -196,19 +209,26 @@ export default function PrototypeShip(props: PrototypeShipProps) {
           body?.applyForce(forceVector, body.getPosition())
         }
       }
+
+      // Handle the desktop interface button (spacebar) for braking.
+      if (isBrakingRef.current) {
+        body?.applyForce(
+          new Vec2(velocity.x - velocity.x * 6, velocity.y - velocity.y * 6),
+          body.getPosition()
+        )
+      }
     }
 
-    const _actualHeading = bodyRef.current?.getAngle()
+    const _actualHeading = body?.getAngle()
     setActualHeading(_actualHeading)
 
-    const _position = bodyRef.current?.getPosition() as Vec2Meters
+    const _position = body?.getPosition() as Vec2Meters
     setCurrentPosition(_position.clone() as Vec2Meters)
 
     // https://www.iforce2d.net/b2dtut/rotate-to-angle
     const actualHeadingVector = actualHeading ? getVectorFromHeading(actualHeading) : null
     const desiredHeadingVector =
       (desiredHeading && new Vec2(desiredHeading.x, -desiredHeading.y)) || undefined
-    const body = bodyRef.current
     const angularVelocity = body?.getAngularVelocity()
     const inertia = body?.getInertia()
     // console.log(
@@ -271,7 +291,7 @@ export default function PrototypeShip(props: PrototypeShipProps) {
           origin={currentPosition}
           trackingVector={desiredHeading as Vec2Meters}
           color="green"
-          // scale={10}
+          scale={0.1}
         />
       )} */}
       {actualHeading && (

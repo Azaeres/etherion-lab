@@ -1,6 +1,6 @@
 import { ComponentProps, PropsWithChildren, useCallback, useMemo, useRef } from 'react'
-import asteroidsTexture from '../assets/asteroids/asteroids.webp'
-import asteroidsJson from '../assets/asteroids/asteroids.json'
+import asteroidsTexture from './assets/asteroids.webp'
+import asteroidsJson from './assets/asteroids.json'
 import { AnimatedSprite, Sprite, useTick } from '@pixi/react'
 import { OPTIONS } from 'src/components/PixiStage'
 import PlanckBody from '../PlanckBody'

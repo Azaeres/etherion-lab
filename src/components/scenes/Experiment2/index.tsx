@@ -29,7 +29,7 @@ export default function Experiment2() {
               physical={false}
               generationDistance={8000}
               cullingDistance={9000}
-              density={12}
+              density={25}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-800}>
@@ -37,7 +37,7 @@ export default function Experiment2() {
               physical={false}
               generationDistance={5000}
               cullingDistance={6000}
-              density={8}
+              density={30}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-500}>
@@ -45,7 +45,7 @@ export default function Experiment2() {
               generationDistance={5000}
               cullingDistance={6000}
               physical={true}
-              density={50}
+              density={40}
             />
             <PrototypeShip x={metersFromPx(400 as Pixels)} />
             {/* <Ground /> */}

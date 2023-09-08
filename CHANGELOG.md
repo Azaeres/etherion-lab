@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.0.28] - 2023-09-08
+
+### Fixed
+
+- Ship control tweaking; cleanup.
+
+---
+
 ## [1.0.27] - 2023-09-07
 
 ### Fixed
