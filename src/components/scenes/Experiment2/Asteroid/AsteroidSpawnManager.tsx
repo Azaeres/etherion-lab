@@ -1,19 +1,19 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { Vec2 } from 'planck'
 import { ParallaxCameraContext } from 'pixi-react-parallax'
-import Asteroid from './Asteroid'
+import Asteroid from '.'
 import { useTick } from '@pixi/react'
 import getUUID from 'src/app/utils/getUUID'
 import { Pixels, Vec2Pixels } from 'src/utils/physics'
 
 export interface AsteroidSpawnManagerProps {
-  // The count of asteroids to populate.
-  density?: number
+  density?: number // The count of asteroids to populate.
   physical?: boolean
   generationDistance?: number
   cullingDistance?: number
 }
 
+// TODO: Change the Asteroid to use Meters/Vec2Meters internally, instead of Pixels/Vec2Pixels.
 type AsteroidConfig = {
   id: string
   x?: Pixels
@@ -31,6 +31,7 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
     generationDistance = GENERATION_DISTANCE,
     cullingDistance,
   } = props
+  // TODO: Use the `useCameraPositionUpdateListener` hook instead.
   const camera = useContext(ParallaxCameraContext)
   const [cameraPosition, setCameraPosition] = useState<Vec2Pixels>()
   useTick(() => {
@@ -40,6 +41,7 @@ export default function AsteroidSpawnManager(props: AsteroidSpawnManagerProps) {
     }
   })
   // console.log(' > camera:', camera, cameraPosition)
+
   const [asteroids, setAsteroids] = useState<AsteroidConfig[]>([])
   const [initialSetup, setInitialSetup] = useState(true)
   useEffect(() => {
@@ -160,6 +162,7 @@ function _randomPointNearRect(
 }
 
 function getAsteroidConfig(physical: boolean, x?: Pixels, y?: Pixels): AsteroidConfig {
+  // TODO: The Spawn Manager should be responsible for calculating the initial position.
   return {
     id: getUUID(),
     x,

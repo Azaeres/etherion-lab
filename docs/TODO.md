@@ -21,8 +21,8 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - [x] 1. Basic ship weapon.
 - Lock-on selection.
 - Auto-generation of regions.
-- [ ] <span style="color: green">Travel particles.</span>
-- Stellar backgrounds, nebulas, sparkling stars within gas & dust.
+- [x] Travel particles.
+- [ ] <span style="color: green">Stellar backgrounds, nebulas, sparkling stars within gas & dust.</span>
 - Spine.js animations?
 - [x] 1. Create button component
 - [x] 1. Planck/Box2D physics animations

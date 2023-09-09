@@ -5,22 +5,29 @@ import useFpsMeasurement from 'src/app/hooks/useFpsMeasurement'
 import { styles } from 'src/utils/pixi-styles'
 import { Vec2 } from 'planck'
 import { Vec2Meters } from 'src/utils/physics'
-import { useCameraVelocityUpdateListener } from './scenes/Experiment2/events'
+import { useCameraPositionUpdateListener } from './scenes/Experiment2/events'
 
-export default function DebugIndicator() {
+export interface DebugIndicatorProps {
+  showCameraVelocity?: boolean
+}
+
+export default function DebugIndicator(props: DebugIndicatorProps) {
+  const { showCameraVelocity = false } = props
   const fps = useFpsMeasurement()
-  const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
-  useCameraVelocityUpdateListener(setCameraVelocity)
+  const [cameraPosition, setCameraPosition] = useState<Vec2Meters>()
+  useCameraPositionUpdateListener(setCameraPosition)
+  // const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
+  // useCameraVelocityUpdateListener(setCameraVelocity)
   return (
     <>
-      <Text
-        text={`Camera velocity: ${getPositionString(cameraVelocity)}`}
-        style={styles.smallBody}
-        x={OPTIONS.width / 2 - 1600}
-        y={OPTIONS.height / 2 - 60}
-        // x={0}
-        // y={0}
-      />
+      {showCameraVelocity && (
+        <Text
+          text={`Camera position: ${getPositionString(cameraPosition)}`}
+          style={styles.smallBody}
+          x={OPTIONS.width / 2 - 1600}
+          y={OPTIONS.height / 2 - 60}
+        />
+      )}
       <Text
         text={`Etherion Lab v${process.env.NEXT_PUBLIC_APP_VERSION}`}
         style={styles.smallBody}

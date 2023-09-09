@@ -6,7 +6,7 @@ import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
 import PrototypeShip from './PrototypeShip'
 import PlanckWorldProvider from './PlanckWorldProvider'
 import ControlLayer from './ControlLayer'
-import AsteroidSpawnManager from './AsteroidSpawnManager'
+import AsteroidSpawnManager from './Asteroid/AsteroidSpawnManager'
 import { Pixels, metersFromPx } from 'src/utils/physics'
 import DebugIndicator from 'src/components/DebugIndicator'
 import { ParallaxCameraContext } from 'pixi-react-parallax'
@@ -15,6 +15,9 @@ import { useCallback, useContext, useState } from 'react'
 import { Vec2 } from 'planck'
 import { Vec2Meters } from 'src/utils/physics'
 import { emitCameraPositionUpdate, emitCameraVelocityUpdate } from './events'
+import DustSpawnManager from './Dust/DustSpawnManager'
+
+const ENABLE_ASTEROIDS = true
 
 export default function Experiment2() {
   // gravity: -80
@@ -25,49 +28,74 @@ export default function Experiment2() {
       <PlanckWorldProvider gravityY={0}>
         <ParallaxCameraProvider movementDamping={2.0}>
           <ParallaxLayer zIndex={-1250}>
-            <AsteroidSpawnManager
-              physical={false}
-              generationDistance={8000}
-              cullingDistance={9000}
-              density={25}
+            {ENABLE_ASTEROIDS && (
+              <AsteroidSpawnManager
+                physical={false}
+                generationDistance={8000}
+                cullingDistance={9000}
+                density={25}
+              />
+            )}
+            <DustSpawnManager
+              density={20}
+              generationDistance={metersFromPx(8000 as Pixels)}
+              cullingDistance={metersFromPx(9000 as Pixels)}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-800}>
-            <AsteroidSpawnManager
-              physical={false}
-              generationDistance={5000}
-              cullingDistance={6000}
+            {ENABLE_ASTEROIDS && (
+              <AsteroidSpawnManager
+                physical={false}
+                generationDistance={6000}
+                cullingDistance={7000}
+                density={30}
+              />
+            )}
+            <DustSpawnManager
               density={30}
+              generationDistance={metersFromPx(6000 as Pixels)}
+              cullingDistance={metersFromPx(7000 as Pixels)}
             />
           </ParallaxLayer>
           <ParallaxLayer zIndex={-500}>
-            <AsteroidSpawnManager
-              generationDistance={5000}
-              cullingDistance={6000}
-              physical={true}
-              density={40}
+            {ENABLE_ASTEROIDS && (
+              <AsteroidSpawnManager
+                generationDistance={5000}
+                cullingDistance={6000}
+                physical={true}
+                density={40}
+              />
+            )}
+            <DustSpawnManager
+              density={50}
+              generationDistance={metersFromPx(5000 as Pixels)}
+              cullingDistance={metersFromPx(6000 as Pixels)}
             />
             <PrototypeShip x={metersFromPx(400 as Pixels)} />
             {/* <Ground /> */}
           </ParallaxLayer>
           <ParallaxLayer zIndex={-300}>
-            <AsteroidSpawnManager
-              generationDistance={4000}
-              cullingDistance={5000}
-              physical={false}
-              density={8}
-            />
+            {ENABLE_ASTEROIDS && (
+              <AsteroidSpawnManager
+                generationDistance={4000}
+                cullingDistance={5000}
+                physical={false}
+                density={8}
+              />
+            )}
           </ParallaxLayer>
           <ParallaxLayer zIndex={-1}>
-            <AsteroidSpawnManager
-              generationDistance={3000}
-              cullingDistance={4000}
-              physical={false}
-              density={4}
-            />
+            {ENABLE_ASTEROIDS && (
+              <AsteroidSpawnManager
+                generationDistance={3000}
+                cullingDistance={4000}
+                physical={false}
+                density={4}
+              />
+            )}
           </ParallaxLayer>
           <CameraObserver />
-          <DebugIndicator />
+          <DebugIndicator showCameraVelocity />
         </ParallaxCameraProvider>
       </PlanckWorldProvider>
       <ControlLayer />

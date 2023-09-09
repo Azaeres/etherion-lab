@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.2.0] - 2023-09-09
+
+### Added
+
+- Added dust ("travel particles").
+
+---
+
 ## [1.1.0] - 2023-09-08
 
 ### Added

@@ -48,8 +48,6 @@ export default function Bullet(props: BulletProps) {
   )
   useEffect(() => {
     setTimeout(() => {
-      // console.log('useEffect setTimeout TIMER FIRED! :')
-      // debugger
       destroy && destroy()
     }, 2000)
   }, [])
@@ -71,19 +69,14 @@ interface BulletGraphicProps {
 
 function BulletGraphic(props: BulletGraphicProps) {
   const { physicsBody } = props
-  // const [bulletPosition, setBulletPosition] = useState<Vec2Meters>()
   const [bulletVelocity, setBulletVelocity] = useState<Vec2Meters>()
   const update = useCallback(() => {
     if (physicsBody) {
-      // const position = physicsBody.getPosition() as Vec2Meters
-      // setBulletPosition(position.clone() as Vec2Meters)
       const velocity = physicsBody.getLinearVelocity() as Vec2Meters
       setBulletVelocity(velocity.clone() as Vec2Meters)
     }
   }, [physicsBody])
   useTick(update)
-  // const userData = physicsBody?.getUserData()
-  // console.log('Bullet > :', userData, bulletPosition, bulletVelocity)
   // We simulate a motion blur effect by factoring in the camera's velocity.
   const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
   useCameraVelocityUpdateListener(setCameraVelocity)
@@ -94,13 +87,12 @@ function BulletGraphic(props: BulletGraphicProps) {
         const velocityVector = bulletVelocity.clone() as Vec2Meters
         velocityVector.mul(1.5)
 
+        // Draw an oversized bullet graphic for debug purposes.
         // const bulletSize = 40
         // g.beginFill('#fff', 1)
         // g.drawRoundedRect(0, 0, bulletSize, bulletSize, bulletSize)
         // g.endFill()
 
-        // console.log('  > velocityVector.x:', velocityVector.x, cameraVelocity.x)
-        // console.log(' > cameraVelocity.x, cameraVelocity.y:', cameraVelocity.x, cameraVelocity.y)
         g.beginFill('#fff', 1.0)
         g.lineStyle(18, '#fff', 1)
         g.moveTo(0, 0)

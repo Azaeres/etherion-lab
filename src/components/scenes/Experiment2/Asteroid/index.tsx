@@ -26,17 +26,17 @@ type AsteroidConfig = {
 const CULLING_DISTANCE = 6000
 const ASTEROID_TINT = '#666'
 
-export interface DestructableAsteroidProps extends ComponentProps<typeof Sprite> {
+export interface AsteroidProps extends ComponentProps<typeof Sprite> {
   cameraPosition?: Vec2Pixels
   destroy?: () => void
   id?: string
   x?: Pixels
   y?: Pixels
   physical?: boolean
-  cullingDistance?: number
+  cullingDistance?: number // TODO: Change to Meters
 }
 
-export default function Asteroid(props: DestructableAsteroidProps) {
+export default function Asteroid(props: AsteroidProps) {
   const { cameraPosition, destroy, x, y, physical = true, cullingDistance } = props
   const initialConfig: AsteroidConfig = useMemo(() => {
     const position = new Vec2(
@@ -162,6 +162,7 @@ function PhysicalAsteroid(props: PropsWithChildren<PhysicalAsteroidProps>) {
   )
 }
 
+// TODO: Update types
 function isPositionWithinCameraBounds(
   position?: Vec2,
   cameraPosition?: Vec2,
