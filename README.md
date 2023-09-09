@@ -1,4 +1,4 @@
-Etherion Laboratory
+# Etherion Laboratory
 
 [Check it out here!](https://lab.etherion.app/)
 
