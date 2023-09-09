@@ -269,9 +269,9 @@ export default function PrototypeShip(props: PrototypeShipProps) {
   // normalizedVelocity.mul(speed * 0.02)
 
   const shake = useThrottledCallback((strength: number) => {
-    let _strength = strength
-    _strength = _strength >= 80 ? 80 : _strength
-    camera?.shake(_strength, 0.5)
+    let _strength = strength * 0.5
+    _strength = _strength >= 60 ? 60 : _strength
+    camera?.shake(_strength, 0.4)
   }, 500)
   const collisionCallback = useCallback(
     (contact: Contact, strength: number) => {

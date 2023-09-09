@@ -38,7 +38,7 @@ interface DustGraphicProps {
   y: Meters
 }
 
-const SCALAR = 0.07
+const SCALAR = 0.05
 
 function DustGraphic(props: DustGraphicProps) {
   const { x, y } = props
