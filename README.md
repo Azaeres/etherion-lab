@@ -1,36 +1,11 @@
-# next-pwa - basic
+Etherion Laboratory
 
-This example demonstrates how to use `next-pwa`.
+[Check it out here!](https://lab.etherion.app/)
 
-## Usage
+This is a software development playground, a place to run experiments, where knowledge is built alongside software. It's also a rapid deployment target, a place to demonstrate proofs of concept.
 
-[![Open in Gitpod and run](https://img.shields.io/badge/Open%20In-Gitpod.io-%231966D2?style=for-the-badge&logo=gitpod)](https://gitpod.io/#https://github.com/Azaeres/etherion-lab/)
+Experiment 1 is a demo of the parallax library we're using. It's called `pixi-react-parallax` on NPM, and it's tiny (30 kB unpacked).
 
-```bash
-cd examples/basic
-pnpm build
-pnpm start
-```
+Experiment 2 is a simple spaceship shooting game, like Asteroids. It proves that React can indeed be used to build high-performance web apps like games, even on mobile. The game state is all React hooks in the client.
 
-or
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example https://github.com/DuCanhGH/next-pwa/tree/master/examples/basic basic-app
-```
-
-```bash
-yarn create next-app --example https://github.com/DuCanhGH/next-pwa/tree/master/examples/basic basic-app
-```
-
-```bash
-pnpm create next-app --example https://github.com/DuCanhGH/next-pwa/tree/master/examples/basic basic-app
-```
-
-## Recommended `.gitignore`
-
-```gitignore
-**/public/workbox-*.js
-**/public/sw.js
-```
+The stack: Next.js PWA (Static Site Generation), React, Pixi.js, TypeScript, Planck.js (Box2d ported to JS/TS).
