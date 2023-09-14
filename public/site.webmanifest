@@ -17,5 +17,10 @@
     "background_color": "#000000",
     "start_url": "/",
     "display": "standalone",
-    "orientation": "landscape"
-}
+    "orientation": "landscape",
+    "offline_enabled": true,
+    "background": {
+      "service_worker": "sw.js",
+      "fetch": ["<all_urls>"]
+    }
+  }

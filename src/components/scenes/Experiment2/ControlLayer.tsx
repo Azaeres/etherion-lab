@@ -19,6 +19,7 @@ import Dpad from './Dpad'
 import { styles } from 'src/utils/pixi-styles'
 import { usePlayerAvatarSpeedUpdateListener } from './PrototypeShip/events'
 import { Meters } from 'src/utils/physics'
+import { usePeerCountUpdateListener } from '../Experiment3/events'
 
 // The radius of the rounded corners.
 // This should be relatively high to form a circular button.
@@ -63,8 +64,13 @@ export default function ControlLayer() {
   }, [])
   const [speed, setSpeed] = useState(0.0 as Meters)
   usePlayerAvatarSpeedUpdateListener(setSpeed)
+  const [peerCounter, setPeerCounter] = useState(0)
+  usePeerCountUpdateListener(setPeerCounter)
   return (
     <>
+      {peerCounter !== 0 && (
+        <Text text={`Peers: ${peerCounter.toString()}`} style={styles.smallBody} x={30} y={40} />
+      )}
       <Text
         text={`Speed: ${speed.toFixed(2)}`}
         style={styles.body}

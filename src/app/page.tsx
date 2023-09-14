@@ -9,9 +9,13 @@ export default function Home() {
       <h3>Experiments:</h3>
       <ul>
         {scenes.map((sceneId) => {
+          const href =
+            sceneId === 'experiment3'
+              ? `/${sceneId}?u=uAE4t0QkLRPnW_-WEPqwMej8dRio3Tivy41iD7pCnwCRS`
+              : `/${sceneId}`
           return (
             <li key={sceneId}>
-              <Link href={`/${sceneId}`}>
+              <Link href={href}>
                 <button className={app['button-64']}>
                   <span className={app.text}>{sceneId}</span>
                 </button>

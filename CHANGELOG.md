@@ -25,6 +25,14 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.3.0] - 2023-09-14
+
+### Added
+
+- Production test of Peerbit & web worker for Experiment 3.
+
+---
+
 ## [1.2.0] - 2023-09-09
 
 ### Added

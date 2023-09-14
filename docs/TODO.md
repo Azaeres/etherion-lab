@@ -6,28 +6,28 @@ Checkboxes are open for the chord that's currently in the bee-line.
 
 - 5. Game menu
 - 5. Configuration
-- 5. Multiplayer lobby
-- 5. Transit map
+- 5.2. Multiplayer lobby
+- 5.6. Transit map
 - 5. Field controls bindings
 - 4. Etherion storyline gameplay demo
-- [ ] 1. Game AI.
+- 1.2. Game AI.
 - [x] 1. Gameplay interface & controls.
-- [ ] 1. Destructable objects.
+- 1. Destructable objects.
 - [x] 1. Display ship speed.
 - [x] 1. Map ship sprite to physics body rotation.
 - [x] 1. Dpad (mobile) and Overlay (desktop) controls.
 - [x] 1. SpawnManager.
-- Points of interest & ship sensors.
+- 6.2. Points of interest & ship sensors.
 - [x] 1. Basic ship weapon.
-- Lock-on selection.
+- 6. Lock-on selection.
 - Auto-generation of regions.
 - [x] Travel particles.
-- [ ] <span style="color: green">Stellar backgrounds, nebulas, sparkling stars within gas & dust.</span>
+- 6. Stellar backgrounds, nebulas, sparkling stars within gas & dust.
 - Spine.js animations?
 - [x] 1. Create button component
 - [x] 1. Planck/Box2D physics animations
 - [x] React Spring animations
-- 2. Offline-first, persistent database (RxDB?)
+- [ ] 2. <span style="color: green">Offline-first, persistent database (RxDB?)</span>
 - 2. Private syncing server (Electron?)
 - 2. Private multiplayer (stub)
 - 3. Etherion store app

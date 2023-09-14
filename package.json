@@ -12,14 +12,22 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@dao-xyz/borsh": "^5.1.7",
     "@ducanh2912/next-pwa": "^9.4.0",
+    "@libp2p/mplex": "^9.0.5",
+    "@libp2p/websockets": "^7.0.6",
+    "@peerbit/document": "^3.1.4",
+    "@peerbit/program": "^2.3.2",
+    "@peerbit/react": "^0.0.4",
     "@pixi/filter-advanced-bloom": "^5.1.1",
     "@pixi/filter-pixelate": "^5.1.1",
     "@pixi/react": "^7.1.0",
     "@pixi/react-animated": "^7.1.0",
     "@pixi/ui": "^0.9.0",
+    "bufferutil": "^4.0.7",
     "nano-memoize": "^3.0.14",
     "next": "^13.4.12",
+    "peerbit": "^2.0.9",
     "pixi-react-parallax": "^1.0.13",
     "pixi.js": "^7.2.4",
     "planck": "piqnt/planck.js",
@@ -32,7 +40,9 @@
     "react-responsive": "^9.0.2",
     "react-spring": "^9.7.2",
     "sharp": "^0.32.4",
-    "use-debounce": "^9.0.4"
+    "use-debounce": "^9.0.4",
+    "utf-8-validate": "^6.0.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",
@@ -40,6 +50,7 @@
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@types/throttle-debounce": "^5.0.0",
+    "@types/uuid": "^9.0.3",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "@welldone-software/why-did-you-render": "^7.0.1",
