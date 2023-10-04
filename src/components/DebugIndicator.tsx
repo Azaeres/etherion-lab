@@ -8,11 +8,11 @@ import { Vec2Meters } from 'src/utils/physics'
 import { useCameraPositionUpdateListener } from './scenes/Experiment2/events'
 
 export interface DebugIndicatorProps {
-  showCameraVelocity?: boolean
+  showCameraPosition?: boolean
 }
 
 export default function DebugIndicator(props: DebugIndicatorProps) {
-  const { showCameraVelocity = false } = props
+  const { showCameraPosition = false } = props
   const fps = useFpsMeasurement()
   const [cameraPosition, setCameraPosition] = useState<Vec2Meters>()
   useCameraPositionUpdateListener(setCameraPosition)
@@ -20,7 +20,7 @@ export default function DebugIndicator(props: DebugIndicatorProps) {
   // useCameraVelocityUpdateListener(setCameraVelocity)
   return (
     <>
-      {showCameraVelocity && (
+      {showCameraPosition && (
         <Text
           text={`Camera position: ${getPositionString(cameraPosition)}`}
           style={styles.smallBody}
