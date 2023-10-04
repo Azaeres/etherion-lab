@@ -32,7 +32,6 @@ const nextConfig = {
         return entries
       }
     }
-
     return config
   },
 }
