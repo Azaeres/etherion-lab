@@ -4,6 +4,10 @@ Currently bee-lining toward the <span style="color: green">green item</span>.
 Goals that are related closely enough to be developed together have the same "chord" number.
 Checkboxes are open for the chord that's currently in the bee-line.
 
+- [x] 7. Peer-to-peer sync & multiplayer.
+- [ ] 7. React state to/from Peerbit database state hook.
+- [ ] 7. Persistence layer (OPFS SQLite3?).
+- [ ] 7. Host access control.
 - 5. Game menu
 - 5. Configuration
 - 5.2. Multiplayer lobby
@@ -28,9 +32,10 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - [x] 1. Planck/Box2D physics animations
 - [x] React Spring animations
 - [ ] 2. <span style="color: green">Offline-first, persistent database (RxDB?)</span>
-- 2. Private syncing server (Electron?)
+- 2. Private syncing server (Electron?, docker)
 - 2. Private multiplayer (stub)
 - 3. Etherion store app
+- 3. Feature flag service
 - 3. Premium Pass
 - WebGL shaders (plasma glow & light distortion effects?).
 - Object normal maps and point lighting.
