@@ -17,9 +17,10 @@ import DesktopView from './DesktopView'
 import { Container, Text } from '@pixi/react'
 import Dpad from './Dpad'
 import { styles } from 'src/utils/pixi-styles'
-import { usePlayerAvatarSpeedUpdateListener } from './PrototypeShip/events'
+import { usePlayerAvatarSpeedUpdateListener } from '../Experiment3/PrototypeShip/events'
 import { Meters } from 'src/utils/physics'
 import { usePeerCountUpdateListener } from '../Experiment3/events'
+// import { PeerId } from '../Experiment3/hooks/usePeerbitDatabase'
 
 // The radius of the rounded corners.
 // This should be relatively high to form a circular button.
@@ -42,7 +43,12 @@ const actionButtonOutlineStyle = {
   alpha: 0.3,
 } as const
 
-export default function ControlLayer() {
+export interface ControlLayerProps {
+  peerId?: string
+}
+
+export default function ControlLayer(props: ControlLayerProps) {
+  const { peerId } = props
   const navigate = useNextjsNavigate()
   const moveEngageAction = useCallback((event: FederatedPointerEvent) => {
     emitMoveEngage(event)
@@ -69,7 +75,10 @@ export default function ControlLayer() {
   return (
     <>
       {peerCounter !== 0 && (
-        <Text text={`Peers: ${peerCounter.toString()}`} style={styles.smallBody} x={30} y={40} />
+        <>
+          <Text text={`Peer ID: ${peerId}`} style={styles.smallBody} x={60} y={180} />
+          <Text text={`Peers: ${peerCounter.toString()}`} style={styles.smallBody} x={60} y={240} />
+        </>
       )}
       <Text
         text={`Speed: ${speed.toFixed(2)}`}
