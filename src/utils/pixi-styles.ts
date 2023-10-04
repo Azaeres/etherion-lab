@@ -3,7 +3,7 @@ import { TextStyle } from 'pixi.js'
 export const styles = {
   body: new TextStyle({
     fill: '0xcccccc',
-    fontSize: '48px',
+    fontSize: 48,
     dropShadow: true,
     dropShadowAlpha: 0.8,
   }),
@@ -15,5 +15,11 @@ export const styles = {
     fontSize: 38,
     fontFamily: 'Arial',
     fontWeight: 'bold',
+  }),
+  largeBody: new TextStyle({
+    fill: '0xcccccc',
+    fontSize: 68,
+    dropShadow: true,
+    dropShadowAlpha: 0.8,
   }),
 } as const
