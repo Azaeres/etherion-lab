@@ -4,5 +4,5 @@ import { SceneId } from '../[scene]/scenes'
 
 export default function useNextjsNavigate() {
   const router = useNextjsRouter()
-  return useCallback((href: SceneId) => () => router.push(href), [router])
+  return useCallback((href: SceneId) => () => router?.push(href), [router])
 }
