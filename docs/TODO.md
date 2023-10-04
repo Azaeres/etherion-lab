@@ -4,7 +4,7 @@ Currently bee-lining toward the <span style="color: green">green item</span>.
 Goals that are related closely enough to be developed together have the same "chord" number.
 Checkboxes are open for the chord that's currently in the bee-line.
 
-- [x] 7. Peer-to-peer sync & multiplayer.
+- [ ] 7. Peer-to-peer sync & multiplayer.
 - [ ] 7. React state to/from Peerbit database state hook.
 - [ ] 7. Persistence layer (OPFS SQLite3?).
 - [ ] 7. Host access control.
