@@ -18,7 +18,7 @@
     "@libp2p/websockets": "^7.0.6",
     "@peerbit/document": "^3.1.4",
     "@peerbit/program": "^2.3.2",
-    "@peerbit/react": "^0.0.4",
+    "@peerbit/react": "^0.0.5",
     "@peerbit/server": "^4.1.4",
     "@pixi/filter-advanced-bloom": "^5.1.1",
     "@pixi/filter-pixelate": "^5.1.1",
