@@ -16,6 +16,7 @@ export interface ButtonProps extends ComponentProps<typeof Container> {
   radius?: number
   background?: ButtonBackgroundProps
   outlineStyle?: OutlineStyle
+  disabled?: boolean
   onEngage?: (event: FederatedPointerEvent) => void
   onDisengage?: (event: FederatedPointerEvent) => void
   onActivate?: (event: FederatedPointerEvent) => void
@@ -43,6 +44,7 @@ export default function Button(props: ButtonProps) {
     height = 50,
     text,
     radius = 15,
+    disabled = false,
     background = {},
     outlineStyle = {},
     onEngage,
@@ -50,7 +52,7 @@ export default function Button(props: ButtonProps) {
     onActivate,
   } = props
   const {
-    alpha = 0.55,
+    alpha = disabled ? 0.2 : 0.55,
     fromColor = '#2206cc',
     toColor = '#330066',
     angle = radiansFromDegrees(90),
@@ -60,25 +62,34 @@ export default function Button(props: ButtonProps) {
 
   const engageButton = useCallback(
     (event: FederatedPointerEvent) => {
+      if (disabled) {
+        return
+      }
       setEngaged(true)
       onEngage?.(event)
     },
-    [onEngage]
+    [disabled, onEngage]
   )
   const disengageButton = useCallback(
     (event: FederatedPointerEvent) => {
+      if (disabled) {
+        return
+      }
       setEngaged(false)
       onDisengage?.(event)
     },
-    [onDisengage]
+    [disabled, onDisengage]
   )
   const activate = useCallback(
     (event: FederatedPointerEvent) => {
+      if (disabled) {
+        return
+      }
       engaged && onPress?.(event)
       setEngaged(false)
       onActivate?.(event)
     },
-    [engaged, onActivate, onPress]
+    [engaged, onActivate, onPress, disabled]
   )
   useEffect(() => {
     if (engaged) {
@@ -137,7 +148,7 @@ export default function Button(props: ButtonProps) {
         onpointerout={disengageButton}
         // onpointerover={handleEvent}
         eventMode="static"
-        cursor="pointer"
+        cursor={disabled ? 'cursor' : 'pointer'}
         draw={drawNormal}
       />
       <Container x={x + width / 2} y={y + height / 2} width={width} height={height}>

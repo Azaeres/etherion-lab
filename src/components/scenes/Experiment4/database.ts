@@ -27,7 +27,7 @@ export class Post {
 type Args = { role?: Role; sync?: SyncFilter }
 
 @variant('room')
-export class Room extends Program<Args> {
+export class RoomDB extends Program<Args> {
   @field({ type: 'string' })
   name: string
 
@@ -83,23 +83,23 @@ export class Room extends Program<Args> {
 }
 
 @variant('lobby')
-export class Lobby extends Program<Args> {
+export class LobbyDB extends Program<Args> {
   @field({ type: Uint8Array })
   id: Uint8Array
 
   @field({ type: Documents })
-  rooms: Documents<Room>
+  rooms: Documents<RoomDB>
 
   constructor(properties: { id?: Uint8Array }) {
     super()
     this.id = properties.id || randomBytes(32)
-    this.rooms = new Documents<Room>({ id: this.id })
+    this.rooms = new Documents<RoomDB>({ id: this.id })
   }
 
   // Setup lifecycle, will be invoked on 'open'
   async open(args?: Args): Promise<void> {
     await this.rooms.open({
-      type: Room,
+      type: RoomDB,
 
       canPerform: () => {
         //entry) => {

@@ -31,6 +31,7 @@
     "next": "^13.4.12",
     "peerbit": "^2.0.9",
     "pixi-react-parallax": "^1.0.13",
+    "pixi-text-input": "^1.0.6",
     "pixi.js": "^7.3.1",
     "planck": "piqnt/planck.js",
     "prop-types": "^15.8.1",
