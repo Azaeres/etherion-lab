@@ -25,6 +25,44 @@ Run `yarn version` to bump the package version number.
 
 ---
 
+## [1.5.1] - 2023-10-06
+
+### Fixed
+
+- Configured Peerbit to make all database changes to propagate to all peers.
+
+### Changed
+
+- Switched from Yarn to NPM, mostly because Pixi.js v8 is coming, and it currently doesn't support Yarn.
+
+---
+
+## [1.5.0] - 2023-10-05
+
+### Added
+
+- Ported and adapted the Peerbit many-chat-room example for Experiment 4.
+
+---
+
+## [1.4.0] - 2023-10-04
+
+### Added
+
+- Production test for SQLite WASM.
+- Added support for TypeScript decorator metadata.
+- Displaying peer ID in the control layer.
+- Added peerbit to Experiment 3.
+- Created two test area components.
+- Added avatar origin component.
+- Added a stub for Experiment 4.
+
+### Changed
+
+- Changed the prototype ship to support the new data flow.
+
+---
+
 ## [1.3.0] - 2023-09-14
 
 ### Added

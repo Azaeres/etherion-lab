@@ -70,6 +70,9 @@ export class RoomDB extends Program<Args> {
         }
         return false
       },
+      replicas: {
+        min: 0xffffffff, // max u32 (make everyone a replicator, disable sharding)
+      },
       index: {
         canRead: async () => {
           // identity) => {
@@ -106,6 +109,9 @@ export class LobbyDB extends Program<Args> {
         return Promise.resolve(true) // Anyone can create rooms
       },
 
+      replicas: {
+        min: 0xffffffff, // max u32 (make everyone a replicator, disable sharding)
+      },
       index: {
         key: 'name',
 

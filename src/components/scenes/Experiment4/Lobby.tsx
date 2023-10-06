@@ -98,7 +98,7 @@ export default function Lobby() {
 
   console.log(' > rooms.current:', rooms.current)
 
-  const handleNewRoom = useCallback(() => {
+  const createNewRoom = useCallback(() => {
     const nameTrimmed = getUUID()
     if (lobby) {
       console.log('create room with name: ' + nameTrimmed)
@@ -129,7 +129,7 @@ export default function Lobby() {
         y={50}
         width={300}
         height={100}
-        onPress={handleNewRoom}
+        onPress={createNewRoom}
       />
 
       {loadingPeer ? (
