@@ -9,6 +9,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
   skipWaiting: true,
+  reloadOnOnline: false,
 })
 
 /** @type {import("next").NextConfig} */

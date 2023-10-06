@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+// import { WorkboxEventMap } from 'workbox-window'
 // import '../wdyr'
 
 export default function usePWA() {
@@ -14,10 +15,33 @@ export default function usePWA() {
       const wb = window.workbox
       let reloading = false
 
+      // const v: WorkboxEventMap
+
+      /*
+      - [x] activated
+      - [x] activating
+      - [x] controlling
+      - [x] installed
+      - [x] installing
+      - [] message
+      - [] redundant
+      - [x] waiting
+      */
+
+      wb.addEventListener('activating', (event) => {
+        console.log(`activating: Event ${event.type} is triggered.`)
+        console.dir(event)
+      })
+
       // add event listeners to handle PWA lifecycle events
       wb.addEventListener('installed', (event) => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
+        console.log(`installed: Event ${event.type} is triggered.`)
+        console.dir(event)
+      })
+
+      wb.addEventListener('installing', (event) => {
+        console.log(`installing: Event ${event.type} is triggered.`)
+        console.dir(event)
       })
 
       // Add an event listener to detect when the registered
@@ -40,7 +64,7 @@ export default function usePWA() {
           // that will reload the page as soon as the previously waiting
           // service worker has taken control.
           wb.addEventListener('controlling', () => {
-            console.log('user confirmed reload - controlling event triggered  :')
+            console.log('controlling: user confirmed reload - controlling event triggered  :')
             // At this point, reloading will ensure that the current
             // tab is loaded under the control of the new service worker.
             // Depending on your web app, you may want to auto-save or
@@ -62,13 +86,13 @@ export default function usePWA() {
       })
 
       wb.addEventListener('controlling', (event) => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
+        console.log(`controlling: Event ${event.type} is triggered.`)
+        console.dir(event)
       })
 
       wb.addEventListener('activated', (event) => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
+        console.log(`activated: Event ${event.type} is triggered.`)
+        console.dir(event)
       })
 
       console.log('wb.register()  :')
