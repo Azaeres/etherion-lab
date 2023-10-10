@@ -10,6 +10,7 @@ import getUUID from 'src/app/utils/getUUID'
 import { OPTIONS } from 'src/components/PixiStage'
 import useNextjsRouter from 'src/app/hooks/useNextjsRouter'
 import useNextjsNavigate from 'src/app/hooks/useNextjsNavigate'
+import usePeerList from './hooks/usePeerList'
 // import { randomBytes } from '@peerbit/crypto'
 
 // Same lobby for all users of this app
@@ -19,14 +20,14 @@ const lobbyId = new Uint8Array([
 ])
 
 export default function Lobby() {
-  const { peer, loading: loadingPeer } = usePeer()
+  const { peer, loading: loadingPeer, status } = usePeer()
   const [lobby, setLobby] = useState<LobbyDB>()
   const rooms = useRef<RoomDB[]>([])
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
-  const [peerCount, setPeerCount] = useState(1)
+  const { peerCount, peerList } = usePeerList(lobby)
 
-  // const bytes = randomBytes(32) as Uint8Array
-  // console.log(' > bytes:', bytes.toString())
+  console.log('Lobby render > status:', status)
+  console.log(' > peerCount, peerList:', peerCount, peerList)
 
   useEffect(() => {
     console.log('???', peer?.identity.publicKey.hashcode())
@@ -59,15 +60,9 @@ export default function Lobby() {
             forceUpdate()
           }
         }
-        lobby.rooms.index.search(new SearchRequest(), {}).then((results) => {
+        lobby.rooms.index.search(new SearchRequest(), {}).then((results, ...rest) => {
+          console.log('Got search results  > results, rest:', results, rest)
           addToLobby(results, true)
-
-          // Get current peer count
-          console.log('Get peer count...  :')
-          lobby.rooms.getReady().then((set) => {
-            console.log('lobby.rooms ready.then  > set:', set)
-            return setPeerCount(set.size + 1)
-          })
         })
         lobby.rooms.events.addEventListener('change', async (e) => {
           // additions
@@ -82,16 +77,9 @@ export default function Lobby() {
           })
           e.detail.removed && forceUpdate()
         })
-
-        lobby.rooms.events.addEventListener('join', () => {
-          lobby.rooms.getReady().then((set) => setPeerCount(set.size + 1))
-        })
-
-        lobby.rooms.events.addEventListener('leave', () => {
-          lobby.rooms.getReady().then((set) => setPeerCount(set.size + 1))
-        })
       })
       .catch((e) => {
+        console.log('Caught error!  :')
         console.error(e)
       })
   }, [peer?.identity.publicKey.hashcode()])
@@ -109,9 +97,12 @@ export default function Lobby() {
     }
   }, [lobby])
   const navigate = useNextjsNavigate()
+  console.log(' > peers:', peerList)
+  console.log(' > peer?.identity.publicKey.hashcode():', peer?.identity.publicKey.hashcode())
 
   return (
     <>
+      <Text text={`Connection status: ${status}`} style={styles.smallBody} x={640} y={60} />
       <Button
         text="&equiv; Menu"
         x={OPTIONS.width - 400}

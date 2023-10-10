@@ -13,13 +13,14 @@ import { TextStyle } from 'pixi.js'
 import TextInput from './TextInput'
 import { OPTIONS } from 'src/components/PixiStage'
 import { ProgramClient } from '@peerbit/program'
+import usePeerList from './hooks/usePeerList'
 
 export default function Room() {
   const navigate = useNextjsNavigate()
-  const { peer, loading: loadingPeer } = usePeer()
+  const { peer, loading: loadingPeer, status } = usePeer()
   const [loading, setLoading] = useState(false)
   const room = useRef<RoomDB>()
-  const [peerCounter, setPeerCounter] = useState<number>(1)
+  // const [peerCounter, setPeerCounter] = useState<number>(1)
   const [text, setText] = useState('')
   const posts = useRef<Post[]>([])
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
@@ -33,7 +34,7 @@ export default function Room() {
     room?.current.messages.index.search(new SearchRequest({ query: [] }), {
       remote: { sync: true },
     })
-  }, [room?.current?.id, room?.current?.closed, peerCounter])
+  }, [room?.current?.id, room?.current?.closed])
 
   useEffect(() => {
     if (room.current || !roomIdParam || !peer) {
@@ -98,15 +99,15 @@ export default function Room() {
           forceUpdate()
         })
 
-        r.events.addEventListener('join', () => {
-          //e) => {
-          r.getReady().then((set) => setPeerCounter(set.size + 1))
-        })
+        // r.events.addEventListener('join', () => {
+        //   //e) => {
+        //   r.getReady().then((set) => setPeerCounter(set.size + 1))
+        // })
 
-        r.events.addEventListener('leave', () => {
-          //e) => {
-          r.getReady().then((set) => setPeerCounter(set.size + 1))
-        })
+        // r.events.addEventListener('leave', () => {
+        //   //e) => {
+        //   r.getReady().then((set) => setPeerCounter(set.size + 1))
+        // })
       })
       .catch((e) => {
         console.error('Failed to open room: ' + e.message)
@@ -118,7 +119,6 @@ export default function Room() {
       })
   }, [roomIdParam, peer?.identity.publicKey.hashcode()])
   console.log(' > posts:', posts)
-  console.log(' > text:', text)
 
   const createPost = useCallback(async () => {
     if (!room || !peer) {
@@ -153,6 +153,12 @@ export default function Room() {
 
   return (
     <>
+      <Text
+        text={`Connection status: ${status}`}
+        style={styles.smallBody}
+        x={OPTIONS.width - 540}
+        y={80}
+      />
       <Button
         text="&lsaquo;"
         x={40}
@@ -208,6 +214,8 @@ interface RoomDetailsProps {
 }
 function RoomDetails(props: RoomDetailsProps) {
   const { room, posts, text, setText, createPost, peer } = props
+  const { peerCount, peerList } = usePeerList(room?.messages)
+  console.log(' > peerCount, peerList:', peerCount, peerList)
   const onTextInputKeyup = useCallback(
     (ev: number) => {
       if (ev === 13) {
@@ -216,50 +224,62 @@ function RoomDetails(props: RoomDetailsProps) {
     },
     [createPost]
   )
+  const buttonDisabled = !text
+  let trimmedPosts: Post[] = []
+  if (posts) {
+    const numToRemove = Math.max(0, posts.length - 12)
+    trimmedPosts = [...posts]
+    trimmedPosts.splice(0, numToRemove)
+  }
+
   if (!room || !posts || !peer) {
     return
+  } else {
+    return (
+      <>
+        <Text text={`Room ${room.name}`} style={styles.largeBody} x={180} y={60} />
+        <Text
+          text={`Peers in room: ${peerCount}`}
+          style={styles.smallBody}
+          x={OPTIONS.width - 340}
+          y={140}
+        />
+        <TextInput
+          text={text}
+          onChange={setText}
+          x={40}
+          y={OPTIONS.height - 120}
+          maxLength={120}
+          onKeyup={onTextInputKeyup}
+        />
+        <Button
+          text="⇪"
+          x={600}
+          y={OPTIONS.height - 120}
+          height={70}
+          width={70}
+          disabled={buttonDisabled}
+          onPress={createPost}
+        />
+        {trimmedPosts.length > 0 ? (
+          trimmedPosts.map((p, ix) => {
+            return (
+              <Container key={p.id} x={40} y={200 + 60 * ix}>
+                <Text
+                  text={shortName(p.from.toString())}
+                  style={p.from.equals(peer.identity.publicKey) ? selfStyle : styles.smallBody}
+                  x={40}
+                />
+                <Text text={p.message} style={styles.smallBody} x={440} />
+              </Container>
+            )
+          })
+        ) : (
+          <Text text="No messages found!" style={styles.smallBody} x={40} y={200} />
+        )}
+      </>
+    )
   }
-  const buttonDisabled = !text
-  const numToRemove = Math.max(0, posts.length - 12)
-  const trimmedPosts = [...posts]
-  trimmedPosts.splice(0, numToRemove)
-  return (
-    <>
-      <Text text={`Room ${room.name}`} style={styles.largeBody} x={180} y={60} />
-      <TextInput
-        text={text}
-        onChange={setText}
-        x={40}
-        y={OPTIONS.height - 120}
-        maxLength={120}
-        onKeyup={onTextInputKeyup}
-      />
-      <Button
-        text="⇪"
-        x={600}
-        y={OPTIONS.height - 120}
-        height={70}
-        width={70}
-        disabled={buttonDisabled}
-        onPress={createPost}
-      />
-      {trimmedPosts.length > 0 ? (
-        trimmedPosts.map((p, ix) => {
-          return (
-            <Container key={p.id} x={40} y={200 + 60 * ix}>
-              <Text
-                text={shortName(p.from.toString())}
-                style={p.from.equals(peer.identity.publicKey) ? selfStyle : styles.smallBody}
-              />
-              <Text text={p.message} style={styles.smallBody} x={420} />
-            </Container>
-          )
-        })
-      ) : (
-        <Text text="No messages found!" style={styles.smallBody} x={40} y={200} />
-      )}
-    </>
-  )
 }
 
 const shortName = (name: string) => {
