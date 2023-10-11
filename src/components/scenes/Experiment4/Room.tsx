@@ -50,22 +50,7 @@ export default function Room() {
       })
       .then(async (r) => {
         room.current = r
-        r.messages.events.addEventListener('change', async (e) => {
-          e.detail.added?.forEach((p) => {
-            const ix = posts.current.findIndex((x) => x.id === p.id)
-            if (ix === -1) {
-              posts.current.push(p)
-            } else {
-              posts.current[ix] = p
-            }
-          })
-          e.detail.removed?.forEach((p) => {
-            const ix = posts.current.findIndex((x) => x.id === p.id)
-            if (ix !== -1) {
-              posts.current.splice(ix, 1)
-            }
-          })
-
+        const sortPosts = async () => {
           // Sort by time
           const wallTimes = new Map<string, bigint>()
           await Promise.all(
@@ -95,9 +80,31 @@ export default function Room() {
               return 0
             }
           })
+        }
+        r.messages.events.addEventListener('change', async (e) => {
+          e.detail.added?.forEach((p) => {
+            const ix = posts.current.findIndex((x) => x.id === p.id)
+            if (ix === -1) {
+              posts.current.push(p)
+            } else {
+              posts.current[ix] = p
+            }
+          })
+          e.detail.removed?.forEach((p) => {
+            const ix = posts.current.findIndex((x) => x.id === p.id)
+            if (ix !== -1) {
+              posts.current.splice(ix, 1)
+            }
+          })
 
+          sortPosts()
           forceUpdate()
         })
+
+        // Handle missed events by manually retrieving all posts and setting current posts to the ones we find
+        posts.current = await r.messages.index.search(new SearchRequest())
+        sortPosts()
+        forceUpdate()
 
         // r.events.addEventListener('join', () => {
         //   //e) => {
