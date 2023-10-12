@@ -1,11 +1,12 @@
 import { usePeer } from '@peerbit/react'
 import { PublicSignKey } from '@peerbit/crypto'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef } from 'react'
 import { Program } from '@peerbit/program'
 
 export default function usePeerList(database?: Program) {
   const { peer } = usePeer()
-  const [peers, setPeers] = useState<Record<string, PublicSignKey | null>>({})
+  const peersRef = useRef<Record<string, PublicSignKey | undefined>>({})
+  const [, forceUpdate] = useReducer((x) => x + 1, 0)
 
   console.log('usePeerList()  :')
 
@@ -13,28 +14,31 @@ export default function usePeerList(database?: Program) {
   const join = useCallback((event: any) => {
     const { detail } = event
     console.log('database rcvd join event  > event:', event)
-    setPeers((oldValue) => {
-      return {
-        ...oldValue,
-        [detail.hashcode()]: detail,
-      }
-    })
+    const oldValue = peersRef.current
+    const newValue = {
+      ...oldValue,
+      [detail.hashcode()]: detail,
+    }
+    console.log('join - Setting peers... > newValue:', newValue)
+    peersRef.current = newValue
+    forceUpdate()
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const leave = useCallback((event: any) => {
     const { detail } = event
     console.log('database rcvd leave event  > event:', event)
-    setPeers((oldValue) => {
-      const copy = { ...oldValue }
-      delete copy[detail.hashcode()]
-      return copy
-    })
+    const oldValue = peersRef.current
+    const copy = { ...oldValue }
+    delete copy[detail.hashcode()]
+    console.log('leave - Setting peers... > copy:', copy)
+    peersRef.current = copy
+    forceUpdate()
   }, [])
 
   useEffect(() => {
     database?.getReady().then((set) => {
-      const peersCopy = { ...peers }
+      const peersCopy = { ...peersRef.current }
       set.forEach((hashcode) => {
         const found = peersCopy[hashcode]
         if (!found) {
@@ -43,7 +47,9 @@ export default function usePeerList(database?: Program) {
           peersCopy[hashcode] = publicKey
         }
       })
-      setPeers(peersCopy)
+      console.log('initial - Setting peers... > peersCopy:', peersCopy)
+      peersRef.current = peersCopy
+      forceUpdate()
     })
     console.log('Attaching listeners to  > database:', database)
     database?.events.addEventListener('join', join)
@@ -62,12 +68,14 @@ export default function usePeerList(database?: Program) {
           [publicKey.hashcode()]: peer?.identity.publicKey,
         }
       : {}
-    setPeers(defaultPeers)
-  }, [peer])
+    console.log('self identity - Setting peers... > defaultPeers:', defaultPeers)
+    peersRef.current = defaultPeers
+    forceUpdate()
+  }, [peer, peer?.identity.publicKey])
 
   return {
-    peerCount: getPeerCount(peers),
-    peerList: peers,
+    peerCount: getPeerCount(peersRef.current),
+    peerList: peersRef.current,
   }
 }
 

@@ -24,7 +24,7 @@ export default function Lobby() {
   const [lobby, setLobby] = useState<LobbyDB>()
   const rooms = useRef<RoomDB[]>([])
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
-  const { peerCount, peerList } = usePeerList(lobby)
+  const { peerCount, peerList } = usePeerList(lobby?.rooms)
 
   console.log('Lobby render > status:', status)
   console.log(' > peerCount, peerList:', peerCount, peerList)
