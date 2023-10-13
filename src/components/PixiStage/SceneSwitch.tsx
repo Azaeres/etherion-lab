@@ -1,4 +1,4 @@
-import { SceneId, sceneMap } from 'src/app/[scene]/scenes'
+import { SceneId, sceneMap } from '../scenes/scenes'
 
 export default function SceneSwitch({ currentScene }: { currentScene: SceneId }) {
   if (currentScene !== '/') {

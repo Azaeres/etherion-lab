@@ -1,6 +1,6 @@
 // import dynamic from 'next/dynamic'
 import PixiStage from 'src/components/PixiStage'
-import scenes, { SceneId } from './scenes'
+import scenes, { SceneId } from '../../components/scenes/scenes'
 
 // const PixiStage = dynamic(() => import('src/components/PixiStage'), { ssr: false })
 export default function SingletonStage({ params }: { params: { scene: SceneId } }) {

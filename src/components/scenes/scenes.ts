@@ -13,6 +13,9 @@ export const sceneMap = {
   experiment4: {
     Component: () => DynamicallyImportedScene(import('src/components/scenes/Experiment4')),
   },
+  experiment5: {
+    Component: () => DynamicallyImportedScene(import('src/components/scenes/Experiment5')),
+  },
 } as const
 
 export type SceneId = keyof typeof sceneMap | '/'

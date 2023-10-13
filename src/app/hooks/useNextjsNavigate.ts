@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import useNextjsRouter from './useNextjsRouter'
-import { SceneId } from '../[scene]/scenes'
+import { SceneId } from '../../components/scenes/scenes'
 
 export default function useNextjsNavigate() {
   const router = useNextjsRouter()

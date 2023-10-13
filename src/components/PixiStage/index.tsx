@@ -4,8 +4,8 @@ import { PropsWithChildren, MouseEvent, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { PixelateFilter } from '@pixi/filter-pixelate'
 import { NextNavigationContext } from 'src/app/hooks/useNextjsRouter'
-import { SceneId } from 'src/app/[scene]/scenes'
 import SceneSwitch from './SceneSwitch'
+import { SceneId } from '../scenes/scenes'
 // import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom'
 
 export const OPTIONS = {
