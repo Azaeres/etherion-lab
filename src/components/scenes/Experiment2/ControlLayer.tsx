@@ -82,9 +82,9 @@ export default function ControlLayer(props: ControlLayerProps) {
       )}
       <Text
         text={`Speed: ${speed.toFixed(2)}`}
-        style={styles.body}
-        x={30}
-        y={OPTIONS.height - 80}
+        style={styles.smallBody}
+        x={OPTIONS.width / 2 - 140}
+        y={OPTIONS.height - 100}
       />
       <DesktopView>
         <Overlay />

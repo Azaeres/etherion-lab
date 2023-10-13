@@ -5,59 +5,67 @@ import Button from '../Experiment2/Button'
 import useNextjsNavigate from 'src/app/hooks/useNextjsNavigate'
 import { usePeer } from '@peerbit/react'
 import { SetStateAction, useCallback, useEffect, useReducer, useRef, useState } from 'react'
-import { Post, RoomDB } from './ChatDB'
+// import { Post, RoomDB } from './ChatDB'
 import { SearchRequest } from '@peerbit/document'
-import { getRoomNameFromPath } from './Lobby'
+// import { getRoomNameFromPath } from './Lobby'
 import { X25519Keypair } from '@peerbit/crypto'
 import { TextStyle } from 'pixi.js'
-import TextInput from './TextInput'
+// import TextInput from './TextInput'
 import { OPTIONS } from 'src/components/PixiStage'
 import { ProgramClient } from '@peerbit/program'
-import usePeerList from './hooks/usePeerList'
+import { Post, SpaceDB } from './database/SpaceDB'
+import { getSpaceNameFromPath } from './Universe'
+import { getIdFromPeer } from './database'
+import usePeerList from '../Experiment4/hooks/usePeerList'
+import TextInput from '../Experiment4/TextInput'
+import AreaSwitch from './AreaSwitch'
+import ControlLayer from '../Experiment2/ControlLayer'
+// import usePeerList from './hooks/usePeerList'
 
-export default function Room() {
+export default function Space() {
   const navigate = useNextjsNavigate()
   const { peer, loading: loadingPeer, status } = usePeer()
   const [loading, setLoading] = useState(false)
-  const room = useRef<RoomDB>()
+  const space = useRef<SpaceDB>()
   // const [peerCounter, setPeerCounter] = useState<number>(1)
   const [text, setText] = useState('')
   const posts = useRef<Post[]>([])
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
   const params = new URLSearchParams(document.location.search)
-  const roomIdParam = params.get('c')
+  const spaceIdParam = params.get('c')
+  const peerId = getIdFromPeer(peer)
 
   useEffect(() => {
-    if (!room?.current?.id || room?.current?.closed) {
+    if (!space?.current?.id || space?.current?.closed) {
       return
     }
-    room?.current.messages.index.search(new SearchRequest({ query: [] }), {
+    space?.current.messages.index.search(new SearchRequest({ query: [] }), {
       remote: { sync: true },
     })
-  }, [room?.current?.id, room?.current?.closed])
+  }, [space?.current?.id, space?.current?.closed])
 
   useEffect(() => {
-    if (room.current || !roomIdParam || !peer) {
+    if (space.current || !spaceIdParam || !peer) {
       return
     }
-    room.current = undefined
+    space.current = undefined
     setLoading(true)
-    const name = getRoomNameFromPath(roomIdParam)
+    const name = getSpaceNameFromPath(spaceIdParam)
     peer
-      .open(new RoomDB({ name }), {
+      .open(new SpaceDB({ name }), {
         args: { sync: () => true },
         existing: 'reuse',
       })
       .then(async (r) => {
-        room.current = r
+        space.current = r
         const sortPosts = async () => {
           // Sort by time
           const wallTimes = new Map<string, bigint>()
           await Promise.all(
             posts.current.map(async (x) => {
-              const message = room.current?.messages.index.index.get(x.id)
+              const message = space.current?.messages.index.index.get(x.id)
               const head = message?.context.head
-              const entry = head && (await room.current?.messages.log.log.get(head))
+              const entry = head && (await space.current?.messages.log.log.get(head))
               return {
                 post: x,
                 entry,
@@ -105,16 +113,6 @@ export default function Room() {
         posts.current = await r.messages.index.search(new SearchRequest())
         sortPosts()
         forceUpdate()
-
-        // r.events.addEventListener('join', () => {
-        //   //e) => {
-        //   r.getReady().then((set) => setPeerCounter(set.size + 1))
-        // })
-
-        // r.events.addEventListener('leave', () => {
-        //   //e) => {
-        //   r.getReady().then((set) => setPeerCounter(set.size + 1))
-        // })
       })
       .catch((e) => {
         console.error('Failed to open room: ' + e.message)
@@ -124,18 +122,18 @@ export default function Room() {
       .finally(() => {
         setLoading(false)
       })
-  }, [roomIdParam, peer?.identity.publicKey.hashcode()])
+  }, [spaceIdParam, peerId])
   console.log(' > posts:', posts)
 
   const createPost = useCallback(async () => {
-    if (!room || !peer) {
+    if (!space || !peer) {
       return
     }
     const exportedKeypair = await peer.keychain.exportByKey(peer.identity.publicKey)
     if (!exportedKeypair) {
       return
     }
-    room.current?.messages
+    space.current?.messages
       .put(new Post({ message: text, from: peer.identity.publicKey }), {
         encryption: {
           // TODO do once for performance
@@ -156,24 +154,11 @@ export default function Room() {
         // alert('Failed to create message: ' + e.message)
         throw e
       })
-  }, [text, room, peer])
+  }, [text, space, peer])
 
   return (
     <>
-      <Text
-        text={`Connection status: ${status}`}
-        style={styles.smallBody}
-        x={OPTIONS.width - 540}
-        y={80}
-      />
-      <Button
-        text="&lsaquo;"
-        x={40}
-        y={50}
-        width={100}
-        height={100}
-        onPress={navigate('experiment4')}
-      />
+      <Text text={`Connection status: ${status}`} style={styles.smallBody} x={180} y={60} />
       {loading || loadingPeer ? (
         <Text
           text="Loading..."
@@ -189,8 +174,8 @@ export default function Room() {
           y={60}
         />
       ) : (
-        <RoomDetails
-          room={room.current}
+        <SpaceDetails
+          space={space.current}
           posts={posts.current}
           text={text}
           setText={setText}
@@ -198,6 +183,14 @@ export default function Room() {
           peer={peer}
         />
       )}
+      <Button
+        text="&lsaquo;"
+        x={40}
+        y={50}
+        width={100}
+        height={100}
+        onPress={navigate('experiment5')}
+      />
     </>
   )
 }
@@ -211,17 +204,18 @@ const selfStyle = new TextStyle({
   fontWeight: 'bold',
 })
 
-interface RoomDetailsProps {
-  room?: RoomDB
+interface SpaceDetailsProps {
+  space?: SpaceDB
   posts?: Post[]
   text: string
   peer?: ProgramClient
   setText: (value: SetStateAction<string>) => void
   createPost?: () => void
 }
-function RoomDetails(props: RoomDetailsProps) {
-  const { room, posts, text, setText, createPost, peer } = props
-  const { peerCount, peerList } = usePeerList(room?.messages)
+function SpaceDetails(props: SpaceDetailsProps) {
+  const { space, posts, text, setText, createPost, peer } = props
+  const { peerCount, peerList } = usePeerList(space?.messages)
+  const peerId = getIdFromPeer(peer)
   console.log(' > peerCount, peerList:', peerCount, peerList)
   const onTextInputKeyup = useCallback(
     (ev: number) => {
@@ -239,18 +233,31 @@ function RoomDetails(props: RoomDetailsProps) {
     trimmedPosts.splice(0, numToRemove)
   }
 
-  if (!room || !posts || !peer) {
+  if (!space || !posts || !peer) {
     return
   } else {
     return (
       <>
-        <Text text={`Room ${room.name}`} style={styles.largeBody} x={180} y={60} />
-        <Text
-          text={`Peers in room: ${peerCount}`}
-          style={styles.smallBody}
-          x={OPTIONS.width - 340}
-          y={140}
-        />
+        <AreaSwitch />
+        {/* <Text text={`Space ${space.name}`} style={styles.smallBody} x={180} y={60} /> */}
+        <Text text={`Peers in space: ${peerCount}`} style={styles.smallBody} x={180} y={100} />
+        {trimmedPosts.length > 0 ? (
+          trimmedPosts.map((p, ix) => {
+            return (
+              <Container key={p.id} x={40} y={200 + 60 * ix}>
+                <Text
+                  text={shortName(p.from.toString())}
+                  style={p.from.equals(peer.identity.publicKey) ? selfStyle : styles.smallBody}
+                  x={40}
+                />
+                <Text text={p.message} style={styles.smallBody} x={440} />
+              </Container>
+            )
+          })
+        ) : (
+          <Text text="No messages found!" style={styles.smallBody} x={40} y={200} />
+        )}
+        <ControlLayer peerId={peerId} />
         <TextInput
           text={text}
           onChange={setText}
@@ -268,22 +275,6 @@ function RoomDetails(props: RoomDetailsProps) {
           disabled={buttonDisabled}
           onPress={createPost}
         />
-        {trimmedPosts.length > 0 ? (
-          trimmedPosts.map((p, ix) => {
-            return (
-              <Container key={p.id} x={40} y={200 + 60 * ix}>
-                <Text
-                  text={shortName(p.from.toString())}
-                  style={p.from.equals(peer.identity.publicKey) ? selfStyle : styles.smallBody}
-                  x={40}
-                />
-                <Text text={p.message} style={styles.smallBody} x={440} />
-              </Container>
-            )
-          })
-        ) : (
-          <Text text="No messages found!" style={styles.smallBody} x={40} y={200} />
-        )}
       </>
     )
   }
