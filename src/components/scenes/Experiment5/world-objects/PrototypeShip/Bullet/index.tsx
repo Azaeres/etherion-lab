@@ -1,10 +1,10 @@
 import { Graphics, useTick } from '@pixi/react'
-import PlanckBody from '../../../Experiment2/PlanckBody'
+import PlanckBody from '../../../../Experiment2/PlanckBody'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Graphics as PixiGraphics } from 'pixi.js'
 import { Body, BodyDef, Box, Vec2 } from 'planck'
 import { Meters, Vec2Meters, pxFromMeters } from 'src/utils/physics'
-import { useCameraVelocityUpdateListener } from '../../../Experiment2/events'
+import { useCameraVelocityUpdateListener } from '../../../../Experiment2/events'
 
 export interface BulletProps {
   id: string

@@ -20,6 +20,7 @@ import usePeerList from '../Experiment4/hooks/usePeerList'
 import TextInput from '../Experiment4/TextInput'
 import AreaSwitch from './AreaSwitch'
 import ControlLayer from '../Experiment2/ControlLayer'
+// import { AreaDB } from './database/AreaDB'
 // import usePeerList from './hooks/usePeerList'
 
 export default function Space() {
@@ -214,9 +215,9 @@ interface SpaceDetailsProps {
 }
 function SpaceDetails(props: SpaceDetailsProps) {
   const { space, posts, text, setText, createPost, peer } = props
-  const { peerCount, peerList } = usePeerList(space?.messages)
+  const { peerCount } = usePeerList(space?.messages)
   const peerId = getIdFromPeer(peer)
-  console.log(' > peerCount, peerList:', peerCount, peerList)
+  // console.log('SpaceDetails > peerCount, peerList:', peerCount, peerList)
   const onTextInputKeyup = useCallback(
     (ev: number) => {
       if (ev === 13) {

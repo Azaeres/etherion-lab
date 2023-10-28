@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAvatarCurrentAreaUpdateListener } from '../PrototypeShip/events'
+import { useAvatarCurrentAreaUpdateListener } from '../world-objects/PrototypeShip/events'
 import { DEFAULT_AREA } from '../areas/AsteroidFieldArea'
 import { AreaId, areaMap } from './areas'
 
@@ -10,6 +10,7 @@ import { AreaId, areaMap } from './areas'
 
 export default function AreaSwitch() {
   const [currentArea, setCurrentArea] = useState<AreaId>(DEFAULT_AREA)
+  // console.log('AreaSwitch render  : currentArea:', currentArea)
   useAvatarCurrentAreaUpdateListener(setCurrentArea)
   const AreaComponent = areaMap[currentArea].Component
   return <AreaComponent />

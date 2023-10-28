@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
-import Dust from '.'
+import { useEffect, useState } from 'react'
 import { Vec2 } from 'planck'
 import { Meters, Pixels, Vec2Meters, metersFromPx } from 'src/utils/physics'
 import { useCameraPositionUpdateListener } from '../events'
@@ -24,7 +23,7 @@ export default function DustSpawnManager(props: DustSpawnManagerProps) {
   const {
     density = DEFAULT_DENSITY,
     generationDistance = GENERATION_DISTANCE,
-    cullingDistance,
+    // cullingDistance,
   } = props
   const [cameraPosition, setCameraPosition] = useState<Vec2Meters>()
   useCameraPositionUpdateListener(setCameraPosition)
@@ -56,34 +55,35 @@ export default function DustSpawnManager(props: DustSpawnManagerProps) {
       setCollection(newCollection)
     }
   }, [cameraPosition, collection, density, generationDistance, initialSetup])
-  const destroyDust = useCallback(
-    (id: string) => {
-      const indexOfDustToDestroy = collection.findIndex((dustConfig) => {
-        return dustConfig.id === id
-      })
-      const newCollection = [...collection]
-      newCollection.splice(indexOfDustToDestroy, 1)
-      setCollection(newCollection)
-    },
-    [collection]
-  )
-  return (
-    <>
-      {collection.map((dustConfig) => {
-        return (
-          <Dust
-            key={dustConfig.id}
-            cullingDistance={cullingDistance}
-            cameraPosition={cameraPosition}
-            {...dustConfig}
-            destroy={() => {
-              destroyDust(dustConfig.id)
-            }}
-          />
-        )
-      })}
-    </>
-  )
+  // const destroyDust = useCallback(
+  //   (id: string) => {
+  //     const indexOfDustToDestroy = collection.findIndex((dustConfig) => {
+  //       return dustConfig.id === id
+  //     })
+  //     const newCollection = [...collection]
+  //     newCollection.splice(indexOfDustToDestroy, 1)
+  //     setCollection(newCollection)
+  //   },
+  //   [collection]
+  // )
+  return null
+  // return (
+  //   <>
+  //     {collection.map((dustConfig) => {
+  //       return (
+  //         <Dust
+  //           key={dustConfig.id}
+  //           cullingDistance={cullingDistance}
+  //           cameraPosition={cameraPosition}
+  //           {...dustConfig}
+  //           destroy={() => {
+  //             destroyDust(dustConfig.id)
+  //           }}
+  //         />
+  //       )
+  //     })}
+  //   </>
+  // )
 }
 
 function getDustConfig(x: Meters, y: Meters) {

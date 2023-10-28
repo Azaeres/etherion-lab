@@ -1,7 +1,9 @@
 'use client'
 import { useEffect } from 'react'
 // import { WorkboxEventMap } from 'workbox-window'
-// import '../wdyr'
+// import wdyr from '../wdyr'
+
+// console.log('PWA.ts loaded!  :', wdyr)
 
 export default function usePWA() {
   useEffect(() => {

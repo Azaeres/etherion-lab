@@ -2,7 +2,7 @@ import { useTick } from '@pixi/react'
 import { Body, Vec2 } from 'planck'
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { Vec2Meters } from 'src/utils/physics'
-import { useOverlayClickListener } from '../../Experiment2/Overlay/events'
+import { useOverlayClickListener } from '../../../Experiment2/Overlay/events'
 import {
   useAttackActivateListener,
   useAttackDisengageListener,
@@ -10,13 +10,13 @@ import {
   useMoveActivateListener,
   useMoveDisengageListener,
   useMoveEngageListener,
-} from '../../Experiment2/Button/events'
-import { useDPadVectorUpdateListener } from '../../Experiment2/Dpad/events'
+} from '../../../Experiment2/Button/events'
+import { useDPadVectorUpdateListener } from '../../../Experiment2/Dpad/events'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { radiansFromDegrees } from '../../Experiment2/Button'
+import { radiansFromDegrees } from '../../../Experiment2/Button'
 import BulletSpawnManager from './Bullet/BulletSpawnManager'
 import { getVectorFromHeading } from '.'
-import { AreaId } from '../AreaSwitch/areas'
+import { AreaId } from '../../AreaSwitch/areas'
 import { emitAvatarCurrentAreaUpdate } from './events'
 // import DebugDrawVector from '../DebugDrawVector'
 
@@ -166,6 +166,7 @@ export default function Controls(props: ControlsProps) {
       angularVelocity !== undefined &&
       inertia !== undefined
     ) {
+      // console.log('calc ang impulse for ship  :')
       const actualHeadingAngle = Math.atan2(-actualHeadingVector.y, actualHeadingVector.x)
       const desiredHeadingAngle = Math.atan2(-desiredHeadingVector.y, desiredHeadingVector.x)
       const nextAngle = actualHeadingAngle + angularVelocity / 6
