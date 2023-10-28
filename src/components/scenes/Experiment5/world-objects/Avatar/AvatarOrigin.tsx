@@ -18,10 +18,12 @@ export default function AvatarOrigin(props: AvatarOriginProps) {
     return null
   }
   const defaultConfig = {
+    id: '1',
     area,
     owner: peerId,
     pos_x: 0.0 as Meters,
     pos_y: 0.0 as Meters,
+    pos_z: -500,
     rotation: radiansFromDegrees(-90),
     scale: 6,
     orphan: false,
