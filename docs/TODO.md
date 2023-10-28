@@ -5,8 +5,14 @@ Goals that are related closely enough to be developed together have the same "ch
 Checkboxes are open for the chord that's currently in the bee-line.
 
 - [ ] 7. Peer-to-peer sync & multiplayer.
-- [ ] 7. React state to/from Peerbit database state hook.
-- [ ] 7. Persistence layer (OPFS SQLite3?).
+- [x] 7. React state to/from Peerbit database state hook.
+- [ ] 7. One-way data flow
+- [x] 7. ManifestationBoundary (origin), Dust manifestation hook
+- [ ] 7. Avatar origin manifestation hook
+- [ ] 7. Bullet origin manifestation component
+- [ ] 7. Database update hook
+- [ ] 7. Downstream manifestation
+- [ ] 7. Upstream orphan manifestation
 - [ ] 7. Host access control.
 - 5. Game menu
 - 5. Configuration
@@ -31,9 +37,6 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - [x] 1. Create button component
 - [x] 1. Planck/Box2D physics animations
 - [x] React Spring animations
-- [ ] 2. <span style="color: green">Offline-first, persistent database (RxDB?)</span>
-- 2. Private syncing server (Electron?, docker)
-- 2. Private multiplayer (stub)
 - 3. Etherion store app
 - 3. Feature flag service
 - 3. Premium Pass
