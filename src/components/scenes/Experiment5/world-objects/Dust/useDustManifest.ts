@@ -1,19 +1,15 @@
-import { useCallback, useEffect, useState } from 'react'
-import { Meters, Vec2Meters } from 'src/utils/physics'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Meters, Pixels, Vec2Meters, metersFromPx, pxFromMeters } from 'src/utils/physics'
 import { Vec2 } from 'planck'
 import {
-  DepthStructuredCollection,
-  WorldObjectCollectionManifest,
+  DepthStructuredManifests,
+  WorldObjectManifest,
   WorldObjectModel,
 } from '../../database/WorldObject'
 import { v4 as uuid } from 'uuid'
 import { AreaId } from '../../AreaSwitch/areas'
 import { PeerId } from '../../database'
-import objectMap from 'src/utils/objectMap'
-// import objectMap from 'just-map-object'
-
-// const DEFAULT_DENSITY = 100
-// const GENERATION_DISTANCE = metersFromPx(4000 as Pixels)
+import objectMap from 'just-map-values'
 
 export type DustLayerConfig = {
   density: number // The count to populate.
@@ -30,26 +26,26 @@ export function useDustManifest(
   area: AreaId,
   owner: PeerId,
   cameraPosition?: Vec2Meters
-): WorldObjectCollectionManifest {
+): DepthStructuredManifests {
   const [initialSetup, setInitialSetup] = useState(true)
-  const [layerCollections, setLayerCollections] = useState<DepthStructuredCollection>({})
+  const depthStructuredManifests = useRef<DepthStructuredManifests>({})
   const populateLayer = useCallback(
     (
       dustLayerConfig: DustLayerConfig,
-      layerCollection: WorldObjectModel[],
+      layerManifests: WorldObjectManifest[],
       zIndex: number
-    ): WorldObjectModel[] => {
-      if (!cameraPosition) return layerCollection
-
+    ): WorldObjectManifest[] => {
       // console.log('populateLayer()  > dustLayerConfig:', dustLayerConfig)
-      // console.log(' > layerCollection:', layerCollection)
+      // console.log(' > layerManifests:', layerManifests)
       // console.log(' > zIndex:', zIndex)
+      if (!cameraPosition) return layerManifests
+
       const { density, generationDistance, cullingDistance } = dustLayerConfig
       // Populates the collection.
-      const availableSlots = density - layerCollection.length
+      const availableSlots = density - layerManifests.length
       // console.log(' > availableSlots:', availableSlots)
       if (availableSlots > 0) {
-        const newCollection = [...layerCollection]
+        const newCollection = [...layerManifests]
         if (initialSetup) {
           // Initial setup.
           for (let index = 0; index < availableSlots; index++) {
@@ -57,16 +53,21 @@ export function useDustManifest(
             const x = (Math.random() * generationDistance * 2 - generationDistance) as Meters
             const y = (Math.random() * generationDistance * 2 - generationDistance) as Meters
             const dustModel = getDustModel(x, y, zIndex, area, owner, cullingDistance)
-            newCollection.push(dustModel)
+            const dustUnmanifest = () => unmanifest(dustModel.id)
+            const dustManifest = getDustManifest(dustModel, dustUnmanifest)
+            newCollection.push(dustManifest)
           }
           setInitialSetup(false)
         } else {
           // console.log('Populating collection. > availableSlots:', availableSlots)
           for (let index = 0; index < availableSlots; index++) {
+            // console.log('getting random point  > generationDistance:', generationDistance)
+            // console.log(' > cameraPosition:', cameraPosition)
             const randomPoint = getRandomPointOnGenerationBoundary(
               cameraPosition,
               generationDistance
             )
+            // console.log(' > randomPoint:', randomPoint)
             const dustModel = getDustModel(
               -randomPoint.x as Meters,
               -randomPoint.y as Meters,
@@ -75,29 +76,38 @@ export function useDustManifest(
               owner,
               cullingDistance
             )
-            // console.log(' > dustModel:', dustModel)
-            newCollection.push(dustModel)
+            const dustUnmanifest = () => unmanifest(dustModel.id)
+            const dustManifest = getDustManifest(dustModel, dustUnmanifest)
+            newCollection.push(dustManifest)
           }
         }
         return newCollection
       } else {
-        return layerCollection
+        return layerManifests
       }
     },
     [area, cameraPosition?.x, cameraPosition?.y, initialSetup, owner]
   )
   useEffect(() => {
-    // dustConfig -> layerCollections
-    // console.log(' > dustConfig:', dustConfig)
-    const newLayerCollections: DepthStructuredCollection = objectMap<
-      WorldObjectModel[],
-      DustLayerConfig
-    >(dustConfig, (zIndex, dustLayerConfig) => {
-      const layerCollection = layerCollections[zIndex] || []
+    // dustConfig -> depthStructuredManifests
+    // console.log('dustConfig -> depthStructuredManifests > dustConfig:', dustConfig)
+    // <
+    //   WorldObjectModel[],
+    //   DustLayerConfig
+    // >
+    const newDepthStructuredManifest: DepthStructuredManifests = objectMap<
+      DustLayerConfig,
+      WorldObjectManifest[]
+    >(dustConfig, (dustLayerConfig, zIndex) => {
       // console.log('objMap (dustConfig -> layerCollections) > dustLayerConfig:', dustLayerConfig)
-      // console.log(' > layerCollection:', layerCollection)
       // console.log(' > zIndex:', zIndex)
-      const result = populateLayer(dustLayerConfig, layerCollection, Number(zIndex))
+      // console.log(' > depthStructuredManifests, zIndex:', depthStructuredManifests, zIndex)
+      const layerManifests = depthStructuredManifests.current[zIndex] || []
+      // console.log(
+      //   'useDustManifest dustConfig -> depthStructuredManifests > layerManifests:',
+      //   layerManifests
+      // )
+      const result = populateLayer(dustLayerConfig, layerManifests, Number(zIndex))
       // console.log('populateLayer => result', result)
       return result
     })
@@ -105,54 +115,53 @@ export function useDustManifest(
     //   '[dustConfig -> layerCollections] setting  > newLayerCollections:',
     //   newLayerCollections
     // )
-    setLayerCollections(newLayerCollections)
+    depthStructuredManifests.current = newDepthStructuredManifest
   }, [dustConfig, populateLayer])
-  const [totalCollection, setTotalCollection] = useState<WorldObjectModel[]>([])
-  useEffect(() => {
-    // layerCollections -> totalCollection
-    // console.log('layerCollections -> setTotalCollection > layerCollections:', layerCollections)
-    const allCollections = Object.values(layerCollections)
-    const newTotalCollection = allCollections.reduce((acc, collection) => {
-      return [...acc, ...collection]
-    }, [])
-    // console.log('[layerCollections -> totalCollection]  > newTotalCollection:', newTotalCollection)
-    setTotalCollection(newTotalCollection)
-  }, [layerCollections])
-  const unmanifest = useCallback(
-    (id: string) => {
-      const unmanifestLayerCollections = (id: string, zIndex: string) => {
-        // console.log('unmanifestLayerCollections  > id, zIndex:', id, zIndex)
-        // console.log(' > layerCollections:', layerCollections)
-        // console.log(' > typeof zIndex:', typeof zIndex)
-        const layerCollection = layerCollections[zIndex]
-        // console.log(' > layerCollection:', layerCollection)
-        if (layerCollection) {
-          const indexOfDustToDestroy = layerCollection.findIndex((dustModel) => {
-            return dustModel.id === id
-          })
-          if (indexOfDustToDestroy !== -1) {
-            // console.log('found  > indexOfDustToDestroy:', indexOfDustToDestroy)
-            const newLayerCollection = [...layerCollection]
-            newLayerCollection.splice(indexOfDustToDestroy, 1)
-            setLayerCollections((currentCollections) => {
-              return { ...currentCollections, [zIndex]: newLayerCollection }
-            })
+  const unmanifest = useCallback((id: string) => {
+    // console.log('unmanifest  > id:', id)
+    const unmanifestLayerCollections = (id: string, zIndex: string) => {
+      // console.log('unmanifestLayerCollections  > id, zIndex:', id, zIndex)
+      // console.log(' > depthStructuredManifests.current:', depthStructuredManifests.current)
+      // console.log(' > typeof zIndex:', typeof zIndex)
+      const worldObjectManifests = depthStructuredManifests.current[zIndex]
+      // console.log(' > worldObjectManifests:', worldObjectManifests)
+      if (worldObjectManifests) {
+        const indexOfDustToDestroy = worldObjectManifests.findIndex((dustManifest) => {
+          return dustManifest.worldObjectModel.id === id
+        })
+        if (indexOfDustToDestroy !== -1) {
+          // console.log('found  > indexOfDustToDestroy:', indexOfDustToDestroy)
+          const newWorldObjectManifests = [...worldObjectManifests]
+          newWorldObjectManifests.splice(indexOfDustToDestroy, 1)
+          const currentDepthStructuredManifests = depthStructuredManifests.current
+          depthStructuredManifests.current = {
+            ...currentDepthStructuredManifests,
+            [zIndex]: newWorldObjectManifests,
           }
-          // else {
-          //   console.warn('Warning: Unmanifest layer given non-existent world object id: ', id)
-          // }
-        } else {
-          console.warn('Warning: Unmanifest layer given non-existent zIndex: ', zIndex)
         }
+      } else {
+        console.warn('Warning: Unmanifest layer given non-existent zIndex: ', zIndex)
       }
-      // console.log('unmanifest()  > id:', id)
-      Object.keys(layerCollections).forEach((zIndex) => {
-        unmanifestLayerCollections(id, zIndex)
-      })
-    },
-    [layerCollections]
-  )
-  return [totalCollection, unmanifest]
+    }
+    // console.log('unmanifest()  > id:', id)
+    // console.log('keys:  > depthStructuredManifests.current:', depthStructuredManifests.current)
+    Object.keys(depthStructuredManifests.current).forEach((zIndex) => {
+      // console.log(' > zIndex:', zIndex)
+      unmanifestLayerCollections(id, zIndex)
+    })
+  }, [])
+  // console.log('useDustManifest() > depthStructuredManifests:', depthStructuredManifests)
+  return depthStructuredManifests.current
+}
+
+function getDustManifest(
+  worldObjectModel: WorldObjectModel,
+  unmanifest: () => void
+): WorldObjectManifest {
+  return {
+    worldObjectModel,
+    unmanifest,
+  }
 }
 
 function getDustModel(
@@ -183,14 +192,17 @@ function getRandomPointOnGenerationBoundary(
   generationDistance: Meters
 ) {
   const randomPoint = _randomPointNearRect(
-    cameraPosition.x - generationDistance,
-    cameraPosition.y - generationDistance,
-    generationDistance * 2,
-    generationDistance * 2,
-    10,
-    10
+    pxFromMeters((cameraPosition.x - generationDistance) as Meters),
+    pxFromMeters((cameraPosition.y - generationDistance) as Meters),
+    pxFromMeters((generationDistance * 2) as Meters),
+    pxFromMeters((generationDistance * 2) as Meters),
+    pxFromMeters(0.01 as Meters),
+    pxFromMeters(0.01 as Meters)
   )
-  return new Vec2(randomPoint.x, -randomPoint.y) as Vec2Meters
+  return new Vec2(
+    metersFromPx(randomPoint.x as Pixels),
+    metersFromPx(-randomPoint.y as Pixels)
+  ) as Vec2Meters
 }
 
 // The arguments x,y top left inside edge of rectangle, w,h inside width

@@ -1,25 +1,7 @@
-import { WorldObjectProps } from '../database/WorldObject'
-import Dust from './Dust'
-import DynamicallyImportedComponent from './DynamicallyImportedComponent'
+import { lazy } from 'react'
 
 export const worldObjectMap = {
-  ['Dust']: {
-    Component: Dust,
-  },
-  // ['Dust']: {
-  //   Component: (props: WorldObjectProps<object | undefined>) =>
-  //     DynamicallyImportedComponent(
-  //       import('src/components/scenes/Experiment5/world-objects/Dust'),
-  //       props
-  //     ),
-  // },
-  ['NebulaArea']: {
-    Component: (props: WorldObjectProps<object | undefined>) =>
-      DynamicallyImportedComponent(
-        import('src/components/scenes/Experiment5/areas/NebulaArea'),
-        props
-      ),
-  },
+  ['Dust']: lazy(() => import('src/components/scenes/Experiment5/world-objects/Dust')),
 } as const
 
 export type WorldObjectComponentId = keyof typeof worldObjectMap

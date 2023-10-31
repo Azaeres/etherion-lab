@@ -63,7 +63,8 @@ export type DepthStructuredCollection = {
 export type DepthStructuredManifests = {
   [zIndex: string]: WorldObjectManifest[]
 }
-export type WorldObjectCollectionManifest = [WorldObjectModel[], (id: string) => void]
+
+// export type WorldObjectCollectionManifest = [DepthStructuredCollection, (id: string) => void]
 
 @variant(0) // for versioning purposes, we can do @variant(1) when we create a new post type version
 export class WorldObject implements WorldObjectModel {

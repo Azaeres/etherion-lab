@@ -9,10 +9,10 @@ Checkboxes are open for the chord that's currently in the bee-line.
 - [ ] 7. One-way data flow
 - [x] 7. ManifestationBoundary (origin), Dust manifestation hook
 - [ ] 7. Avatar origin manifestation hook
-- [ ] 7. Bullet origin manifestation component
-- [ ] 7. Database update hook
-- [ ] 7. Downstream manifestation
-- [ ] 7. Upstream orphan manifestation
+- [ ] 7. Bullet origin manifestation component (including bullet wo component)
+- [ ] 7. Database update hook (called by ship, bullets)
+- [ ] 7. Downstream manifestation (aspect of ManifestationBoundary component, database)
+- [ ] 7. Upstream orphan manifestation (aspect of ManifestationBoundary component, database)
 - [ ] 7. Host access control.
 - 5. Game menu
 - 5. Configuration

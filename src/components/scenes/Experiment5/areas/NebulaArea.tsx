@@ -1,7 +1,7 @@
 import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
 import { Texture } from 'pixi.js'
 import DebugIndicator from 'src/components/DebugIndicator'
-import { metersFromPx, Pixels, Vec2Meters } from 'src/utils/physics'
+import { Meters, Vec2Meters } from 'src/utils/physics'
 import PlanckWorldProvider from '../../Experiment2/PlanckWorldProvider'
 import { Sprite } from '@pixi/react-animated'
 import stars from 'src/components/scenes/Experiment1/assets/Stars-full.webp'
@@ -19,26 +19,25 @@ import {
   useCameraPositionUpdateListener,
   useCameraVelocityUpdateListener,
 } from '../world-objects/events'
-import getWorldObjectManifests from '../hooks/getWorldObjectManifests'
 import ManifestationBoundary, {
   getDepthStructuredManifests,
 } from '../AreaSwitch/ManifestationBoundary'
 
 const dustConfig: DustConfig = {
-  '-300': {
-    density: 30, // 20
-    generationDistance: metersFromPx(3700 as Pixels),
-    cullingDistance: metersFromPx(3000 as Pixels),
+  '-400': {
+    density: 30, // 40
+    generationDistance: 30.0 as Meters,
+    cullingDistance: 31.0 as Meters,
   },
   '-800': {
     density: 40, // 30
-    generationDistance: metersFromPx(5700 as Pixels),
-    cullingDistance: metersFromPx(4800 as Pixels),
+    generationDistance: 48.0 as Meters,
+    cullingDistance: 49.0 as Meters,
   },
-  '-1450': {
-    density: 160, // 50
-    generationDistance: metersFromPx(8500 as Pixels),
-    cullingDistance: metersFromPx(9000 as Pixels),
+  '-1200': {
+    density: 50, // 50
+    generationDistance: 65.0 as Meters,
+    cullingDistance: 66.0 as Meters,
   },
 } as const
 
@@ -52,8 +51,7 @@ export default function NebulaArea() {
   const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
   useCameraVelocityUpdateListener(setCameraVelocity)
   const dust = useDustManifest(dustConfig, AREA, peerId, cameraPosition)
-  const worldObjectManifests = getWorldObjectManifests(dust)
-  const depthStructuredManifests = getDepthStructuredManifests(worldObjectManifests)
+  const depthStructuredManifests = getDepthStructuredManifests(dust)
   return (
     <>
       <Sprite
@@ -66,35 +64,14 @@ export default function NebulaArea() {
       <Text text="Sector 2" style={styles.largeBody} x={OPTIONS.width / 2 - 180} y={80} />
       <PlanckWorldProvider gravityY={0}>
         <ParallaxCameraProvider movementDamping={2.0}>
-          {/* <ParallaxLayer zIndex={-1250}>
-            <DustSpawnManager
-              density={20}
-              generationDistance={metersFromPx(8000 as Pixels)}
-              cullingDistance={metersFromPx(9000 as Pixels)}
-            />
-          </ParallaxLayer>
-          <ParallaxLayer zIndex={-800}>
-            <DustSpawnManager
-              density={30}
-              generationDistance={metersFromPx(6000 as Pixels)}
-              cullingDistance={metersFromPx(7000 as Pixels)}
-            />
-          </ParallaxLayer> */}
           <ManifestationBoundary
             depthStructuredManifests={depthStructuredManifests}
             cameraPosition={cameraPosition}
             cameraVelocity={cameraVelocity}
           />
           <ParallaxLayer zIndex={-500}>
-            {/* <DustSpawnManager
-              density={50}
-              generationDistance={metersFromPx(5000 as Pixels)}
-              cullingDistance={metersFromPx(6000 as Pixels)}
-            /> */}
             <AvatarOrigin area="NebulaArea" />
           </ParallaxLayer>
-          {/* <ParallaxLayer zIndex={-300}></ParallaxLayer>
-          <ParallaxLayer zIndex={-1}></ParallaxLayer> */}
           <CameraObserver />
           <DebugIndicator showCameraPosition />
         </ParallaxCameraProvider>

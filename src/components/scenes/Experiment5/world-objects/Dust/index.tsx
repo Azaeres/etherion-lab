@@ -4,7 +4,8 @@ import { Graphics as PixiGraphics } from 'pixi.js'
 import { Meters, Pixels, Vec2Meters, metersFromPx, pxFromMeters } from 'src/utils/physics'
 import { Vec2 } from 'planck'
 import { WorldObjectProps } from '../../database/WorldObject'
-import { useThrottledCallback } from 'use-debounce'
+// import { Container, Text } from '@pixi/react'
+// import { styles } from 'src/utils/pixi-styles'
 
 const CULLING_DISTANCE = metersFromPx(5000 as Pixels)
 
@@ -24,6 +25,7 @@ interface DustData {
 export default function Dust(props: WorldObjectProps<DustData>) {
   // console.log('Dust render  :', props)
   const {
+    // id,
     pos_x,
     pos_y,
     unmanifest,
@@ -33,6 +35,7 @@ export default function Dust(props: WorldObjectProps<DustData>) {
     cameraVelocityY,
   } = props
   const { cullingDistance } = props.data!
+  // const [isSafe, setIsSafe] = useState(true)
   // console.log('Dust  > props:', props)
   // const [cameraPosition, setCameraPosition] = useState<Vec2Meters>()
   // useCameraPositionUpdateListener(setCameraPosition)
@@ -53,30 +56,46 @@ export default function Dust(props: WorldObjectProps<DustData>) {
       return new Vec2(cameraVelocityX, cameraVelocityY) as Vec2Meters
     }
   }, [cameraVelocityX, cameraVelocityY])
-  const update = useThrottledCallback(() => {
+  const update = useCallback(() => {
     // console.log('check isSafe to unmanifest dust  :')
     if (cameraPosition && positionVector && unmanifest) {
       // console.log('isPositionWithinCameraBounds  > positionVector:', positionVector)
       // console.log(' > cameraPosition:', cameraPosition)
       // console.log(' > cullingDistance:', cullingDistance)
       const isSafe = isPositionWithinCameraBounds(positionVector, cameraPosition, cullingDistance)
+      // if (isSafe !== null) {
+      //   setIsSafe(isSafe)
+      // }
       // console.log(' > isSafe:', isSafe)
       if (!isSafe) {
-        // console.log('Unmanifesting dust  :')
+        // console.log('isPositionWithinCameraBounds  > positionVector:', positionVector)
+        // console.log(' > cameraPosition:', cameraPosition)
+        // console.log(' > cullingDistance:', cullingDistance)
+        // console.log(' > isSafe:', isSafe)
+        // console.log('Unmanifesting dust  :', id)
         unmanifest()
       }
     }
-  }, 200)
-  // [
-  //   cameraPosition?.x,
-  //   cameraPosition?.y,
-  //   cullingDistance,
-  //   positionVector?.x,
-  //   positionVector?.y,
-  //   unmanifest,
-  // ]
+  }, [
+    cameraPosition?.x,
+    cameraPosition?.y,
+    cullingDistance,
+    positionVector?.x,
+    positionVector?.y,
+    unmanifest,
+  ])
+
   useTick(update)
   return <DustGraphic x={pos_x} y={pos_y} cameraVelocity={cameraVelocity} />
+
+  // return (
+  //   <Container x={pxFromMeters(pos_x)} y={pxFromMeters(pos_y)}>
+  //     <Text text={id} style={styles.smallBody} x={10} y={0} />
+  //     <Text text={`[${pos_x}, ${pos_y}]`} style={styles.smallBody} x={10} y={40} />
+  //     <Text text={`Is safe: ${isSafe.toString()}`} style={styles.smallBody} x={10} y={80} />
+  //     <DustGraphic x={0 as Meters} y={0 as Meters} cameraVelocity={cameraVelocity} />
+  //   </Container>
+  // )
 }
 
 interface DustGraphicProps {
@@ -108,7 +127,7 @@ function DustGraphic(props: DustGraphicProps) {
 
         // Draw an oversized dust graphic for debug purposes.
         // const bulletSize = 12
-        // g.beginFill('#fff', 1)
+        // g.beginFill('#0f0', 3)
         // g.drawRoundedRect(posX, posY, bulletSize, bulletSize, bulletSize)
         // g.endFill()
 

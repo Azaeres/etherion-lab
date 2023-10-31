@@ -2,34 +2,19 @@ import { ParallaxLayer } from 'pixi-react-parallax'
 import { Vec2Meters } from 'src/utils/physics'
 // import DustSpawnManager from '../world-objects/Dust/DustSpawnManager'
 import { worldObjectMap } from '../world-objects'
-import { DepthStructuredManifests, WorldObjectManifest } from '../database/WorldObject'
+import { DepthStructuredManifests } from '../database/WorldObject'
 // import objectMap from 'src/utils/objectMap'
 import objectReduce from 'just-reduce-object'
 
 interface ManifestationBoundaryProps {
-  depthStructuredManifests: DepthStructuredManifests
+  depthStructuredManifests?: DepthStructuredManifests
   cameraPosition?: Vec2Meters
   cameraVelocity?: Vec2Meters
 }
 
 export default function ManifestationBoundary(props: ManifestationBoundaryProps) {
   const { depthStructuredManifests, cameraPosition, cameraVelocity } = props
-  // console.log('ManifestationBoundary  > worldObjectOrigins:', worldObjectOrigins)
-  // const unmanifest = useCallback(
-  //   (id: string) => {
-  //     return () => {
-  //       console.log('unmanifest  > id:', id)
-  //       const indexOfWorldObjectToUnmanifest = worldObjects.findIndex((worldObject) => {
-  //         return worldObject.id === id
-  //       })
-  //       const newCollection = [...worldObjects]
-  //       newCollection.splice(indexOfWorldObjectToUnmanifest, 1)
-  //       setWorldObjects(newCollection)
-  //     }
-  //   },
-  //   [setWorldObjects, worldObjects]
-  // )
-  // console.log('ManifestationBoundary render  :')
+  if (depthStructuredManifests === undefined) return null
   return (
     <>
       {objectReduce<DepthStructuredManifests, JSX.Element[]>(
@@ -41,7 +26,7 @@ export default function ManifestationBoundary(props: ManifestationBoundaryProps)
               {layer.map((worldObjectManifest) => {
                 const { worldObjectModel, unmanifest } = worldObjectManifest
                 const { component } = worldObjectModel
-                const WorldObjectComponent = worldObjectMap[component].Component
+                const WorldObjectComponent = worldObjectMap[component]
                 // console.log(
                 //   'ManifestationBoundary map render  > worldObjectModel.id:',
                 //   worldObjectModel.id
@@ -67,46 +52,64 @@ export default function ManifestationBoundary(props: ManifestationBoundaryProps)
       )}
     </>
   )
-  // return (
-  //   <>
-  //     {worldObjectManifests.map((worldObjectManifest) => {
-  //       const { worldObjectModel, unmanifest } = worldObjectManifest
-  //       const { component } = worldObjectModel
-  //       const WorldObjectComponent = worldObjectMap[component].Component
-  //       // console.log('ManifestationBoundary map > WorldObjectComponent:', WorldObjectComponent)
-  //       // console.log('origins map  > worldObjectModel:', worldObjectModel)
-  //       return (
-  //         <WorldObjectComponent
-  //           key={worldObjectModel.id}
-  //           {...worldObjectModel}
-  //           unmanifest={unmanifest}
-  //           cameraPosition={cameraPosition}
-  //           cameraVelocity={cameraVelocity}
-  //         />
-  //       )
-  //     })}
-  //   </>
-  // )
 }
 
 // ManifestationBoundary.whyDidYouRender = true
 
 export function getDepthStructuredManifests(
-  worldObjectManifests: WorldObjectManifest[]
+  ...depthStructuredManifestsToMerge: DepthStructuredManifests[]
+): DepthStructuredManifests | undefined {
+  // console.log('useWorldObjectOrigins  > args:', args)
+  // console.log(
+  //   'getDepthStructuredManifests  > depthStructuredManifestsToMerge:',
+  //   depthStructuredManifestsToMerge
+  // )
+  const manifestToMergeInto = depthStructuredManifestsToMerge.shift()
+  if (manifestToMergeInto) {
+    return depthStructuredManifestsToMerge.reduce((acc, manifestToMerge) => {
+      // console.log('useWorldObjectOrigins  > arg:', arg)
+      // console.log(' > worldObjectModelCollection:', worldObjectModelCollection)
+      // console.log(' > unmanifest:', unmanifest)
+      // const origins = depthStructuredCollection.map((worldObjectModel) => {
+      //   // console.log('map  > worldObjectModel:', worldObjectModel)
+      //   return createWorldObjectManifest(worldObjectModel, () => unmanifest(worldObjectModel.id))
+      // })
+      // return [...acc, ...origins]
+      return mergeDepthStructuredCollectionManifests(acc, manifestToMerge)
+    }, manifestToMergeInto)
+  }
+}
+
+function mergeDepthStructuredCollectionManifests(
+  manifestsToMergeInto: DepthStructuredManifests,
+  manifestsToMerge: DepthStructuredManifests
 ): DepthStructuredManifests {
-  const result = worldObjectManifests.reduce<DepthStructuredManifests>(
-    (acc, worldObjectManifest) => {
-      const { worldObjectModel } = worldObjectManifest
-      const zIndex = worldObjectModel.pos_z
-      const layer = acc[zIndex]
-      if (layer === undefined) {
-        return { ...acc, [zIndex]: [worldObjectManifest] }
+  // console.log(
+  //   'mergeDepthStructuredCollectionManifests  > manifestsToMergeInto:',
+  //   manifestsToMergeInto
+  // )
+  // console.log(' > manifestsToMerge:', manifestsToMerge)
+  // const { worldObjectModel, unmanifest } = manifestToMergeInto
+  // const [collection2, unmanifest2] = manifestToMerge
+  // const result = { ...collection1 }
+  const result = objectReduce(
+    manifestsToMerge,
+    (acc, zIndex, layerManifests) => {
+      // const [zIndex, worldObjectCollection] = layer
+      if (Object.prototype.hasOwnProperty.call(acc, zIndex)) {
+        // zIndex is in both manifests.
+        const mergeInto = acc[zIndex]!
+        // console.log('merge  > mergeInto:', mergeInto)
+        // console.log(' merge: acc[zIndex]:', acc[zIndex])
+        return { ...acc, [zIndex]: [...mergeInto, ...layerManifests] }
       } else {
-        const newLayer = [...layer, worldObjectManifest]
-        return { ...acc, [zIndex]: newLayer }
+        // zIndex does NOT exist in manifest to merge into.
+        return { ...acc, [zIndex]: layerManifests }
       }
+      return acc
     },
-    {}
+    manifestsToMergeInto
   )
+  // console.log('merge  > result:', result)
   return result
 }
