@@ -1,7 +1,7 @@
 import { Meters } from 'src/utils/physics'
 import { radiansFromDegrees } from '../../../Experiment2/Button'
 import PrototypeShip from '../PrototypeShip'
-import { AreaId } from '../../AreaSwitch/areas'
+import { AreaId } from '../../AreaSwitch/list'
 import { usePeer } from '@peerbit/react'
 import { getIdFromPeer } from '../../database'
 

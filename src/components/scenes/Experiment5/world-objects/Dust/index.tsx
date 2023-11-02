@@ -1,13 +1,13 @@
 import { Graphics, useTick } from '@pixi/react'
 import { useCallback, useMemo } from 'react'
 import { Graphics as PixiGraphics } from 'pixi.js'
-import { Meters, Pixels, Vec2Meters, metersFromPx, pxFromMeters } from 'src/utils/physics'
+import { Meters, Vec2Meters, pxFromMeters } from 'src/utils/physics'
 import { Vec2 } from 'planck'
 import { WorldObjectProps } from '../../database/WorldObject'
 // import { Container, Text } from '@pixi/react'
 // import { styles } from 'src/utils/pixi-styles'
 
-const CULLING_DISTANCE = metersFromPx(5000 as Pixels)
+const CULLING_DISTANCE = 50.0 as Meters
 
 // export interface DustProps {
 //   id: string
@@ -18,7 +18,7 @@ const CULLING_DISTANCE = metersFromPx(5000 as Pixels)
 //   cullingDistance?: Meters
 // }
 
-interface DustData {
+export interface DustData {
   cullingDistance?: Meters
 }
 
@@ -104,7 +104,7 @@ interface DustGraphicProps {
   cameraVelocity?: Vec2Meters
 }
 
-const SCALAR = 0.05
+const SCALAR = 0.03
 
 function DustGraphic(props: DustGraphicProps) {
   const { x, y, cameraVelocity } = props

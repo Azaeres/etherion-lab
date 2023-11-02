@@ -1,28 +1,28 @@
 import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
 import { Texture } from 'pixi.js'
 import DebugIndicator from 'src/components/DebugIndicator'
-import { Meters, Vec2Meters } from 'src/utils/physics'
-import PlanckWorldProvider from '../../Experiment2/PlanckWorldProvider'
+import { Vec2Meters } from 'src/utils/physics'
+import PlanckWorldProvider from '../../../Experiment2/PlanckWorldProvider'
 import { Sprite } from '@pixi/react-animated'
 import stars from 'src/components/scenes/Experiment1/assets/Stars-full.webp'
-import AvatarOrigin from '../world-objects/Avatar/AvatarOrigin'
+import AvatarOrigin from '../../world-objects/Avatar/AvatarOrigin'
 import { styles } from 'src/utils/pixi-styles'
 import { Text } from '@pixi/react'
 import { OPTIONS } from 'src/components/PixiStage'
 // import DustSpawnManager from '../world-objects/Dust/DustSpawnManager'
-import CameraObserver from '../world-objects/CameraObserver'
+import CameraObserver from '../../world-objects/CameraObserver'
 import { usePeer } from '@peerbit/react'
-import { getIdFromPeer } from '../database'
+import { getIdFromPeer } from '../../database'
 import { useState } from 'react'
 import {
   useCameraPositionUpdateListener,
   useCameraVelocityUpdateListener,
-} from '../world-objects/events'
-import { DustConfig, useDustManifest } from '../world-objects/Dust/useDustManifest'
+} from '../../world-objects/events'
+import { DEFAULT_DUST_CONFIG, useDustManifest } from './useDustManifest'
 // import objectMap from 'src/utils/objectMap'
 import ManifestationBoundary, {
   getDepthStructuredManifests,
-} from '../AreaSwitch/ManifestationBoundary'
+} from '../../world-objects/ManifestationBoundary'
 
 export const DEFAULT_AREA = 'AsteroidFieldArea'
 
@@ -44,24 +44,6 @@ export const DEFAULT_AREA = 'AsteroidFieldArea'
 //   }
 // }
 
-const dustConfig: DustConfig = {
-  '-400': {
-    density: 30, // 40
-    generationDistance: 30.0 as Meters,
-    cullingDistance: 31.0 as Meters,
-  },
-  '-800': {
-    density: 40, // 30
-    generationDistance: 48.0 as Meters,
-    cullingDistance: 49.0 as Meters,
-  },
-  '-1200': {
-    density: 50, // 50
-    generationDistance: 65.0 as Meters,
-    cullingDistance: 66.0 as Meters,
-  },
-} as const
-
 export default function AsteroidFieldArea() {
   const { peer } = usePeer()
   const peerId = getIdFromPeer(peer)
@@ -69,7 +51,7 @@ export default function AsteroidFieldArea() {
   useCameraPositionUpdateListener(setCameraPosition)
   const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
   useCameraVelocityUpdateListener(setCameraVelocity)
-  const dust = useDustManifest(dustConfig, DEFAULT_AREA, peerId, cameraPosition)
+  const dust = useDustManifest(DEFAULT_DUST_CONFIG, DEFAULT_AREA, peerId, cameraPosition)
   // console.log(' > dust:', dust)
   // const dust = useDustOrigin(
   //   50,

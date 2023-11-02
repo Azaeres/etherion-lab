@@ -1,16 +1,27 @@
 import { ParallaxLayer } from 'pixi-react-parallax'
 import { Vec2Meters } from 'src/utils/physics'
 // import DustSpawnManager from '../world-objects/Dust/DustSpawnManager'
-import { worldObjectMap } from '../world-objects'
-import { DepthStructuredManifests } from '../database/WorldObject'
+import { worldObjectMap } from './list'
+import { DepthStructuredManifests } from '../../database/WorldObject'
 // import objectMap from 'src/utils/objectMap'
 import objectReduce from 'just-reduce-object'
+import { Suspense } from 'react'
+import { Text } from '@pixi/react'
+import { TextStyle } from 'pixi.js'
+import { OPTIONS } from 'src/components/PixiStage'
 
 interface ManifestationBoundaryProps {
   depthStructuredManifests?: DepthStructuredManifests
   cameraPosition?: Vec2Meters
   cameraVelocity?: Vec2Meters
 }
+
+const style = new TextStyle({
+  dropShadow: true,
+  dropShadowAlpha: 0.8,
+  fill: '0xffffff',
+  fontSize: 54,
+})
 
 export default function ManifestationBoundary(props: ManifestationBoundaryProps) {
   const { depthStructuredManifests, cameraPosition, cameraVelocity } = props
@@ -34,15 +45,31 @@ export default function ManifestationBoundary(props: ManifestationBoundaryProps)
                 // console.log('ManifestationBoundary map > WorldObjectComponent:', WorldObjectComponent)
                 // console.log('origins map  > worldObjectModel:', worldObjectModel)
                 return (
-                  <WorldObjectComponent
+                  <Suspense
                     key={worldObjectModel.id}
-                    {...worldObjectModel}
-                    unmanifest={unmanifest}
-                    cameraPositionX={cameraPosition?.x}
-                    cameraPositionY={cameraPosition?.y}
-                    cameraVelocityX={cameraVelocity?.x}
-                    cameraVelocityY={cameraVelocity?.y}
-                  />
+                    fallback={
+                      <>
+                        <Text
+                          text="Loading Object..."
+                          style={style}
+                          anchor={{ x: 0.5, y: 0.5 }}
+                          x={OPTIONS.width / 2}
+                          y={OPTIONS.height / 2}
+                        />
+                        {/* <Curtain /> */}
+                      </>
+                    }
+                  >
+                    <WorldObjectComponent
+                      key={worldObjectModel.id}
+                      {...worldObjectModel}
+                      unmanifest={unmanifest}
+                      cameraPositionX={cameraPosition?.x}
+                      cameraPositionY={cameraPosition?.y}
+                      cameraVelocityX={cameraVelocity?.x}
+                      cameraVelocityY={cameraVelocity?.y}
+                    />
+                  </Suspense>
                 )
               })}
             </ParallaxLayer>,

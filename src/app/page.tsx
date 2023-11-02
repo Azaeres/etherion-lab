@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import scenes from '../components/scenes/scenes'
+import scenes from '../components/PixiStage/list'
 import app from './app.module.css'
 
 export default function Home() {

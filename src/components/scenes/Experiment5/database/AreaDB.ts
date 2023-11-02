@@ -5,7 +5,7 @@ import { sha256Sync } from '@peerbit/crypto'
 import { concat } from 'uint8arrays'
 import { Args } from '.'
 import { WorldObject } from './WorldObject'
-import type { AreaId } from '../AreaSwitch/areas'
+import type { AreaId } from '../AreaSwitch/list'
 
 @variant('area')
 export class AreaDB extends Program<Args> {

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { PixelateFilter } from '@pixi/filter-pixelate'
 import { NextNavigationContext } from 'src/app/hooks/useNextjsRouter'
 import SceneSwitch from './SceneSwitch'
-import { SceneId } from '../scenes/scenes'
+import { SceneId } from './list'
 // import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom'
 
 export const OPTIONS = {

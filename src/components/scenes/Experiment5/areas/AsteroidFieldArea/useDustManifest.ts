@@ -7,7 +7,7 @@ import {
   WorldObjectModel,
 } from '../../database/WorldObject'
 import { v4 as uuid } from 'uuid'
-import { AreaId } from '../../AreaSwitch/areas'
+import { AreaId } from '../../AreaSwitch/list'
 import { PeerId } from '../../database'
 import objectMap from 'just-map-values'
 
@@ -20,6 +20,29 @@ export type DustLayerConfig = {
 export type DustConfig = {
   [zIndex: string]: DustLayerConfig
 }
+
+export const DEFAULT_DUST_CONFIG: DustConfig = {
+  '-300': {
+    density: 10, // 40
+    generationDistance: 30.0 as Meters,
+    cullingDistance: 31.0 as Meters,
+  },
+  '-800': {
+    density: 25, // 30
+    generationDistance: 48.0 as Meters,
+    cullingDistance: 49.0 as Meters,
+  },
+  '-1200': {
+    density: 40, // 50
+    generationDistance: 65.0 as Meters,
+    cullingDistance: 66.0 as Meters,
+  },
+  '-3500': {
+    density: 50, // 50
+    generationDistance: 170.0 as Meters,
+    cullingDistance: 171.0 as Meters,
+  },
+} as const
 
 export function useDustManifest(
   dustConfig: DustConfig,

@@ -16,7 +16,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { radiansFromDegrees } from '../../../Experiment2/Button'
 import BulletSpawnManager from './Bullet/BulletSpawnManager'
 import { getVectorFromHeading } from '.'
-import { AreaId } from '../../AreaSwitch/areas'
+import { AreaId } from '../../AreaSwitch/list'
 import { emitAvatarCurrentAreaUpdate } from './events'
 // import DebugDrawVector from '../DebugDrawVector'
 
