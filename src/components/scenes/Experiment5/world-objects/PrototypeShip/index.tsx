@@ -14,9 +14,8 @@ import { useThrottledCallback } from 'use-debounce'
 // import usePeerbitDatabase from '../hooks/usePeerbitDatabase'
 // import { WorldObjectConfig } from '../AreaDB'
 import Controls from './Controls'
-import { usePeer } from '@peerbit/react'
-import { WorldObjectConfig } from '../../database/WorldObject'
-import { getIdFromPeer } from '../../database'
+import { WorldObjectProps } from '../../database/WorldObject'
+import { PeerId } from '../../database'
 // import DebugDrawVector from '../DebugDrawVector'
 
 const fixtures = [
@@ -27,18 +26,39 @@ const fixtures = [
   },
 ] as const
 
-export default function PrototypeShip(props: WorldObjectConfig) {
+export interface AvatarData {
+  owner: PeerId
+}
+
+export default function PrototypeShip(props: WorldObjectProps<AvatarData>) {
   const [, setCameraTargetRef] = useParallaxCameraRef()
-  const { pos_x, pos_y, rotation, scale, owner, area } = props
-  const { peer } = usePeer()
-  const peerId = getIdFromPeer(peer)
+  const {
+    pos_x,
+    pos_y,
+    rotation,
+    scale,
+    // upstream_peer,
+    area,
+    // unmanifest,
+    transferOccupancyToWorldObject,
+    // data,
+  } = props
+  // const { peer } = usePeer()
+  // const peerId = getIdFromPeer(peer)
 
-  const isUpstream = owner === peerId
-  // If we're upstream of the database, this is our avatar. Wire up the controls.
-  // Our component state is the source of truth, and we treat props as initial state.
+  // const { owner } = data
+  // console.log(' > owner:', owner)
+  // console.log(' > transferOccupancyToWorldObject:', transferOccupancyToWorldObject)
 
-  // If we're downstream of the database, this is NOT our avatar. Do NOT wire up the controls.
-  // The database is our source of truth, and we treat props as state correction.
+  // const isUpstream = upstream_peer === peerId
+  const isOccupied = !!transferOccupancyToWorldObject
+  // If we're passed the transfer occupancy function, this is the object we're currently occupying.
+  // This function comes from both of the upstream hooks, but not the downstream hook.
+  // If we're currently occupying this world object, wire up the player's controls to
+  // our internal component state.
+  // It MUST be only done in the upstream, because the controls have to be connected to
+  // the source of truth.
+
   const bodyDef: BodyDef = useMemo(() => {
     return {
       type: 'dynamic',
@@ -153,7 +173,7 @@ export default function PrototypeShip(props: WorldObjectConfig) {
           // scale={0.1}
         />
       )} */}
-      {isUpstream && (
+      {isOccupied && (
         <Controls
           actualHeading={actualHeading}
           bodyRef={bodyRef}

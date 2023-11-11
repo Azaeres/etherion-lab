@@ -4,9 +4,9 @@ import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'reac
 import { Vec2Meters } from 'src/utils/physics'
 import { useOverlayClickListener } from '../../../Experiment2/Overlay/events'
 import {
-  useAttackActivateListener,
-  useAttackDisengageListener,
-  useAttackEngageListener,
+  // useAttackActivateListener,
+  // useAttackDisengageListener,
+  // useAttackEngageListener,
   useMoveActivateListener,
   useMoveDisengageListener,
   useMoveEngageListener,
@@ -14,7 +14,7 @@ import {
 import { useDPadVectorUpdateListener } from '../../../Experiment2/Dpad/events'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { radiansFromDegrees } from '../../../Experiment2/Button'
-import BulletSpawnManager from './Bullet/BulletSpawnManager'
+// import BulletSpawnManager from './Bullet/BulletSpawnManager'
 import { getVectorFromHeading } from '.'
 import { AreaId } from '../../AreaSwitch/list'
 import { emitAvatarCurrentAreaUpdate } from './events'
@@ -29,8 +29,8 @@ export interface ControlsProps {
 }
 
 export default function Controls(props: ControlsProps) {
-  const { actualHeading, bodyRef, currentPosition, currentVelocity, area } = props
-  const [isFiring, setIsFiring] = useState(false)
+  const { actualHeading, bodyRef, /* currentPosition, currentVelocity, */ area } = props
+  // const [isFiring, setIsFiring] = useState(false)
   const [desiredHeading, setDesiredHeading] = useState<Vec2 | null>(null)
 
   const [currentArea, setCurrentArea] = useState<AreaId>(area)
@@ -39,14 +39,14 @@ export default function Controls(props: ControlsProps) {
   }, [currentArea])
 
   const isKeyDownRef = useRef(false)
-  const attackEventHandler = useCallback((event: KeyboardEvent | MouseEvent) => {
-    if (event.type === 'pointerdown') {
-      // console.log('PEW!!! :', event.type, event)
-      setIsFiring(true)
-    } else if (event.type === 'pointerup') {
-      setIsFiring(false)
-    }
-  }, [])
+  // const attackEventHandler = useCallback((event: KeyboardEvent | MouseEvent) => {
+  //   if (event.type === 'pointerdown') {
+  //     // console.log('PEW!!! :', event.type, event)
+  //     setIsFiring(true)
+  //   } else if (event.type === 'pointerup') {
+  //     setIsFiring(false)
+  //   }
+  // }, [])
   const eventHandler = useCallback(
     (event: KeyboardEvent | MouseEvent /*, handler: HotkeysEvent */) => {
       // console.log('avatar rcvd > event.type:', event.type)
@@ -56,7 +56,7 @@ export default function Controls(props: ControlsProps) {
       }
       if ('button' in event && event?.button === 2) {
         // Secondary mouse button.
-        attackEventHandler(event)
+        // attackEventHandler(event)
         return
       }
       // console.log('eventHandler  > event.type:', event.type, event)
@@ -85,15 +85,15 @@ export default function Controls(props: ControlsProps) {
         isKeyDownRef.current = false
       }
     },
-    [attackEventHandler, bodyRef, desiredHeading]
+    [/* attackEventHandler, */ bodyRef, desiredHeading]
   )
   useOverlayClickListener(eventHandler)
   useMoveEngageListener(eventHandler)
   useMoveDisengageListener(eventHandler)
   useMoveActivateListener(eventHandler)
-  useAttackEngageListener(attackEventHandler)
-  useAttackDisengageListener(attackEventHandler)
-  useAttackActivateListener(attackEventHandler)
+  // useAttackEngageListener(attackEventHandler)
+  // useAttackDisengageListener(attackEventHandler)
+  // useAttackActivateListener(attackEventHandler)
 
   const rotateBody = useCallback((vector: Vec2 | null) => {
     if (vector === null) {
@@ -211,14 +211,14 @@ export default function Controls(props: ControlsProps) {
 
   return (
     <>
-      {actualHeading && (
+      {/* {actualHeading && (
         <BulletSpawnManager
           gunPosition={getGunPosition(currentPosition, actualHeading)}
           gunVector={getVectorFromHeading(actualHeading)}
           currentVelocity={currentVelocity}
           isFiring={isFiring}
         />
-      )}
+      )} */}
       {/* <DesktopView>
         <DebugHeadingVector
           origin={
@@ -243,11 +243,11 @@ export default function Controls(props: ControlsProps) {
   )
 }
 
-function getGunPosition(currentPosition: Vec2Meters, actualHeading: number) {
-  const headingVector = getVectorFromHeading(actualHeading)
-  const position = new Vec2(
-    currentPosition.x + headingVector.x * 1.6,
-    currentPosition.y - headingVector.y * 1.6
-  )
-  return position as Vec2Meters
-}
+// function getGunPosition(currentPosition: Vec2Meters, actualHeading: number) {
+//   const headingVector = getVectorFromHeading(actualHeading)
+//   const position = new Vec2(
+//     currentPosition.x + headingVector.x * 1.6,
+//     currentPosition.y - headingVector.y * 1.6
+//   )
+//   return position as Vec2Meters
+// }

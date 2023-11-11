@@ -3,6 +3,7 @@ import { Meters, Pixels, Vec2Meters, metersFromPx, pxFromMeters } from 'src/util
 import { Vec2 } from 'planck'
 import {
   DepthStructuredManifests,
+  WorldObjectId,
   WorldObjectManifest,
   WorldObjectModel,
 } from '../../database/WorldObject'
@@ -44,10 +45,10 @@ export const DEFAULT_DUST_CONFIG: DustConfig = {
   },
 } as const
 
-export function useDustManifest(
+export function useDustOrigin(
   dustConfig: DustConfig,
   area: AreaId,
-  owner: PeerId,
+  upstreamPeer: PeerId,
   cameraPosition?: Vec2Meters
 ): DepthStructuredManifests {
   const [initialSetup, setInitialSetup] = useState(true)
@@ -75,7 +76,7 @@ export function useDustManifest(
             // Factor in cameraPosition?
             const x = (Math.random() * generationDistance * 2 - generationDistance) as Meters
             const y = (Math.random() * generationDistance * 2 - generationDistance) as Meters
-            const dustModel = getDustModel(x, y, zIndex, area, owner, cullingDistance)
+            const dustModel = getDustModel(x, y, zIndex, area, upstreamPeer, cullingDistance)
             const dustUnmanifest = () => unmanifest(dustModel.id)
             const dustManifest = getDustManifest(dustModel, dustUnmanifest)
             newCollection.push(dustManifest)
@@ -96,7 +97,7 @@ export function useDustManifest(
               -randomPoint.y as Meters,
               zIndex,
               area,
-              owner,
+              upstreamPeer,
               cullingDistance
             )
             const dustUnmanifest = () => unmanifest(dustModel.id)
@@ -109,7 +110,7 @@ export function useDustManifest(
         return layerManifests
       }
     },
-    [area, cameraPosition?.x, cameraPosition?.y, initialSetup, owner]
+    [area, cameraPosition?.x, cameraPosition?.y, initialSetup, upstreamPeer]
   )
   useEffect(() => {
     // dustConfig -> depthStructuredManifests
@@ -192,14 +193,14 @@ function getDustModel(
   y: Meters,
   z: number,
   area: AreaId,
-  owner: PeerId,
+  upstreamPeer: PeerId,
   cullingDistance?: Meters
 ): WorldObjectModel {
   return {
-    id: uuid(),
+    id: uuid() as WorldObjectId,
     component: 'Dust',
     area,
-    owner,
+    upstream_peer: upstreamPeer,
     orphan: false,
     pos_x: x,
     pos_y: y,

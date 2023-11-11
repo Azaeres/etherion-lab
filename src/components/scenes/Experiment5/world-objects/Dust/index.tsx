@@ -34,7 +34,7 @@ export default function Dust(props: WorldObjectProps<DustData>) {
     cameraVelocityX,
     cameraVelocityY,
   } = props
-  const { cullingDistance } = props.data!
+  const { cullingDistance } = props.data
   // const [isSafe, setIsSafe] = useState(true)
   // console.log('Dust  > props:', props)
   // const [cameraPosition, setCameraPosition] = useState<Vec2Meters>()

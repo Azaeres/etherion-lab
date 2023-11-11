@@ -38,13 +38,18 @@ export class AreaDB extends Program<Args> {
       canPerform: async (operation, context) => {
         if (operation instanceof PutOperation) {
           const post = operation.value
-          if (!context.entry.signatures.find((x) => x.publicKey.hashcode() === post!.owner)) {
+          if (
+            !context.entry.signatures.find((x) => x.publicKey.hashcode() === post!.upstream_peer)
+          ) {
             return false
           }
           return true
         } else if (operation instanceof DeleteOperation) {
           const get = await this.worldObjects.index.get(operation.key)
-          if (!get || !context.entry.signatures.find((x) => x.publicKey.hashcode() === get.owner)) {
+          if (
+            !get ||
+            !context.entry.signatures.find((x) => x.publicKey.hashcode() === get.upstream_peer)
+          ) {
             return false
           }
           return true

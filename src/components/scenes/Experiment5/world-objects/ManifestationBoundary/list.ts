@@ -18,6 +18,9 @@ import { lazy } from 'react'
 
 export const worldObjectMap = {
   ['Dust']: lazy(() => import('src/components/scenes/Experiment5/world-objects/Dust')),
+  ['PrototypeShip']: lazy(
+    () => import('src/components/scenes/Experiment5/world-objects/PrototypeShip')
+  ),
 } as const
 
 export type WorldObjectComponentId = keyof typeof worldObjectMap

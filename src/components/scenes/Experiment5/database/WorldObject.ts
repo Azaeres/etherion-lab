@@ -5,8 +5,9 @@ import type { Meters } from 'src/utils/physics'
 import type { AreaId } from '../AreaSwitch/list'
 import type { PeerId } from '.'
 import type { WorldObjectComponentId } from '../world-objects/ManifestationBoundary/list'
+import { Nominal } from 'src/types/Nominal'
 
-const OWNER = 'owner'
+const UPSTREAM_PEER = 'upstream_peer'
 const AREA = 'area'
 const ORPHAN = 'orphan'
 const POSITION_X = 'pos_x'
@@ -20,42 +21,60 @@ const ROTATION = 'rotation'
 const SCALE = 'scale'
 // const TIMESTAMP = 'timestamp'
 
-export interface WorldObjectConfig {
-  id: string
+export type WorldObjectId = Nominal<string, 'WorldObjectId'>
+
+interface WorldObjectModelWithoutData {
+  id: WorldObjectId
+  component: WorldObjectComponentId
   area: AreaId
-  owner: PeerId
+  upstream_peer: PeerId
   orphan: boolean
   pos_x: Meters
   pos_y: Meters
   pos_z: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any
   vel_x?: Meters
   vel_y?: Meters
   acc_x?: Meters
   acc_y?: Meters
-  data?: object
   rotation?: number
   scale?: number
 }
 
+interface WorldObjectModelWithData<DataType extends object> extends WorldObjectModelWithoutData {
+  data: DataType
+}
+
+export type WorldObjectModel<DataType extends object | void = void> = DataType extends object
+  ? WorldObjectModelWithData<DataType>
+  : WorldObjectModelWithoutData
+
 // For information on Borsh type mappings, see:
 // https://github.com/dao-xyz/borsh-ts#type-mappings
 
-export interface WorldObjectModel extends WorldObjectConfig {
-  component: WorldObjectComponentId
-}
-
-export interface WorldObjectProps<DataType extends object | undefined> extends WorldObjectModel {
-  data?: DataType
+interface WorldObjectPropsWithoutData extends WorldObjectModel {
+  data: object
   unmanifest: () => void
+  transferOccupancyToWorldObject?: (worldObjectId: WorldObjectId) => void
   cameraPositionX?: Meters
   cameraPositionY?: Meters
   cameraVelocityX?: Meters
   cameraVelocityY?: Meters
 }
 
+interface WorldObjectPropsWithData<DataType extends object> extends WorldObjectPropsWithoutData {
+  data: DataType
+}
+
+export type WorldObjectProps<DataType extends object | void = void> = DataType extends object
+  ? WorldObjectPropsWithData<DataType>
+  : WorldObjectPropsWithoutData
+
 export type WorldObjectManifest = {
   worldObjectModel: WorldObjectModel
   unmanifest: () => void
+  transferOccupancyToWorldObject?: (worldObjectId: WorldObjectId) => void
 }
 export type DepthStructuredCollection = {
   [zIndex: string]: WorldObjectModel[]
@@ -69,7 +88,7 @@ export type DepthStructuredManifests = {
 @variant(0) // for versioning purposes, we can do @variant(1) when we create a new post type version
 export class WorldObject implements WorldObjectModel {
   @field({ type: 'string' })
-  id: string
+  id: WorldObjectId
 
   @field({ type: 'string' })
   component: WorldObjectComponentId;
@@ -78,7 +97,7 @@ export class WorldObject implements WorldObjectModel {
   [AREA]: AreaId;
 
   @field({ type: PublicSignKey })
-  [OWNER]: PeerId;
+  [UPSTREAM_PEER]: PeerId;
 
   @field({ type: 'bool' })
   [ORPHAN]: boolean;
@@ -115,11 +134,11 @@ export class WorldObject implements WorldObjectModel {
 
   constructor(properties: WorldObjectModel) {
     const {
-      id = uuid(),
+      id = uuid() as WorldObjectId,
       component,
       data = {},
       area,
-      owner,
+      upstream_peer: upstreamPeer,
       orphan,
       pos_x,
       pos_y,
@@ -134,7 +153,7 @@ export class WorldObject implements WorldObjectModel {
     this.id = id
     this.component = component
     this.area = area
-    this.owner = owner
+    this.upstream_peer = upstreamPeer
     this.orphan = orphan
     this.pos_x = pos_x
     this.pos_y = pos_y
@@ -145,7 +164,7 @@ export class WorldObject implements WorldObjectModel {
     this.acc_y = acc_y
     this.rotation = rotation
     this.scale = scale
-    this.data = data
+    this.data = data as object
   }
 
   public get data(): object {

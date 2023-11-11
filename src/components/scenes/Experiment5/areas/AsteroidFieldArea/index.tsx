@@ -1,11 +1,10 @@
-import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
+import { ParallaxCameraProvider } from 'pixi-react-parallax'
 import { Texture } from 'pixi.js'
 import DebugIndicator from 'src/components/DebugIndicator'
 import { Vec2Meters } from 'src/utils/physics'
 import PlanckWorldProvider from '../../../Experiment2/PlanckWorldProvider'
 import { Sprite } from '@pixi/react-animated'
 import stars from 'src/components/scenes/Experiment1/assets/Stars-full.webp'
-import AvatarOrigin from '../../world-objects/Avatar/AvatarOrigin'
 import { styles } from 'src/utils/pixi-styles'
 import { Text } from '@pixi/react'
 import { OPTIONS } from 'src/components/PixiStage'
@@ -18,11 +17,12 @@ import {
   useCameraPositionUpdateListener,
   useCameraVelocityUpdateListener,
 } from '../../world-objects/events'
-import { DEFAULT_DUST_CONFIG, useDustManifest } from './useDustManifest'
+import { DEFAULT_DUST_CONFIG, useDustOrigin } from './useDustOrigin'
 // import objectMap from 'src/utils/objectMap'
 import ManifestationBoundary, {
   getDepthStructuredManifests,
 } from '../../world-objects/ManifestationBoundary'
+import { useAvatarOrigin } from './useAvatarOrigin'
 
 export const DEFAULT_AREA = 'AsteroidFieldArea'
 
@@ -51,7 +51,10 @@ export default function AsteroidFieldArea() {
   useCameraPositionUpdateListener(setCameraPosition)
   const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
   useCameraVelocityUpdateListener(setCameraVelocity)
-  const dust = useDustManifest(DEFAULT_DUST_CONFIG, DEFAULT_AREA, peerId, cameraPosition)
+  const dust = useDustOrigin(DEFAULT_DUST_CONFIG, DEFAULT_AREA, peerId, cameraPosition)
+  const avatars = useAvatarOrigin(DEFAULT_AREA, peerId)
+  // console.log('AsteroidFieldArea > avatars:', avatars)
+  // console.log(' > dust:', dust)
   // console.log(' > dust:', dust)
   // const dust = useDustOrigin(
   //   50,
@@ -62,7 +65,7 @@ export default function AsteroidFieldArea() {
   //   cameraPosition
   // )
   // console.log('Calling useDustManifest()...  > dust:', dust)
-  const depthStructuredManifests = getDepthStructuredManifests(dust)
+  const depthStructuredManifests = getDepthStructuredManifests(dust, avatars)
   // const depthStructuredManifests = getDepthStructuredManifests(depthStructuredManifests)
 
   // const worldObjectOrigins: WorldObjectOrigin[] = useMemo(() => {
@@ -94,9 +97,9 @@ export default function AsteroidFieldArea() {
             cameraPosition={cameraPosition}
             cameraVelocity={cameraVelocity}
           />
-          <ParallaxLayer zIndex={-500}>
+          {/* <ParallaxLayer zIndex={-500}>
             <AvatarOrigin area="AsteroidFieldArea" />
-          </ParallaxLayer>
+          </ParallaxLayer> */}
           <CameraObserver />
           <DebugIndicator showCameraPosition />
         </ParallaxCameraProvider>

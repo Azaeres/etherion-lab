@@ -1,17 +1,16 @@
-import { ParallaxCameraProvider, ParallaxLayer } from 'pixi-react-parallax'
+import { ParallaxCameraProvider } from 'pixi-react-parallax'
 import { Texture } from 'pixi.js'
 import DebugIndicator from 'src/components/DebugIndicator'
 import { Vec2Meters } from 'src/utils/physics'
 import PlanckWorldProvider from '../../../Experiment2/PlanckWorldProvider'
 import { Sprite } from '@pixi/react-animated'
 import stars from 'src/components/scenes/Experiment1/assets/Stars-full.webp'
-import AvatarOrigin from '../../world-objects/Avatar/AvatarOrigin'
 import { styles } from 'src/utils/pixi-styles'
 import { Text } from '@pixi/react'
 import { radiansFromDegrees } from '../../../Experiment2/Button'
 import { OPTIONS } from 'src/components/PixiStage'
 import CameraObserver from '../../world-objects/CameraObserver'
-import { DEFAULT_DUST_CONFIG, useDustManifest } from '../AsteroidFieldArea/useDustManifest'
+import { DEFAULT_DUST_CONFIG, useDustOrigin } from '../AsteroidFieldArea/useDustOrigin'
 import { usePeer } from '@peerbit/react'
 import { getIdFromPeer } from '../../database'
 import { useState } from 'react'
@@ -22,6 +21,7 @@ import {
 import ManifestationBoundary, {
   getDepthStructuredManifests,
 } from '../../world-objects/ManifestationBoundary'
+import { useAvatarOrigin } from '../AsteroidFieldArea/useAvatarOrigin'
 
 const AREA = 'NebulaArea'
 
@@ -32,8 +32,9 @@ export default function NebulaArea() {
   useCameraPositionUpdateListener(setCameraPosition)
   const [cameraVelocity, setCameraVelocity] = useState<Vec2Meters>()
   useCameraVelocityUpdateListener(setCameraVelocity)
-  const dust = useDustManifest(DEFAULT_DUST_CONFIG, AREA, peerId, cameraPosition)
-  const depthStructuredManifests = getDepthStructuredManifests(dust)
+  const dust = useDustOrigin(DEFAULT_DUST_CONFIG, AREA, peerId, cameraPosition)
+  const avatars = useAvatarOrigin(AREA, peerId)
+  const depthStructuredManifests = getDepthStructuredManifests(dust, avatars)
   return (
     <>
       <Sprite
@@ -51,9 +52,9 @@ export default function NebulaArea() {
             cameraPosition={cameraPosition}
             cameraVelocity={cameraVelocity}
           />
-          <ParallaxLayer zIndex={-500}>
+          {/* <ParallaxLayer zIndex={-500}>
             <AvatarOrigin area="NebulaArea" />
-          </ParallaxLayer>
+          </ParallaxLayer> */}
           <CameraObserver />
           <DebugIndicator showCameraPosition />
         </ParallaxCameraProvider>

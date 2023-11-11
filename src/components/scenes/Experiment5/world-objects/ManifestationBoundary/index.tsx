@@ -35,7 +35,8 @@ export default function ManifestationBoundary(props: ManifestationBoundaryProps)
             ...acc,
             <ParallaxLayer key={zIndex} zIndex={Number(zIndex)}>
               {layer.map((worldObjectManifest) => {
-                const { worldObjectModel, unmanifest } = worldObjectManifest
+                const { worldObjectModel, unmanifest, transferOccupancyToWorldObject } =
+                  worldObjectManifest
                 const { component } = worldObjectModel
                 const WorldObjectComponent = worldObjectMap[component]
                 // console.log(
@@ -64,6 +65,7 @@ export default function ManifestationBoundary(props: ManifestationBoundaryProps)
                       key={worldObjectModel.id}
                       {...worldObjectModel}
                       unmanifest={unmanifest}
+                      transferOccupancyToWorldObject={transferOccupancyToWorldObject}
                       cameraPositionX={cameraPosition?.x}
                       cameraPositionY={cameraPosition?.y}
                       cameraVelocityX={cameraVelocity?.x}
