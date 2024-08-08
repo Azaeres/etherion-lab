@@ -16,7 +16,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 const nextConfig = {
   reactStrictMode: false,
   output: 'export',
-  distDir: '_static',
+  // distDir: 'dist',
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts', 'app'], // Only run ESLint on these directories during production builds (next build)
   },

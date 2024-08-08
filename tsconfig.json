@@ -32,13 +32,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": [
-    "next-env.d.ts",
-    "custom.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "_static/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "custom.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
