@@ -22,6 +22,33 @@ export const sceneMap = {
   experiment5: lazy(() => import('src/components/scenes/Experiment5')),
 } as const
 
+export const sceneMeta: { [K in SceneId]: { title: string; description: string } } = {
+  '/': {
+    title: 'Home',
+    description: 'List of experiments.',
+  },
+  experiment1: {
+    title: 'Parallax Demonstration',
+    description: 'Basic PixiJS setup to demonstrate parallax library.',
+  },
+  experiment2: {
+    title: 'Asteroids Clone',
+    description: 'PixiJS with Planck.js physics engine and parallax.',
+  },
+  experiment3: {
+    title: 'Basic Peerbit Integration',
+    description: 'Basic Peerbit integration with starfield.',
+  },
+  experiment4: {
+    title: 'Peerbit Chat',
+    description: 'A Peerbit P2P chat app.',
+  },
+  experiment5: {
+    title: 'Peerbit Asteroids Clone',
+    description: 'Deeper Peerbit integration into Asteroids clone.',
+  },
+} as const
+
 export type SceneId = keyof typeof sceneMap | '/'
 const scenes = Object.keys(sceneMap) as ReadonlyArray<SceneId>
 export default scenes
