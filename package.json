@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@dao-xyz/borsh": "^5.1.7",
-    "@ducanh2912/next-pwa": "^9.4.0",
+    "@ducanh2912/next-pwa": "^10.2.5",
     "@libp2p/mplex": "^9.0.5",
     "@libp2p/websockets": "^7.0.6",
     "@peerbit/document": "^3.1.4",
