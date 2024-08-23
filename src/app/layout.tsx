@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { type ReactNode } from 'react'
 import Client from 'src/components/Client'
+import Providers from './Providers'
 
 const APP_NAME = 'Etherion Lab'
 const APP_DESCRIPTION = 'Experiment playground'
@@ -48,9 +49,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
         <style dangerouslySetInnerHTML={{ __html: css }}></style>
       </head>
-      <body>{children}</body>
+      <body>
+        <div id="root">
+          <Providers>{children}</Providers>
+        </div>
+      </body>
       <Client />
     </html>
   )
@@ -97,5 +112,14 @@ code {
 #root > canvas[style] {
   width: auto !important;
   height: auto !important;
+
+  /* Disable text selection */
+  user-select: none; /* Standard property */
+  -webkit-user-select: none; /* Safari and Chrome */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+
+  /* Disable touch callout */
+  -webkit-touch-callout: none; /* Safari */
 }
 `

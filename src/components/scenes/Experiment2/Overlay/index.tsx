@@ -7,16 +7,17 @@ import { Vec2 } from 'planck'
 import { emitDPadVectorUpdate } from '../Dpad/events'
 
 export interface OverlayProps {
-  onPress?: FederatedEventHandler<FederatedPointerEvent> | null
+  onPointerDown?: FederatedEventHandler<FederatedPointerEvent> | null
+  onPointerUp?: FederatedEventHandler<FederatedPointerEvent> | null
 }
 
 const centerPoint = new Vec2(OPTIONS.width / 2, OPTIONS.height / 2)
 
 export default function Overlay(props: OverlayProps) {
-  const { onPress = () => {} } = props
   const click = useCallback((event: KeyboardEvent | MouseEvent) => {
     emitOverlayClick(event)
   }, [])
+  const { onPointerDown, onPointerUp } = props
   const trackMouse = useCallback((event: FederatedPointerEvent) => {
     const mousePoint = new Vec2(event.globalX, event.globalY)
     const vector = mousePoint.sub(centerPoint)
@@ -33,12 +34,12 @@ export default function Overlay(props: OverlayProps) {
   }, [])
   return (
     <Graphics
-      onpointertap={onPress}
-      onpointerdown={click}
-      onpointerup={click}
-      onpointerout={click}
+      onpointertap={onPointerUp ? onPointerUp : click}
+      onpointerdown={onPointerDown ? onPointerDown : click}
+      onpointerup={onPointerUp ? onPointerUp : click}
+      // onpointerout={onPointerUp ? onPointerUp : click}
       onglobalmousemove={trackMouse}
-      eventMode="static"
+      eventMode="dynamic"
       draw={draw}
     />
   )

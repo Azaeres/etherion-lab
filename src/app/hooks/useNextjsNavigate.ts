@@ -3,6 +3,12 @@ import useNextjsRouter from './useNextjsRouter'
 import { SceneId } from '../../components/PixiStage/list'
 
 export default function useNextjsNavigate() {
-  const router = useNextjsRouter()
-  return useCallback((href: SceneId) => () => router?.push(href), [router])
+  const navigation = useNextjsRouter()
+  const router = navigation?.router
+  return useCallback(
+    (href: SceneId) => () => {
+      router?.push(href)
+    },
+    [router]
+  )
 }

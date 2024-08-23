@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import scenes, { sceneMeta } from '../components/PixiStage/list'
+import scenes, { SceneId, sceneMeta } from '../components/PixiStage/list'
 import app from './app.module.css'
 
 export default function Home() {
@@ -9,11 +9,8 @@ export default function Home() {
       <h3>Experiments:</h3>
       <ul>
         {scenes.map((sceneId, index) => {
-          const href =
-            sceneId === 'experiment3'
-              ? `/${sceneId}?u=uAE4t0QkLRPnW_-WEPqwMej8dRio3Tivy41iD7pCnwCRS`
-              : `/${sceneId}`
-          const { title, description } = sceneMeta[sceneId]
+          const { title, description, path } = sceneMeta[sceneId]
+          const href = getSceneHref(sceneId, path)
           return (
             <li key={sceneId} style={{ textAlign: 'left' }}>
               <Link href={href}>
@@ -30,4 +27,14 @@ export default function Home() {
       </ul>
     </div>
   )
+}
+
+function getSceneHref(sceneId: SceneId, path?: string) {
+  if (path) {
+    return `/${sceneId}${path}`
+  } else {
+    return sceneId === 'experiment3'
+      ? `/${sceneId}?u=uAE4t0QkLRPnW_-WEPqwMej8dRio3Tivy41iD7pCnwCRS`
+      : `/${sceneId}`
+  }
 }

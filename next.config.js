@@ -10,12 +10,29 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   aggressiveFrontEndNavCaching: true,
   skipWaiting: true,
   reloadOnOnline: false,
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'google-fonts',
+        expiration: {
+          maxEntries: 30,
+          maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+      },
+    },
+  ],
 })
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   output: 'export',
+  // assetPrefix: './',
   // distDir: 'dist',
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts', 'app'], // Only run ESLint on these directories during production builds (next build)

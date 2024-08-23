@@ -20,20 +20,28 @@ export const sceneMap = {
   experiment3: lazy(() => import('src/components/scenes/Experiment3')),
   experiment4: lazy(() => import('src/components/scenes/Experiment4')),
   experiment5: lazy(() => import('src/components/scenes/Experiment5')),
+  experiment6: lazy(() => import('src/components/scenes/Experiment6')),
 } as const
 
-export const sceneMeta: { [K in SceneId]: { title: string; description: string } } = {
+type SceneMeta = {
+  title: string
+  description: string
+  path?: string
+}
+
+export const sceneMeta: { [K in SceneId]: SceneMeta } = {
   '/': {
     title: 'Home',
     description: 'List of experiments.',
   },
   experiment1: {
     title: 'Parallax Demonstration',
-    description: 'Basic PixiJS setup to demonstrate parallax library.',
+    description:
+      'Basic PixiJS setup to demonstrate the parallax library, published on NPM as `pixi-react-parallax`.',
   },
   experiment2: {
     title: 'Asteroids Clone',
-    description: 'PixiJS with Planck.js physics engine and parallax.',
+    description: 'PixiJS React with Planck.js physics engine and parallax.',
   },
   experiment3: {
     title: 'Basic Peerbit Integration',
@@ -46,6 +54,11 @@ export const sceneMeta: { [K in SceneId]: { title: string; description: string }
   experiment5: {
     title: 'Peerbit Asteroids Clone',
     description: 'Deeper Peerbit integration into Asteroids clone.',
+  },
+  experiment6: {
+    title: 'Etherion Story Builder',
+    description: 'Visual novel story building tool.',
+    path: '/zhariel/1/1',
   },
 } as const
 
