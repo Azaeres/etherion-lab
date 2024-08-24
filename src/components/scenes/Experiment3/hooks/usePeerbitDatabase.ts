@@ -57,7 +57,8 @@ export default function usePeerbitDatabase(): PeerbitInfo {
 }
 
 export function usePeerbitDatabaseSetup(): PeerbitInfo {
-  const router = useNextjsRouter()
+  const navigation = useNextjsRouter()
+  const router = navigation?.router
   const [unmemoizedPeer, setUnmemoizedPeer] = useState<Peerbit>()
   const [universePeerCount, setUniversePeerCount] = useState(1)
   // const identitiesInUniverseMap = useRef<Map<string, Ed25519PublicKey>>()
