@@ -90,16 +90,24 @@ html,
 body,
 #root,
 canvas {
-  height: 100%;
   color: white;
 
   --safe-area-inset-top: env(safe-area-inset-top);
   --safe-area-inset-bottom: env(safe-area-inset-bottom);
   height: calc(100% + (var(--safe-area-inset-top) + var(--safe-area-inset-bottom)));
+  max-width: 100vw;
+  max-height: 100vh;
 
   /* Disable touch callout */
   -webkit-touch-callout: none; /* Safari */
   -webkit-overflow-scrolling: touch;
+}
+
+@supports (padding-top: constant(safe-area-inset-top)) {
+  .selector {
+    --safe-area-inset-top: constant(safe-area-inset-top);
+    height: calc(100% + var(--safe-area-inset-top));
+  }
 }
 
 #root {
@@ -108,19 +116,12 @@ canvas {
   align-items: center;
 }
 
-canvas {
-  max-width: 100vw;
-  max-height: 100vh;
-}
-
 /* End centering */
 
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
 
   background: #0b0e14;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -130,12 +131,6 @@ body {
   -webkit-overflow-scrolling: touch;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@supports (padding: max(0px)) {
-  body {
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
 }
 
 code {
