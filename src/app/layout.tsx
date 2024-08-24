@@ -86,6 +86,11 @@ const css = `
   box-sizing: border-box;
 }
 
+html {
+  min-height: calc(100% + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
 html,
 body,
 #root,

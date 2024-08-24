@@ -34,6 +34,7 @@ const nextConfig = {
   output: 'export',
   // assetPrefix: './',
   // distDir: 'dist',
+  optimizeFonts: false,
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts', 'app'], // Only run ESLint on these directories during production builds (next build)
   },
