@@ -88,9 +88,18 @@ const css = `
 
 html,
 body,
-#root {
+#root,
+canvas {
   height: 100%;
   color: white;
+
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  height: calc(100% + (var(--safe-area-inset-top) + var(--safe-area-inset-bottom)));
+
+  /* Disable touch callout */
+  -webkit-touch-callout: none; /* Safari */
+  -webkit-overflow-scrolling: touch;
 }
 
 #root {
@@ -102,10 +111,6 @@ body,
 canvas {
   max-width: 100vw;
   max-height: 100vh;
-  height: env(safe-area-inset-top);
-  width: env(safe-area-inset-left);
-  margin: env(safe-area-inset-right);
-  padding: env(safe-area-inset-bottom);
 }
 
 /* End centering */
@@ -147,8 +152,5 @@ code {
   -webkit-user-select: none; /* Safari and Chrome */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
-
-  /* Disable touch callout */
-  -webkit-touch-callout: none; /* Safari */
 }
 `
