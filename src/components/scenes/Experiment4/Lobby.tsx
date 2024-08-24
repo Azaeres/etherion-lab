@@ -149,7 +149,8 @@ interface RoomItemProps {
 }
 function RoomItem(props: RoomItemProps) {
   const { rooms } = props
-  const router = useNextjsRouter()
+  const navigation = useNextjsRouter()
+  const router = navigation?.router
   const goToRoom = useCallback(
     (room: RoomDB) => {
       const paramId = getRoomPath(room)

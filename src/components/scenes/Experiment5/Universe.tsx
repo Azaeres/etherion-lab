@@ -153,7 +153,8 @@ interface SpaceItemProps {
 }
 function SpaceItem(props: SpaceItemProps) {
   const { spaces } = props
-  const router = useNextjsRouter()
+  const navigation = useNextjsRouter()
+  const router = navigation?.router
   const navigateToSpace = useCallback(
     (space: SpaceDB) => {
       const paramId = getSpacePath(space)
