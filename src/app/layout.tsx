@@ -91,10 +91,6 @@ body,
 #root {
   height: 100%;
   color: white;
-  height: env(safe-area-inset-top);
-  width: env(safe-area-inset-left);
-  margin: env(safe-area-inset-right);
-  padding: env(safe-area-inset-bottom);
 }
 
 #root {
@@ -106,6 +102,10 @@ body,
 canvas {
   max-width: 100vw;
   max-height: 100vh;
+  height: env(safe-area-inset-top);
+  width: env(safe-area-inset-left);
+  margin: env(safe-area-inset-right);
+  padding: env(safe-area-inset-bottom);
 }
 
 /* End centering */
