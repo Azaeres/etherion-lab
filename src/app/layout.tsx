@@ -104,7 +104,10 @@ canvas {
 }
 
 @supports (padding-top: constant(safe-area-inset-top)) {
-  .selector {
+  html,
+body,
+#root,
+canvas {
     --safe-area-inset-top: constant(safe-area-inset-top);
     height: calc(100% + var(--safe-area-inset-top));
   }
