@@ -7,7 +7,7 @@ import { type ContextBridge, useContextBridge } from 'its-fine'
 import DebugIndicator from './DebugIndicator'
 import { OPTIONS } from './OPTIONS'
 
-export const Filters = withFilters(Container, {
+const Filters = withFilters(Container, {
   pixelate: PixelateFilter,
   // advancedBloomFilter: AdvancedBloomFilter,
 })
