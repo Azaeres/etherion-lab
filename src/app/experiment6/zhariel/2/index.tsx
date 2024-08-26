@@ -9,7 +9,7 @@ import useReactRouterNavigate from '../../hooks/useReactRouterNavigate'
 import boy from 'src/components/scenes/Experiment6/assets/sleeping_boy_kairen.jpg'
 
 const style = new TextStyle({
-  fontFamily: 'Roboto Condensed, sans-serif',
+  fontFamily: 'Oswald, sans-serif',
   fontSize: 56,
   fontWeight: 'bold',
   fill: 0xffffff,
