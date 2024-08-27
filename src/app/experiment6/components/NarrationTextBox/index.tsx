@@ -9,6 +9,7 @@ import BoundingBox from './BoundingBox'
 import CtcArrow from './CtcArrow'
 import TextFromLineData from './TextFromLineData'
 import { getAllCharacterData, getLineData, type DisplayData } from './dataFactoryUtils'
+import useRerenderOnFontsLoaded from '../../hooks/useRerenderOnFontsLoaded'
 
 interface Props {
   text: string
@@ -48,6 +49,7 @@ export default function NarrationTextBox({
   onComplete,
   animationControls,
 }: Props) {
+  const fontsLoaded = useRerenderOnFontsLoaded()
   const style = useMemo(() => {
     return new TextStyle({
       fontFamily: `Roboto Condensed, sans-serif`,
@@ -63,7 +65,7 @@ export default function NarrationTextBox({
       wordWrap: true,
       wordWrapWidth,
     })
-  }, [wordWrapWidth])
+  }, [wordWrapWidth, fontsLoaded])
   const displayData = useMemo(() => {
     const textData = TextMetrics.measureText(text, style, true)
     const displayData: DisplayData = {

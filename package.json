@@ -49,6 +49,7 @@
     "rfdc": "^1.4.1",
     "sharp": "^0.32.4",
     "use-debounce": "^10.0.0",
+    "use-font-face-observer": "^1.2.2",
     "utf-8-validate": "^6.0.3",
     "uuid": "^9.0.1"
   },
