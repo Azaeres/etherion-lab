@@ -35,6 +35,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   width: 'device-width',
+  userScalable: false,
+  maximumScale: 1,
+  minimumScale: 1,
+  height: 'device-height',
+  viewportFit: 'cover', // Needed to fill content to the edge of iOS devices.
   initialScale: 1,
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#000000' },
@@ -47,13 +52,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" dir="ltr">
       <head>
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
-        />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="msapplication-tap-highlight" content="no" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />
@@ -76,42 +74,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 
 const css = `
-/* Centering */
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  min-height: calc(100% + env(safe-area-inset-top));
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
-
 html,
 body,
-#root,
-canvas {
+#root {
+  height: 100%;
   color: white;
-
-  --safe-area-inset-top: env(safe-area-inset-top);
-  --safe-area-inset-bottom: env(safe-area-inset-bottom);
-  height: calc(100% + (var(--safe-area-inset-top) + var(--safe-area-inset-bottom)));
-  max-width: 100vw;
-  max-height: 100vh;
-
-  /* Disable touch callout */
-  -webkit-touch-callout: none; /* Safari */
-  -webkit-overflow-scrolling: touch;
-}
-
-@supports (padding-top: constant(safe-area-inset-top)) {
-  html,
-  body,
-  #root,
-  canvas {
-    --safe-area-inset-top: constant(safe-area-inset-top);
-    height: calc(100% + var(--safe-area-inset-top));
-  }
 }
 
 #root {
@@ -120,19 +87,19 @@ canvas {
   align-items: center;
 }
 
+canvas {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
 /* End centering */
 
 body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-
   background: #0b0e14;
-  font-family: 'Oswald', 'Roboto Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-
-  -webkit-overflow-scrolling: touch;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -145,11 +112,5 @@ code {
 #root > canvas[style] {
   width: auto !important;
   height: auto !important;
-
-  /* Disable text selection */
-  user-select: none; /* Standard property */
-  -webkit-user-select: none; /* Safari and Chrome */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 `
