@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { forwardRef, Ref, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { Container } from '@pixi/react'
 import { TextStyle } from 'pixi.js'
 import { OPTIONS } from '../../OPTIONS'
@@ -15,7 +15,12 @@ interface Props {
   text: string
   wordWrapWidth: number
   onComplete?: (anim: AnimeInstance) => void
-  animationControls?: React.MutableRefObject<AnimeControls | null>
+  // animationControls?: React.MutableRefObject<AnimeControls | null>
+}
+
+export interface Controls {
+  interrupt: () => void
+  isPlaying: boolean
 }
 
 export type AnimatingCharacter = {
@@ -43,12 +48,16 @@ const boxFlightPlan: AnimeWrapperParams<NarrationTextBoxAnimationValues>[] = [
   },
 ] as const
 
-export default function NarrationTextBox({
-  text,
-  wordWrapWidth,
-  onComplete,
-  animationControls,
-}: Props) {
+export default forwardRef(function NarrationTextBox(
+  {
+    text,
+    wordWrapWidth,
+    onComplete,
+    // animationControls,
+  }: Props,
+  ref?: Ref<Controls>
+) {
+  const animationControls = useRef<AnimeControls>(null)
   const fontsLoaded = useRerenderOnFontsLoaded()
   const style = useMemo(() => {
     return new TextStyle({
@@ -91,12 +100,25 @@ export default function NarrationTextBox({
           alpha: 1.0,
           delay: anime.stagger(20, { start: 200 }),
           complete: (anim: AnimeInstance) => {
-            onComplete?.(anim)
             setTransition('idle')
+            onComplete?.(anim)
           },
         },
       ] as const,
     [allCharacterData, onComplete]
+  )
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      interrupt() {
+        animationControls.current?.seekPercent(100)
+      },
+      get isPlaying() {
+        return !!animationControls.current?.began && !animationControls.current?.paused
+      },
+    }),
+    []
   )
 
   return (
@@ -132,4 +154,4 @@ export default function NarrationTextBox({
       )}
     </Anime>
   )
-}
+})

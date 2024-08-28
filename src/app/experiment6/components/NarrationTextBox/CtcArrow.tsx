@@ -4,8 +4,8 @@ import { Texture } from 'pixi.js'
 import { OPTIONS } from '../../OPTIONS'
 import Anime, { AnimeWrapperParams } from '../../Anime'
 import { TextMetrics } from '@pixi/text'
-import arrowImage from './assets/ctc_arrow.png'
-import reflectionImage from './assets/ctc_arrow_reflection.png'
+import arrowImage from './assets/images/ctc_arrow.png'
+import reflectionImage from './assets/images/ctc_arrow_reflection.png'
 
 type CtcArrowAnimationValues = {
   arrow: {
@@ -21,7 +21,7 @@ const arrowDefaultValues = {
     verticalOffset: 0,
   },
   reflection: {
-    alpha: 0.0,
+    alpha: 0.5,
   },
 } as const
 

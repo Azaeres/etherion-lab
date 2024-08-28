@@ -1,7 +1,7 @@
 import { TextStyle } from 'pixi.js'
 import { Text } from '@pixi/react'
-import Anime, { AnimeWrapperParams } from '../../Anime'
-import { OPTIONS } from '../../OPTIONS'
+import Anime, { AnimeWrapperParams } from '../../../Anime'
+import { OPTIONS } from '../../../OPTIONS'
 
 type Battery = {
   charged: string

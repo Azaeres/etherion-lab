@@ -39,13 +39,13 @@ const Anime = <T,>(
   const animation = useMemo(() => {
     if (!hasSameKeys(defaultValues, animeTargetsRef.current as object)) {
       // This lets us pass in new default values or a new flight plan, and the animation will rebuild.
-      console.log('Animation default values and current requested values are no longer matched.')
+      // console.log('Animation default values and current requested values are no longer matched.')
       const clone = deepClone(defaultValues)
       animeTargetsRef.current = clone
       setReactValues({ ...animeTargetsRef.current })
     }
 
-    console.log('Flight plan updated. Rebuilding animation.', defaultValues, flightPlan)
+    // console.log('Flight plan updated. Rebuilding animation.', defaultValues, flightPlan)
     const currentValues = { ...animeTargetsRef.current }
     const animeParams = getAnimeParamsFromAnimeWrapperParams<T>(flightPlan, animeTargetsRef)
     const [firstParams, ...restParams] = animeParams
