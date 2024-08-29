@@ -112,5 +112,14 @@ code {
 #root > canvas[style] {
   width: auto !important;
   height: auto !important;
+
+  /* Disable text selection */
+  user-select: none; /* Standard property */
+  -webkit-user-select: none; /* Safari and Chrome */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+
+  /* Disable touch callout */
+  -webkit-touch-callout: none; /* Safari */
 }
 `

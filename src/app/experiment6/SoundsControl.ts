@@ -67,7 +67,11 @@ export class SoundsControl {
       // @ts-ignore
       if (this.context.state === 'interrupted') {
         console.log('Detected interruption. Resuming context. :')
-        this.context.resume().then(() => this.play(id, this.pausedTime[id]))
+        // Stop the audio source after the fade-out duration.
+        this.context.resume().then(() => {
+          console.log('Playing audio...  :')
+          this.play(id, this.pausedTime[id])
+        })
       }
     }
   }
