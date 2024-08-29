@@ -69,8 +69,10 @@ export class SoundsControl {
         console.log('Detected interruption. Resuming context. :')
         // Stop the audio source after the fade-out duration.
         this.context.resume().then(() => {
-          console.log('Playing audio...  :')
-          this.play(id, this.pausedTime[id])
+          console.log('Playing audio...  this.isPlaying[id]:', this.isPlaying[id])
+          if (this.isPlaying[id]) {
+            this.play(id, this.pausedTime[id])
+          }
         })
       }
     }
@@ -113,6 +115,7 @@ export class SoundsControl {
       // Stop the audio source after the fade-out duration.
       this.gainNode.gain.setValueAtTime(1.0, endTime)
       this.sources[id].stop(endTime)
+      this.isPlaying[id] = false
 
       this.timers[id] = setTimeout(() => {
         if (this.sources[id]) {
