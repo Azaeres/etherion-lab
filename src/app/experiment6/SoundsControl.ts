@@ -63,7 +63,10 @@ export class SoundsControl {
 
     this.context.onstatechange = (...rest) => {
       console.log('context.onstatechange  > this.context.state:', this.context.state, rest)
-      if (this.context.state === 'suspended') {
+
+      // @ts-ignore
+      if (this.context.state === 'interrupted') {
+        console.log('Detected interruption. Resuming context. :')
         this.context.resume().then(() => this.play(id, this.pausedTime[id]))
       }
     }
