@@ -4,6 +4,7 @@ export default function useRerenderOnFontsLoaded() {
   const isFontListLoaded = useFontFaceObserver([
     { family: 'Roboto Condensed' },
     { family: 'Oswald' },
+    { family: 'Whisper' },
   ])
   return isFontListLoaded
 }
